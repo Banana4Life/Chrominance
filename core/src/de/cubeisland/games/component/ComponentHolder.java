@@ -16,10 +16,10 @@ public class ComponentHolder<T> {
         }
     }
 
-    public <C extends Component<T>> C attach(Class<T> componentClass) {
+    public <C extends Component<T>> C attach(Class<C> componentClass) {
 
         try {
-            C component = (C) componentClass.getConstructor().newInstance();
+            C component = componentClass.getConstructor().newInstance();
             this.components.add(component);
             return component;
         } catch (ReflectiveOperationException e) {

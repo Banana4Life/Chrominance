@@ -8,8 +8,12 @@ import de.cubeisland.games.component.ComponentHolder;
  */
 public class Entity extends ComponentHolder<Entity> {
     private EntityType type;
-    private Vector2 location;
-    private Vector2 velocity;
+    private Vector2 location = Vector2.Zero;
+    private Vector2 velocity = Vector2.Zero;
+
+    public Entity(EntityType type) {
+        this.type = type;
+    }
 
     public EntityType getType() {
         return type;
