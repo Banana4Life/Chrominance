@@ -18,10 +18,39 @@ public class Entity {
         }
     }
 
-    public Component registerComponents(Class<? extends Component> componentClass) {
+    public <T extends Component> T attach(Class<T> componentClass) {
+
+        try {
+            T component = componentClass.getConstructor().newInstance();
+            this.components.add(component);
+            return component;
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace(System.err);
+        }
+
         return null;
     }
 
-    public void unregisterComponent(Class<? extends Component> componentClass) {
+    public void detach(Class<? extends Component> componentClass) {
+        Component removed = this.get(componentClass);
+        if (removed != null)
+        {
+            this.components.remove(removed);
+            removed.onDetach();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Component> T get(Class<T> componentClass) {
+        for (Component component : this.components) {
+            if (component.getClass() == componentClass) {
+                return (T)component;
+            }
+        }
+        return null;
+    }
+
+    public boolean has(Class<Component> componentClass) {
+        return this.get(componentClass) != null;
     }
 }
