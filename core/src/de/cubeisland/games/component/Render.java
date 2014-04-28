@@ -1,4 +1,4 @@
-package de.cubeisland.games.entity.component;
+package de.cubeisland.games.component;
 
 /**
  * Created by Jonas on 28.04.14.

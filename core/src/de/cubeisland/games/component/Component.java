@@ -1,19 +1,17 @@
-package de.cubeisland.games.entity.component;
-
-import de.cubeisland.games.entity.Entity;
+package de.cubeisland.games.component;
 
 /**
  * Created by Jonas on 28.04.14.
  */
-public abstract class Component {
-    private Entity owner;
+public abstract class Component<T> {
+    private T owner;
 
-    protected final void init(Entity owner) {
+    protected final void init(T owner) {
         this.owner = owner;
         this.onInit();
     }
 
-    public Entity getOwner() {
+    public T getOwner() {
         return this.owner;
     }
 
