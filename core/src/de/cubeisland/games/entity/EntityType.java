@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
  */
 public enum EntityType {
     TOWER(asList(Render.class, Render.class, Render.class)),
-    NONE;
+    NONE(null);
 
     private final List<Class<? extends Component<Entity>>> components;
 
