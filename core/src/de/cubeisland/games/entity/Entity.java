@@ -6,7 +6,7 @@ import de.cubeisland.games.component.ComponentHolder;
 /**
  * Created by Jonas on 28.04.14.
  */
-public class Entity extends ComponentHolder<Entity> {
+public final class Entity extends ComponentHolder<Entity> {
     private EntityType type;
     private Vector2 location = Vector2.Zero;
     private Vector2 velocity = Vector2.Zero;
@@ -34,4 +34,6 @@ public class Entity extends ComponentHolder<Entity> {
     public void setVelocity(Vector2 velocity) {
         this.velocity = velocity;
     }
+
+
 }

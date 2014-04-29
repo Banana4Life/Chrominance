@@ -10,8 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by phill_000 on 28.04.2014.
  */
-public class Level extends ComponentHolder<Level>
-{
+public class Level extends ComponentHolder<Level> {
     private final List<Entity> entities;
 
     public Level() {

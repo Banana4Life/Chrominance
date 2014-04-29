@@ -31,8 +31,7 @@ public class ComponentHolder<T> {
 
     public void detach(Class<? extends Component<T>> componentClass) {
         Component<T> removed = this.get(componentClass);
-        if (removed != null)
-        {
+        if (removed != null) {
             this.components.remove(removed);
             removed.onDetach();
         }
@@ -42,7 +41,7 @@ public class ComponentHolder<T> {
     public <C extends Component<T>> C get(Class<C> componentClass) {
         for (Component component : this.components) {
             if (component.getClass() == componentClass) {
-                return (C)component;
+                return (C) component;
             }
         }
         return null;
