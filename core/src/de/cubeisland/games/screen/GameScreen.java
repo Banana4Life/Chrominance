@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.level.Level;
 
 /**
  * Created by Malte on 29.04.2014.
@@ -23,6 +24,7 @@ public class GameScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
+        new Level();
     }
 
     @Override
