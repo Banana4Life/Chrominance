@@ -16,24 +16,16 @@ import java.util.ArrayList;
 public class Menu {
     private final Vector2 position;
     private final ArrayList<MenuItem> items;
-    private final MenuItemSelectListener listener;
     private final MenuOptions options;
     private final Vector3 touchPoint = Vector3.Zero;
 
-    public Menu(Vector2 position, ArrayList<MenuItem> items, MenuItemSelectListener listener, MenuOptions options) {
+    public Menu(Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
         this.position = position;
         this.items = items;
-        this.listener = listener;
         this.options = options;
     }
 
     public void render(ColorDefense game) {
-        int maxWidth = 0;
-        int maxHeight = 0;
-        for (MenuItem item : items) {
-            float width = getOptions().getFont().getBounds(item.getText()).width;
-            float height = getOptions().getFont().getBounds(item.getText()).height;
-        }
         renderItems(game);
 
         if (Gdx.input.justTouched()) {
@@ -50,7 +42,7 @@ public class Menu {
                     hitbox = new Rectangle(pos.x + padding.x, pos.y - item.getHeight() + padding.y, item.getContentWidth(), item.getContentHeight());
                 }
                 if (hitbox.contains(touchPoint.x, touchPoint.y)) {
-                    listener.onItemSelected(item, new Vector2(touchPoint.x, touchPoint.y));
+                    item.listener.onItemSelected(item, new Vector2(touchPoint.x, touchPoint.y));
                 }
             }
         }
@@ -73,10 +65,6 @@ public class Menu {
             game.batch.begin();
             item.render(game, pos.x, pos.y);
         }
-    }
-
-    private Vector2 getPosOfItem(MenuItem item) {
-        return getPosOfItem(item, 0);
     }
 
     private Vector2 getPosOfItem(MenuItem item, int i) {
@@ -104,6 +92,10 @@ public class Menu {
 
     public MenuItem createItem(String text) {
         return new MenuItem(this, text);
+    }
+
+    public MenuItem createItem(String text, MenuItemSelectListener listener) {
+        return new MenuItem(this, text, listener);
     }
 
     public float getMaxWidth() {
@@ -157,12 +149,6 @@ public class Menu {
     public static class Builder {
         private Vector2 position = Vector2.Zero;
         private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
-        private MenuItemSelectListener listener = new MenuItemSelectListener() {
-            @Override
-            public void onItemSelected(MenuItem item, Vector2 touchPoint) {
-                System.out.println("MenuItem \"" + item.getText() + "\" was clicked");
-            }
-        };
         private MenuOptions options = new MenuOptions.Builder().build();
 
         public Builder() {
@@ -175,16 +161,12 @@ public class Menu {
             this.items = items;
             return this;
         }
-        public Builder listener(MenuItemSelectListener listener) {
-            this.listener = listener;
-            return this;
-        }
         public Builder options(MenuOptions options) {
             this.options = options;
             return this;
         }
         public Menu build() {
-            return new Menu(position, items, listener, options);
+            return new Menu(position, items, options);
         }
     }
 }

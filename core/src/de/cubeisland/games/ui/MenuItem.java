@@ -11,10 +11,20 @@ public class MenuItem {
 
     private final Menu parent;
     private final String text;
+    public final MenuItemSelectListener listener;
 
     public MenuItem(Menu parent, String text) {
+        this(parent, text, new MenuItemSelectListener() {
+            @Override
+            public void onItemSelected(MenuItem item, Vector2 touchPoint) {
+                System.out.println("MenuItem \"" + item.getText() + "\" was clicked");
+            }
+        });
+    }
+    public MenuItem(Menu parent, String text, MenuItemSelectListener listener) {
         this.parent = parent;
         this.text = text;
+        this.listener = listener;
     }
 
     public void render(ColorDefense game, float x, float y) {
