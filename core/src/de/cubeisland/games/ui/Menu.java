@@ -18,7 +18,6 @@ public class Menu {
     private final ArrayList<MenuItem> items;
     private final MenuOptions options;
     private final Vector3 touchPoint = Vector3.Zero;
-    private boolean inputLock = false;
 
     public Menu(Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
         this.position = position;
@@ -42,13 +41,10 @@ public class Menu {
                     Vector2 padding = getOptions().getPadding();
                     hitbox = new Rectangle(pos.x + padding.x, pos.y - item.getHeight() + padding.y, item.getContentWidth(), item.getContentHeight());
                 }
-                if (hitbox.contains(touchPoint.x, touchPoint.y) && !inputLock) {
-                    // Lock input
-                    inputLock = true;
+                if (hitbox.contains(touchPoint.x, touchPoint.y)) {
                     item.listener.onItemSelected(item, new Vector2(touchPoint.x, touchPoint.y));
                 }
             }
-            inputLock = false;
         }
     }
 
