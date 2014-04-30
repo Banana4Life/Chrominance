@@ -4,23 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import de.cubeisland.games.component.ComponentHolder;
 import de.cubeisland.games.entity.Entity;
+import de.cubeisland.games.entity.EntityFactory;
+import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.level.tile.TileType;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * Created by phill_000 on 28.04.2014.
- */
 public class Level extends ComponentHolder<Level> {
     private final List<Entity> entities;
     private final TileType[][] mapData;
+    private EntityFactory entityFactory;
 
     public Level() {
-        entities = new CopyOnWriteArrayList<Entity>();
+        this.entityFactory = new EntityFactory();
+        this.entities = new CopyOnWriteArrayList<>();
 
-        mapData = loadMap(new Pixmap(Gdx.files.internal("map.bmp")));
+        this.mapData = loadMap(new Pixmap(Gdx.files.internal("map.bmp")));
     }
 
     public List<Entity> getEntities() {
@@ -36,5 +37,11 @@ public class Level extends ComponentHolder<Level> {
         }
 
         return dummyMap;
+    }
+
+    public Entity spawn(EntityType type) {
+        Entity e = this.entityFactory.createEntity(type);
+        this.entities.add(e);
+        return e;
     }
 }

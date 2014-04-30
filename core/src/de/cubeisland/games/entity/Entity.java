@@ -3,9 +3,6 @@ package de.cubeisland.games.entity;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.ComponentHolder;
 
-/**
- * Created by Jonas on 28.04.14.
- */
 public final class Entity extends ComponentHolder<Entity> {
     private EntityType type;
     private Vector2 location = Vector2.Zero;

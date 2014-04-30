@@ -3,19 +3,13 @@ package de.cubeisland.games.entity;
 import de.cubeisland.games.component.Component;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * Created by Jonas on 28.04.14.
- */
-public enum EntityType {
-//    TOWER(asList(Render.class, Render.class, Render.class)),
-//    NONE(null)
-    ;
+public abstract class EntityType {
+    private final List<Class<? extends Component<Entity>>> components = new CopyOnWriteArrayList<>();
 
-    private final List<Class<? extends Component<Entity>>> components;
-
-    EntityType(List<Class<? extends Component<Entity>>> components) {
-        this.components = components;
+    protected final void add(Class<? extends Component<Entity>> component) {
+        this.components.add(component);
     }
 
     public List<Class<? extends Component<Entity>>> getComponents() {

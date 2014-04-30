@@ -3,12 +3,8 @@ package de.cubeisland.games.component;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * Created by phill_000 on 28.04.2014.
- */
 public class ComponentHolder<T> {
     private List<Component<T>> components = new CopyOnWriteArrayList<Component<T>>();
-
 
     public void update(int delta) {
         for (Component component : components) {
@@ -21,6 +17,7 @@ public class ComponentHolder<T> {
         try {
             C component = componentClass.getConstructor().newInstance();
             this.components.add(component);
+            component.onAttach();
             return component;
         } catch (ReflectiveOperationException e) {
             e.printStackTrace(System.err);
