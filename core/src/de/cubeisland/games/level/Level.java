@@ -1,6 +1,7 @@
 package de.cubeisland.games.level;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import de.cubeisland.games.component.ComponentHolder;
 import de.cubeisland.games.entity.Entity;
@@ -17,15 +18,25 @@ public class Level extends ComponentHolder<Level> {
     private final TileType[][] mapData;
     private EntityFactory entityFactory;
 
-    public Level() {
+    public Level(FileHandle fileHandle) {
         this.entityFactory = new EntityFactory();
         this.entities = new CopyOnWriteArrayList<>();
 
-        this.mapData = loadMap(new Pixmap(Gdx.files.internal("map.bmp")));
+        mapData = loadMap(new Pixmap(fileHandle));
+    }
+
+    public void tick(int delta) {
+        for (Entity entity : entities) {
+            entity.update(delta);
+        }
     }
 
     public List<Entity> getEntities() {
         return Collections.unmodifiableList(this.entities);
+    }
+
+    public TileType getMapData(int x, int y) {
+        return mapData[x][y];
     }
 
     private TileType[][] loadMap(Pixmap rawMap) {

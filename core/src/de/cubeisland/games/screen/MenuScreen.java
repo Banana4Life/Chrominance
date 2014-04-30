@@ -11,15 +11,15 @@ import de.cubeisland.games.ColorDefense;
  */
 public class MenuScreen extends ScreenAdapter {
 
-    final ColorDefense game;
+    private final ColorDefense game;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
-    public MenuScreen(final ColorDefense _game) {
-        game = _game;
+    public MenuScreen(final ColorDefense game) {
+        this.game = game;
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        this.camera = new OrthographicCamera();
+        this.camera.setToOrtho(false, 800, 480);
 
     }
 
@@ -28,16 +28,16 @@ public class MenuScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        this.camera.update();
+        this.game.batch.setProjectionMatrix(this.camera.combined);
 
-        game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Drop!!! ", 100, 150);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
-        game.batch.end();
+        this.game.batch.begin();
+        this.game.font.draw(this.game.batch, "Welcome to Drop!!! ", 100, 150);
+        this.game.font.draw(this.game.batch, "Tap anywhere to begin!", 100, 100);
+        this.game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+            this.game.setScreen(new GameScreen(this.game));
             dispose();
         }
     }

@@ -14,17 +14,17 @@ import de.cubeisland.games.level.Level;
 
 public class GameScreen extends ScreenAdapter {
 
-    final ColorDefense game;
+    private final ColorDefense game;
+    private Level level;
+    private OrthographicCamera camera;
 
-    OrthographicCamera camera;
+    public GameScreen(final ColorDefense game) {
+        this.game = game;
 
-    public GameScreen(final ColorDefense _game) {
-        game = _game;
+        this.camera = new OrthographicCamera();
+        this.camera.setToOrtho(false, 800, 480);
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
-
-        new Level();
+        this.level = new Level(Gdx.files.internal("map.bmp"));
     }
 
     @Override
@@ -32,19 +32,14 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        this.camera.update();
+        this.game.batch.setProjectionMatrix(this.camera.combined);
 
-        game.batch.begin();
-        game.font.draw(game.batch, "Game ", 100, 150);
-        game.batch.end();
+        this.level.tick(Math.round(delta * 1000));
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new MenuScreen(game));
+            this.game.setScreen(new MenuScreen(this.game));
             dispose();
         }
-
     }
-
-
 }
