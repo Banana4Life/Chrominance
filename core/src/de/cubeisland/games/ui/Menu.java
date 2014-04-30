@@ -26,14 +26,18 @@ public class Menu {
     }
 
     public void render(ColorDefense game) {
-        renderItems(game);
+        MenuItem item;
 
         if (Gdx.input.justTouched()) {
+            Vector2 pos;
+            Rectangle hitbox;
             game.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0)); // Translate the touched point to coordinates
             for (int i = 0; i < items.size(); i++) {
-                MenuItem item = items.get(i);
-                Vector2 pos = getPosOfItem(item, i);
-                Rectangle hitbox;
+                item = items.get(i);
+                pos = getPosOfItem(item, i);
+
+                renderItem(game, item, pos);
+
                 if (getOptions().getPaddingHit()) {
                     hitbox = new Rectangle(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
                 } else {
@@ -46,14 +50,22 @@ public class Menu {
                 }
             }
         }
+        else
+        {
+            for (int i = 0; i < items.size(); i++) {
+                item = items.get(i);
+                renderItem(game, item, getPosOfItem(item, i));
+            }
+        }
     }
 
-    public void renderItems(ColorDefense game) {
+    // Kannst du löschen, wenn du es nicht mehr brauchst Malte //
+    /*public void renderItems(ColorDefense game) {
         for (int i = 0; i < items.size(); i++) {
             MenuItem item = items.get(i);
             Vector2 pos = getPosOfItem(item, i);
             game.batch.end();
-            /* DEBUG */
+            / DEBUG /
             ShapeRenderer shapes = new ShapeRenderer();
             shapes.begin(ShapeRenderer.ShapeType.Line);
             shapes.setProjectionMatrix(game.camera.combined);
@@ -65,6 +77,10 @@ public class Menu {
             game.batch.begin();
             item.render(game, pos.x, pos.y);
         }
+    }*/
+
+    public void renderItem(ColorDefense game, MenuItem item, Vector2 pos) {
+        item.render(game, pos.x, pos.y);
     }
 
     private Vector2 getPosOfItem(MenuItem item, int i) {
