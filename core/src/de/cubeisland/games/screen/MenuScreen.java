@@ -20,13 +20,13 @@ public class MenuScreen extends ScreenAdapter {
 
     public MenuScreen(final ColorDefense game) {
         this.game = game;
-        menu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).build()).build();
-        // Center it
-        pos = new Vector2(Gdx.graphics.getWidth() / 2 - menu.getMaxWidth() / 2, Gdx.graphics.getHeight() / 2 - menu.getMaxHeight() / 2);
-        menu.moveTo(pos);
-        menu.add(menu.createItem("ABC"));
+        menu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).alignment(MenuOptions.Alignment.CENTER).build()).build();
+        menu.add(menu.createItem("ABCDEFGHIJKLM"));
         menu.add(menu.createItem("DEF"));
         menu.add(menu.createItem("GHI"));
+        // Center it
+        pos = new Vector2((Gdx.graphics.getWidth() / 2) - (menu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (menu.getMaxHeight() / 2));
+        menu.moveTo(pos);
         //pos = new Vector2(Gdx.graphics.getWidth() / 2 );
     }
 

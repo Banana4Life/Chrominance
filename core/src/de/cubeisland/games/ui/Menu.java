@@ -58,7 +58,7 @@ public class Menu {
     }
 
     private Vector2 getPosOfItem(MenuItem item, int i) {
-        float x = 0, y = position.y;
+        float x = 0, y = position.y + getHeight();
         switch (options.getAlignment()) {
             case LEFT:
                 x = position.x;
@@ -70,8 +70,8 @@ public class Menu {
                 x = position.x + getMaxWidth() - item.getWidth();
                 break;
         }
-        for (int h = 0; h <= i; h++) {
-            y += items.get(h).getHeight();
+        for (int h = 0; h < i; h++) {
+            y -= items.get(h).getHeight();
         }
         return new Vector2(x, y);
     }
@@ -104,6 +104,18 @@ public class Menu {
             }
         }
         return maxHeight;
+    }
+
+    public float getWidth() {
+        return getMaxWidth();
+    }
+
+    public float getHeight() {
+        float height = 0;
+        for (MenuItem item: items) {
+            height += item.getHeight();
+        }
+        return height;
     }
 
     public void add(MenuItem item) {

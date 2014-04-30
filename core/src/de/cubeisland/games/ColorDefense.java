@@ -1,6 +1,7 @@
 package de.cubeisland.games;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,7 +18,7 @@ public class ColorDefense extends Game {
         //Use LibGDX's default Arial font.
         font = new BitmapFont();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 640, 480);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.setScreen(new MenuScreen(this));
     }
 

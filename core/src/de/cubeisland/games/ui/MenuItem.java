@@ -20,7 +20,7 @@ public class MenuItem {
     public void render(ColorDefense game, float x, float y) {
         BitmapFont font = parent.getOptions().getFont();
         Vector2 padding = parent.getOptions().getPadding();
-        font.draw(game.batch, getText(), x - padding.x, y - padding.y - font.getBounds(getText()).height);
+        font.draw(game.batch, getText(), x + padding.x, y - padding.y - font.getBounds(getText()).height);
     }
 
     public Menu getParent() {
