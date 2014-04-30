@@ -18,9 +18,9 @@ public class MenuScreen extends ScreenAdapter {
 
     Vector2 pos;
 
-    public MenuScreen(final ColorDefense _game) {
-        game = _game;
-        menu = new Menu(new MenuOptions(new Vector2(20, 10)));
+    public MenuScreen(final ColorDefense game) {
+        this.game = game;
+        menu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).build()).build();
         // Center it
         pos = new Vector2(Gdx.graphics.getWidth() / 2 - menu.getMaxWidth() / 2, Gdx.graphics.getHeight() / 2 - menu.getMaxHeight() / 2);
         menu.moveTo(pos);
@@ -34,7 +34,6 @@ public class MenuScreen extends ScreenAdapter {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);

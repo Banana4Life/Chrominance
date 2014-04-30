@@ -12,82 +12,11 @@ import java.util.ArrayList;
  * Created by Malte on 29.04.2014.
  */
 public class Menu {
-
-    private final static Vector2 DEFAULT_position = Vector2.Zero;
-    private final static ArrayList<MenuItem> DEFAULT_items = new ArrayList<MenuItem>();
-    private final static MenuItemSelectListener DEFAULT_listener = new MenuItemSelectListener() {
-        @Override
-        public void onItemSelected(MenuItem item, Vector2 touchPoint) {
-            System.out.println("MenuItem \"" + item.getText() + "\" was clicked");
-        }
-    };
-    private final static MenuOptions DEFAULT_options = new MenuOptions();
-
     private final Vector2 position;
     private final ArrayList<MenuItem> items;
     private final MenuItemSelectListener listener;
     private final MenuOptions options;
     private final Vector3 touchPoint = Vector3.Zero;
-
-    public Menu() {
-        this(DEFAULT_position, DEFAULT_items, DEFAULT_listener, DEFAULT_options);
-    }
-
-    public Menu(Vector2 position) {
-        this(position, DEFAULT_items, DEFAULT_listener, DEFAULT_options);
-    }
-
-    public Menu(Vector2 position, ArrayList<MenuItem> items) {
-        this(position, items, DEFAULT_listener, DEFAULT_options);
-    }
-
-    public Menu(Vector2 position, ArrayList<MenuItem> items, MenuItemSelectListener listener) {
-        this(position, items, listener, DEFAULT_options);
-    }
-
-    public Menu(Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
-        this(position, items, DEFAULT_listener, options);
-    }
-
-    public Menu(Vector2 position, MenuItemSelectListener listener) {
-        this(position, DEFAULT_items, listener, DEFAULT_options);
-    }
-
-    public Menu(Vector2 position, MenuItemSelectListener listener, MenuOptions options) {
-        this(position, DEFAULT_items, listener, options);
-    }
-
-    public Menu(Vector2 position, MenuOptions options) {
-        this(position, DEFAULT_items, DEFAULT_listener, options);
-    }
-
-    public Menu(ArrayList<MenuItem> items) {
-        this(DEFAULT_position, items, DEFAULT_listener, DEFAULT_options);
-    }
-
-    public Menu(ArrayList<MenuItem> items, MenuItemSelectListener listener) {
-        this(DEFAULT_position, items, listener, DEFAULT_options);
-    }
-
-    public Menu(ArrayList<MenuItem> items, MenuOptions options) {
-        this(DEFAULT_position, items, DEFAULT_listener, options);
-    }
-
-    public Menu(ArrayList<MenuItem> items, MenuItemSelectListener listener, MenuOptions options) {
-        this(DEFAULT_position, items, listener, options);
-    }
-
-    public Menu(MenuItemSelectListener listener) {
-        this(DEFAULT_position, DEFAULT_items, listener, DEFAULT_options);
-    }
-
-    public Menu(MenuItemSelectListener listener, MenuOptions options) {
-        this(DEFAULT_position, DEFAULT_items, listener, options);
-    }
-
-    public Menu(MenuOptions options) {
-        this(DEFAULT_position, DEFAULT_items, DEFAULT_listener, options);
-    }
 
     public Menu(Vector2 position, ArrayList<MenuItem> items, MenuItemSelectListener listener, MenuOptions options) {
         this.position = position;
@@ -189,5 +118,39 @@ public class Menu {
             position.set(position.x, Gdx.graphics.getHeight() - getMaxHeight());
         }
         this.position.set(position);
+    }
+
+    public static class Builder {
+        private Vector2 position = Vector2.Zero;
+        private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
+        private MenuItemSelectListener listener = new MenuItemSelectListener() {
+            @Override
+            public void onItemSelected(MenuItem item, Vector2 touchPoint) {
+                System.out.println("MenuItem \"" + item.getText() + "\" was clicked");
+            }
+        };
+        private MenuOptions options = new MenuOptions.Builder().build();
+
+        public Builder() {
+        }
+        public Builder position(Vector2 position) {
+            this.position = position;
+            return this;
+        }
+        public Builder items(ArrayList<MenuItem> items) {
+            this.items = items;
+            return this;
+        }
+        public Builder listener(MenuItemSelectListener listener) {
+            this.listener = listener;
+            return this;
+        }
+        public Builder options(MenuOptions options) {
+            this.options = options;
+            return this;
+        }
+        public Menu build() {
+            return new Menu(position, items, listener, options);
+        }
     }
 }
