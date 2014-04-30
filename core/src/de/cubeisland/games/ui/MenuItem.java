@@ -20,7 +20,7 @@ public class MenuItem {
     public void render(ColorDefense game, float x, float y) {
         BitmapFont font = parent.getOptions().getFont();
         Vector2 padding = parent.getOptions().getPadding();
-        font.draw(game.batch, getText(), x + padding.x, y - padding.y - font.getBounds(getText()).height);
+        font.draw(game.batch, getText(), x + padding.x, y - padding.y);
     }
 
     public Menu getParent() {
@@ -32,11 +32,19 @@ public class MenuItem {
     }
 
     public float getWidth() {
-        return parent.getOptions().getFont().getBounds(getText()).width + 2 * parent.getOptions().getPadding().x;
+        return getContentWidth() + 2 * parent.getOptions().getPadding().x;
+    }
+
+    public float getContentWidth() {
+        return parent.getOptions().getFont().getBounds(getText()).width;
     }
 
     public float getHeight() {
-        return parent.getOptions().getFont().getBounds(getText()).height + 2 * parent.getOptions().getPadding().y;
+        return getContentHeight() + 2 * parent.getOptions().getPadding().y;
+    }
+
+    public float getContentHeight() {
+        return parent.getOptions().getFont().getBounds(getText()).height;
     }
 
 }

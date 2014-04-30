@@ -39,7 +39,6 @@ public class MenuScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
         menu.render(game);
-        menu.getOptions().getFont().draw(game.batch, "B", Gdx.graphics.getWidth(), 100);
         game.batch.end();
 
 //        if (Gdx.input.isTouched()) {

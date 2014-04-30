@@ -15,11 +15,13 @@ public class MenuOptions {
     private final Alignment alignment;
     private final BitmapFont font;
     private final Vector2 padding;
+    private final boolean paddingHit;
 
-    public MenuOptions(Alignment alignment, BitmapFont font, Vector2 padding) {
+    public MenuOptions(Alignment alignment, BitmapFont font, Vector2 padding, boolean paddingHit) {
         this.alignment = alignment;
         this.font = font;
         this.padding = padding;
+        this.paddingHit = paddingHit;
     }
 
     public Alignment getAlignment() {
@@ -34,10 +36,15 @@ public class MenuOptions {
         return padding;
     }
 
+    public boolean getPaddingHit() {
+        return paddingHit;
+    }
+
     public static class Builder {
         private Alignment  alignment = Alignment.CENTER;
         private BitmapFont font = new BitmapFont();
         private Vector2    padding = Vector2.Zero;
+        private boolean    paddingHit = true;
 
         public Builder() {
         }
@@ -53,8 +60,12 @@ public class MenuOptions {
             this.padding = padding;
             return this;
         }
+        public Builder paddingHit(boolean hit) {
+            this.paddingHit = hit;
+            return this;
+        }
         public MenuOptions build() {
-            return new MenuOptions(alignment, font, padding);
+            return new MenuOptions(alignment, font, padding, paddingHit);
         }
     }
 }

@@ -1,6 +1,8 @@
 package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -33,12 +35,21 @@ public class Menu {
             float height = getOptions().getFont().getBounds(item.getText()).height;
         }
         renderItems(game);
+
         if (Gdx.input.justTouched()) {
             game.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0)); // Translate the touched point to coordinates
             for (int i = 0; i < items.size(); i++) {
                 MenuItem item = items.get(i);
                 Vector2 pos = getPosOfItem(item, i);
-                if ((new Rectangle(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight())).contains(touchPoint.x, touchPoint.y)) {
+                Rectangle hitbox;
+                if (getOptions().getPaddingHit()) {
+                    hitbox = new Rectangle(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
+                } else {
+                    // Maybe difference between horizontal and vertical hitting...
+                    Vector2 padding = getOptions().getPadding();
+                    hitbox = new Rectangle(pos.x + padding.x, pos.y - item.getHeight() + padding.y, item.getContentWidth(), item.getContentHeight());
+                }
+                if (hitbox.contains(touchPoint.x, touchPoint.y)) {
                     listener.onItemSelected(item, new Vector2(touchPoint.x, touchPoint.y));
                 }
             }
@@ -49,6 +60,17 @@ public class Menu {
         for (int i = 0; i < items.size(); i++) {
             MenuItem item = items.get(i);
             Vector2 pos = getPosOfItem(item, i);
+            game.batch.end();
+            /* DEBUG */
+            ShapeRenderer shapes = new ShapeRenderer();
+            shapes.begin(ShapeRenderer.ShapeType.Line);
+            shapes.setProjectionMatrix(game.camera.combined);
+            shapes.setColor(new Color(0, 1, 0, 0.5f));
+            shapes.rect(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
+            shapes.setColor(new Color(1,0,0,0.5f));
+            shapes.rect(pos.x, pos.y - item.getHeight() + getOptions().getPadding().y, item.getWidth(), item.getHeight() - 2 * getOptions().getPadding().y);
+            shapes.end();
+            game.batch.begin();
             item.render(game, pos.x, pos.y);
         }
     }
