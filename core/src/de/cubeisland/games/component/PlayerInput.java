@@ -3,11 +3,12 @@ package de.cubeisland.games.component;
 import de.cubeisland.games.entity.Entity;
 
 /**
- * Created by Jonas on 28.04.14.
+ * Created by jonas on 30.04.14.
  */
-public class Render extends Component<Entity> {
+public class PlayerInput extends Component<Entity> {
+
     @Override
     public void update(int delta) {
-
+        
     }
 }

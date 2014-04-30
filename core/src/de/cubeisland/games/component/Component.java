@@ -24,6 +24,5 @@ public abstract class Component<T> {
     public void onDetach() {
     }
 
-    public void update(int delta) {
-    }
+    public abstract void update(int delta);
 }
