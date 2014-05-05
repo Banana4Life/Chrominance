@@ -139,7 +139,6 @@ public class Menu {
         }
         return maxHeight;
     }
-    }
 
     public float getWidth() {
         return getMaxWidth();
