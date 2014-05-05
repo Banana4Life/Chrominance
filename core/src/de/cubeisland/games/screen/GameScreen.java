@@ -37,8 +37,7 @@ public class GameScreen extends ScreenAdapter {
         pauseMenu.add(pauseMenu.createItem("Continue", new MenuItemSelectListener() {
             @Override
             public void onItemSelected(MenuItem item, Vector2 touchPoint) {
-                game.setScreen(new GameScreen(game));
-                dispose();
+                unpause();
             }
         }));
         pauseMenu.add(pauseMenu.createItem("Options", new MenuItemSelectListener() {
@@ -82,5 +81,13 @@ public class GameScreen extends ScreenAdapter {
 
     public boolean isPaused() {
         return paused;
+    }
+
+    public void unpause() {
+        this.paused = false;
+    }
+
+    public void pause() {
+        this.paused = true;
     }
 }

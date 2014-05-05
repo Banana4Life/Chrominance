@@ -18,56 +18,29 @@ public class Menu {
     private final ArrayList<MenuItem> items;
     private final MenuOptions options;
     private final Vector3 touchPoint = Vector3.Zero;
-    private final String title;
+    private MenuTitle title;
 
-    public Menu(String title, Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
+    public Menu(MenuTitle title, Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
         this.position = position;
         this.items = items;
         this.options = options;
-        this.title = title;
+        this.title = title == null ? new MenuTitle(this, "") : title;
     }
 
     public void render(ColorDefense game) {
         MenuItem item;
+        Vector2 pos;
 
-        if (Gdx.input.justTouched()) {
-            Vector2 pos;
-            Rectangle hitbox;
-            game.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0)); // Translate the touched point to coordinates
-            for (int i = 0; i < items.size(); i++) {
-                item = items.get(i);
-                pos = getPosOfItem(item, i);
-
-                renderItem(game, item, pos);
-
-                if (getOptions().getPaddingHit()) {
-                    hitbox = new Rectangle(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
-                } else {
-                    // Maybe difference between horizontal and vertical hitting...
-                    Vector2 padding = getOptions().getPadding();
-                    hitbox = new Rectangle(pos.x + padding.x, pos.y - item.getHeight() + padding.y, item.getContentWidth(), item.getContentHeight());
-                }
-                if (hitbox.contains(touchPoint.x, touchPoint.y)) {
-                    item.listener.onItemSelected(item, new Vector2(touchPoint.x, touchPoint.y));
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < items.size(); i++) {
-                item = items.get(i);
-                renderItem(game, item, getPosOfItem(item, i));
-            }
-        }
-    }
-
-    // Kannst du löschen, wenn du es nicht mehr brauchst Malte //
-    /*public void renderItems(ColorDefense game) {
+        // Render Title
+        pos = getPosOfItem(title, items.size());
+        renderItem(game, title, new Vector2(pos.x, position.y + getHeight()));
+        // Render Items
         for (int i = 0; i < items.size(); i++) {
-            MenuItem item = items.get(i);
-            Vector2 pos = getPosOfItem(item, i);
+            item = items.get(i);
+            pos = getPosOfItem(item, i);
+            renderItem(game, item, pos);
             game.batch.end();
-            / DEBUG /
+            /* DEBUG */
             ShapeRenderer shapes = new ShapeRenderer();
             shapes.begin(ShapeRenderer.ShapeType.Line);
             shapes.setProjectionMatrix(game.camera.combined);
@@ -77,16 +50,34 @@ public class Menu {
             shapes.rect(pos.x, pos.y - item.getHeight() + getOptions().getPadding().y, item.getWidth(), item.getHeight() - 2 * getOptions().getPadding().y);
             shapes.end();
             game.batch.begin();
-            item.render(game, pos.x, pos.y);
         }
-    }*/
+        if (Gdx.input.justTouched()) {
+            Rectangle hitbox;
+            game.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0)); // Translate the touched point to coordinates
+            for (int i = 0; i < items.size(); i++) {
+                item = items.get(i);
+                pos = getPosOfItem(item, i);
+                if (getOptions().getPaddingHit()) {
+                    hitbox = new Rectangle(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
+                } else {
+                    // Maybe difference between horizontal and vertical hitting...
+                    Vector2 padding = getOptions().getPadding();
+                    hitbox = new Rectangle(pos.x + padding.x, pos.y - item.getHeight() + padding.y, item.getContentWidth(), item.getContentHeight());
+                }
+                if (hitbox.contains(touchPoint.x, touchPoint.y)) {
+                    item.listener.onItemSelected(item, new Vector2(touchPoint.x, touchPoint.y));
+                    break;
+                }
+            }
+        }
+    }
 
     public void renderItem(ColorDefense game, MenuItem item, Vector2 pos) {
         item.render(game, pos.x, pos.y);
     }
 
     private Vector2 getPosOfItem(MenuItem item, int i) {
-        float x = 0, y = position.y + getHeight();
+        float x = 0, y = position.y + getHeight() - title.getHeight();
         switch (options.getAlignment()) {
             case LEFT:
                 x = position.x;
@@ -116,8 +107,19 @@ public class Menu {
         return new MenuItem(this, text, listener);
     }
 
+    public void setTitle(String text) {
+        this.title = new MenuTitle(this, text);
+    }
+
+    public void setTitle(String text, MenuItemSelectListener listener) {
+        this.title = new MenuTitle(this, text, listener);
+    }
+
     public float getMaxWidth() {
         float maxWidth = 0;
+        if (title.getWidth() > maxWidth) {
+            maxWidth = title.getWidth();
+        }
         for (MenuItem item : items) {
             float width = item.getWidth();
             if (width > maxWidth) {
@@ -144,6 +146,7 @@ public class Menu {
 
     public float getHeight() {
         float height = 0;
+            height += title.getHeight();
         for (MenuItem item: items) {
             height += item.getHeight();
         }
@@ -164,13 +167,21 @@ public class Menu {
         this.position.set(position);
     }
 
+    public MenuTitle getTitle() {
+        return title;
+    }
+
     public static class Builder {
         private Vector2 position = Vector2.Zero;
         private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
         private MenuOptions options = new MenuOptions.Builder().build();
-        private String title = "";
+        private MenuTitle title = null;
 
         public Builder() {
+        }
+        public Builder title(MenuTitle title) {
+            this.title = title;
+            return this;
         }
         public Builder position(Vector2 position) {
             this.position = position;

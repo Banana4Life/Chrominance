@@ -9,8 +9,8 @@ import de.cubeisland.games.ColorDefense;
  */
 public class MenuItem {
 
-    private final Menu parent;
-    private final String text;
+    protected final Menu parent;
+    protected final String text;
     public final MenuItemSelectListener listener;
 
     public MenuItem(Menu parent, String text) {
