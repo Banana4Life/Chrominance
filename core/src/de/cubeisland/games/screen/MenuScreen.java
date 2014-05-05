@@ -23,6 +23,7 @@ public class MenuScreen extends ScreenAdapter {
     public MenuScreen(final ColorDefense game) {
         this.game = game;
         menu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).alignment(MenuOptions.Alignment.CENTER).build()).build();
+        menu.setTitle("Main Menu");
         menu.add(menu.createItem("Start", new MenuItemSelectListener() {
             @Override
             public void onItemSelected(MenuItem item, Vector2 touchPoint) {
@@ -46,7 +47,7 @@ public class MenuScreen extends ScreenAdapter {
             }
         }));
         // Center it
-        pos = new Vector2((Gdx.graphics.getWidth() / 2) - (menu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (menu.getMaxHeight() / 2));
+        pos = new Vector2((Gdx.graphics.getWidth() / 2) - (menu.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (menu.getHeight() / 2));
         menu.moveTo(pos);
         //pos = new Vector2(Gdx.graphics.getWidth() / 2 );
     }
