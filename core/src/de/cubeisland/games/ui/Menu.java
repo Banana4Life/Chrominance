@@ -18,11 +18,13 @@ public class Menu {
     private final ArrayList<MenuItem> items;
     private final MenuOptions options;
     private final Vector3 touchPoint = Vector3.Zero;
+    private final String title;
 
-    public Menu(Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
+    public Menu(String title, Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
         this.position = position;
         this.items = items;
         this.options = options;
+        this.title = title;
     }
 
     public void render(ColorDefense game) {
@@ -166,6 +168,7 @@ public class Menu {
         private Vector2 position = Vector2.Zero;
         private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
         private MenuOptions options = new MenuOptions.Builder().build();
+        private String title = "";
 
         public Builder() {
         }
@@ -182,7 +185,7 @@ public class Menu {
             return this;
         }
         public Menu build() {
-            return new Menu(position, items, options);
+            return new Menu(title, position, items, options);
         }
     }
 }
