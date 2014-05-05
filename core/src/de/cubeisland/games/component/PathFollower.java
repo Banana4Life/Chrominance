@@ -1,6 +1,8 @@
 package de.cubeisland.games.component;
 
-public class PathFollower extends Component {
+import de.cubeisland.games.entity.Entity;
+
+public class PathFollower extends Component<Entity> {
     @Override
     public void update(int delta) {
 

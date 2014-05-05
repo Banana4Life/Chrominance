@@ -10,9 +10,6 @@ import de.cubeisland.games.ui.MenuItem;
 import de.cubeisland.games.ui.MenuItemSelectListener;
 import de.cubeisland.games.ui.MenuOptions;
 
-/**
- * Created by Malte on 29.04.2014.
- */
 public class MenuScreen extends ScreenAdapter {
 
     final ColorDefense game;
