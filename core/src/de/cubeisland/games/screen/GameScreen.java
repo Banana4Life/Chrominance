@@ -31,9 +31,9 @@ public class GameScreen extends ScreenAdapter {
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, 800, 480);
 
-        //this.level = new Level(Gdx.files.internal("map.bmp"));
         paused = false;
         pauseMenu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).alignment(MenuOptions.Alignment.CENTER).build()).build();
+        pauseMenu.setTitle("Pause");
         pauseMenu.add(pauseMenu.createItem("Continue", new MenuItemSelectListener() {
             @Override
             public void onItemSelected(MenuItem item, Vector2 touchPoint) {
@@ -56,6 +56,8 @@ public class GameScreen extends ScreenAdapter {
         // Center it
         Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2) - (pauseMenu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (pauseMenu.getMaxHeight() / 2));
         pauseMenu.moveTo(centerPos);
+
+        //this.level = new Level(Gdx.files.internal("map.bmp"));
     }
 
     @Override
@@ -66,12 +68,12 @@ public class GameScreen extends ScreenAdapter {
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
 
-        //this.level.tick(Math.round(delta * 1000));
-
         if (isPaused()) {
             game.batch.begin();
             pauseMenu.render(game);
             game.batch.end();
+        } else {
+            this.level.tick(Math.round(delta * 1000));
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
