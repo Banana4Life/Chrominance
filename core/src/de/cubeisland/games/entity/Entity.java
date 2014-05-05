@@ -7,6 +7,7 @@ public final class Entity extends ComponentHolder<Entity> {
     private EntityType type;
     private Vector2 location = Vector2.Zero;
     private Vector2 velocity = Vector2.Zero;
+    private boolean alive;
 
     public Entity(EntityType type) {
         this.type = type;
@@ -33,4 +34,11 @@ public final class Entity extends ComponentHolder<Entity> {
     }
 
 
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void die() {
+        this.alive = false;
+    }
 }
