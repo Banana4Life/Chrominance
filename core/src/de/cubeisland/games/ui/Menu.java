@@ -31,6 +31,27 @@ public class Menu {
         MenuItem item;
         Vector2 pos;
 
+        // Render Title
+        pos = getPosOfItem(title, items.size());
+        renderItem(game, title, new Vector2(pos.x, position.y + getHeight()));
+        // Render Items
+        for (int i = 0; i < items.size(); i++) {
+            item = items.get(i);
+            pos = getPosOfItem(item, i);
+            renderItem(game, item, pos);
+            game.batch.end();
+            /* DEBUG */
+            ShapeRenderer shapes = new ShapeRenderer();
+            shapes.begin(ShapeRenderer.ShapeType.Line);
+            shapes.setProjectionMatrix(game.camera.combined);
+            shapes.setColor(new Color(0, 1, 0, 0.5f));
+            shapes.rect(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
+            shapes.setColor(new Color(1,0,0,0.5f));
+            shapes.rect(pos.x, pos.y - item.getHeight() + getOptions().getPadding().y, item.getWidth(), item.getHeight() - 2 * getOptions().getPadding().y);
+            shapes.end();
+            game.batch.begin();
+        }
+
         options.getFont().draw(game.batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 10, 10);
 
         if (Gdx.input.justTouched()) {

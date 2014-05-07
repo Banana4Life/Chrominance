@@ -1,6 +1,8 @@
 package de.cubeisland.games.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -45,12 +47,16 @@ public class MenuOptions {
 
     public static class Builder {
         private Alignment  alignment = Alignment.CENTER;
-        private BitmapFont font = new BitmapFont();
-        private BitmapFont titleFont = new BitmapFont();
+        private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf"));
+        private BitmapFont font = generator.generateFont(40);
+        private BitmapFont titleFont = generator.generateFont(60);
         private Vector2    padding = Vector2.Zero;
         private boolean    paddingHit = true;
 
         public Builder() {
+            generator.dispose();
+            font.setColor(0.7f, 0.7f, 0.7f, 1);
+            font.setColor(0.7f, 0.7f, 0.7f, 1);
         }
         public Builder alignment(Alignment alignment) {
             this.alignment = alignment;

@@ -20,7 +20,7 @@ public class MenuScreen extends ScreenAdapter {
     public MenuScreen(final ColorDefense game) {
         this.game = game;
         menu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).alignment(MenuOptions.Alignment.CENTER).build()).build();
-        menu.setTitle("Main Menu");
+        menu.setTitle("Color Defense");
         menu.add(menu.createItem("Start", new MenuItemSelectListener() {
             @Override
             public void onItemSelected(MenuItem item, Vector2 touchPoint) {
@@ -28,14 +28,8 @@ public class MenuScreen extends ScreenAdapter {
                 dispose();
             }
         }));
-        menu.add(menu.createItem("ABCDEFGHIJKLM", new MenuItemSelectListener() {
-            @Override
-            public void onItemSelected(MenuItem item, Vector2 touchPoint) {
-                System.out.println("Something different happened...");
-            }
-        }));
-        menu.add(menu.createItem("DEF"));
-        menu.add(menu.createItem("GHI"));
+        menu.add(menu.createItem("Options"));
+        menu.add(menu.createItem("Credits"));
 
         menu.add(menu.createItem("Exit", new MenuItemSelectListener() {
             @Override
@@ -46,12 +40,13 @@ public class MenuScreen extends ScreenAdapter {
         // Center it
         pos = new Vector2((Gdx.graphics.getWidth() / 2) - (menu.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (menu.getHeight() / 2));
         menu.moveTo(pos);
+
         //pos = new Vector2(Gdx.graphics.getWidth() / 2 );
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.camera.update();
