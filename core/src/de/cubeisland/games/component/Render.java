@@ -7,7 +7,7 @@ import de.cubeisland.games.entity.Entity;
  */
 public class Render extends Component<Entity> {
     @Override
-    public void update(int delta) {
+    public void update(float delta) {
 
     }
 }

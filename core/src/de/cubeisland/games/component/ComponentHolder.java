@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ComponentHolder<T> {
     private List<Component<T>> components = new CopyOnWriteArrayList<Component<T>>();
 
-    public void update(int delta) {
+    public void update(float delta) {
         for (Component component : components) {
             component.update(delta);
         }

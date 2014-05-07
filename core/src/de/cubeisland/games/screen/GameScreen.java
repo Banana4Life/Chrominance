@@ -13,10 +13,6 @@ import de.cubeisland.games.ui.MenuItem;
 import de.cubeisland.games.ui.MenuItemSelectListener;
 import de.cubeisland.games.ui.MenuOptions;
 
-/**
- * Created by Malte on 29.04.2014.
- */
-
 public class GameScreen extends ScreenAdapter {
 
     private final ColorDefense game;
@@ -73,7 +69,7 @@ public class GameScreen extends ScreenAdapter {
             pauseMenu.render(game);
             game.batch.end();
         } else {
-            this.level.tick(Math.round(delta * 1000));
+            this.level.tick(delta);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {

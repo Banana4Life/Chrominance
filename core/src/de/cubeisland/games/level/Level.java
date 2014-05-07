@@ -25,7 +25,7 @@ public class Level extends ComponentHolder<Level> {
         mapData = loadMap(new Pixmap(fileHandle));
     }
 
-    public void tick(int delta) {
+    public void tick(float delta) {
         for (Entity entity : entities) {
             entity.update(delta);
         }
