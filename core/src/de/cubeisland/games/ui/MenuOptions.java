@@ -56,7 +56,7 @@ public class MenuOptions {
         public Builder() {
             generator.dispose();
             font.setColor(0.7f, 0.7f, 0.7f, 1);
-            font.setColor(0.7f, 0.7f, 0.7f, 1);
+            titleFont.setColor(0.7f, 0.7f, 0.7f, 1);
         }
         public Builder alignment(Alignment alignment) {
             this.alignment = alignment;
