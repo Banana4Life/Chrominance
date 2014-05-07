@@ -53,7 +53,7 @@ public class GameScreen extends ScreenAdapter {
         Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2) - (pauseMenu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (pauseMenu.getMaxHeight() / 2));
         pauseMenu.moveTo(centerPos);
 
-        //this.level = new Level(Gdx.files.internal("map.bmp"));
+        this.level = new Level(Gdx.files.internal("map.bmp"));
     }
 
     @Override
