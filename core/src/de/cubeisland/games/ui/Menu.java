@@ -52,7 +52,7 @@ public class Menu {
             game.batch.begin();
         }
 
-        options.getFont().draw(game.batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 10, 10);
+        //FPS-Counter: options.getFont().draw(game.batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 10, 10);
 
         if (Gdx.input.justTouched()) {
             Rectangle hitbox;

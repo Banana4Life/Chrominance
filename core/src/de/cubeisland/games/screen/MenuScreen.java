@@ -19,7 +19,7 @@ public class MenuScreen extends ScreenAdapter {
 
     public MenuScreen(final ColorDefense game) {
         this.game = game;
-        menu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).alignment(MenuOptions.Alignment.CENTER).build()).build();
+        menu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).alignment(MenuOptions.Alignment.LEFT).build()).build();
         menu.setTitle("Color Defense");
         menu.add(menu.createItem("Start", new MenuItemSelectListener() {
             @Override
