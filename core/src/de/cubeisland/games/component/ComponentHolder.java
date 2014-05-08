@@ -1,9 +1,11 @@
 package de.cubeisland.games.component;
 
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ComponentHolder<T extends ComponentHolder> {
-    private TreeSet<Component<T>> components = new TreeSet<>();
+    private List<Component<T>> components = new ArrayList<>();
 
     public void update(float delta) {
         for (Component component : components) {
@@ -12,9 +14,9 @@ public class ComponentHolder<T extends ComponentHolder> {
     }
 
     public void attach(Component<T> component) {
-
         this.components.add(component);
         component.onAttach();
+        Collections.sort(this.components);
     }
 
     public void detach(Class<? extends Component<T>> componentClass) {
