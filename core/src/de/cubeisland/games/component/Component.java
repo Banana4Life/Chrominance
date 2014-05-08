@@ -1,6 +1,10 @@
 package de.cubeisland.games.component;
 
-public abstract class Component<T> implements Comparable<Component<?>> {
+/**
+ *
+ * @param <T> the type of the component holder for type safety
+ */
+public abstract class Component<T extends ComponentHolder> implements Comparable<Component<?>> {
     private T owner;
     private Class<? extends Component<?>> before;
     private Class<? extends Component<?>> after;
@@ -33,10 +37,6 @@ public abstract class Component<T> implements Comparable<Component<?>> {
     }
 
     public void onDetach() {
-    }
-
-    public boolean isSingleton() {
-        return false;
     }
 
     public abstract void update(float delta);

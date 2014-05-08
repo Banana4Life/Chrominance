@@ -1,10 +1,9 @@
 package de.cubeisland.games.component;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.TreeSet;
 
-public class ComponentHolder<T> {
-    private List<Component<T>> components = new CopyOnWriteArrayList<Component<T>>();
+public class ComponentHolder<T extends ComponentHolder> {
+    private TreeSet<Component<T>> components = new TreeSet<>();
 
     public void update(float delta) {
         for (Component component : components) {
@@ -12,18 +11,10 @@ public class ComponentHolder<T> {
         }
     }
 
-    public <C extends Component<T>> C attach(Class<C> componentClass) {
+    public void attach(Component<T> component) {
 
-        try {
-            C component = componentClass.getConstructor().newInstance();
-            this.components.add(component);
-            component.onAttach();
-            return component;
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace(System.err);
-        }
-
-        return null;
+        this.components.add(component);
+        component.onAttach();
     }
 
     public void detach(Class<? extends Component<T>> componentClass) {

@@ -1,8 +1,8 @@
 package de.cubeisland.games.level;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
+import de.cubeisland.games.component.ComponentFactory;
 import de.cubeisland.games.component.ComponentHolder;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
@@ -19,7 +19,7 @@ public class Level extends ComponentHolder<Level> {
     private EntityFactory entityFactory;
 
     public Level(FileHandle fileHandle) {
-        this.entityFactory = new EntityFactory();
+        this.entityFactory = new EntityFactory(new ComponentFactory());
         this.entities = new CopyOnWriteArrayList<>();
 
         mapData = loadMap(new Pixmap(fileHandle));
