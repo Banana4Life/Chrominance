@@ -25,12 +25,6 @@ public class Level extends ComponentHolder<Level> {
         mapData = loadMap(new Pixmap(fileHandle));
     }
 
-    public void tick(float delta) {
-        for (Entity entity : entities) {
-            entity.update(delta);
-        }
-    }
-
     public List<Entity> getEntities() {
         return Collections.unmodifiableList(this.entities);
     }
@@ -54,5 +48,13 @@ public class Level extends ComponentHolder<Level> {
         Entity e = this.entityFactory.createEntity(type);
         this.entities.add(e);
         return e;
+    }
+
+    @Override
+    public void update(float delta) {
+        for (Entity entity : this.entities) {
+            entity.update(delta);
+        }
+        super.update(delta);
     }
 }

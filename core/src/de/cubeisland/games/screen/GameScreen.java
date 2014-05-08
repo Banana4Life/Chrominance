@@ -69,7 +69,7 @@ public class GameScreen extends ScreenAdapter {
             pauseMenu.render(game);
             game.batch.end();
         } else {
-            this.level.tick(delta);
+            this.level.update(delta);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
