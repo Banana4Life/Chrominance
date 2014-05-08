@@ -2,91 +2,89 @@ package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import de.cubeisland.games.ColorDefense;
 
 import java.util.ArrayList;
 
-public class Menu {
-    private final Vector2 position;
-    private final ArrayList<MenuItem> items;
-    private final MenuOptions options;
-    private final Vector3 touchPoint = Vector3.Zero;
-    private MenuTitle title;
+public class Menu extends Container {
 
-    public Menu(MenuTitle title, Vector2 position, ArrayList<MenuItem> items, MenuOptions options) {
-        this.position = position;
+    private MenuTitle title;
+    private final ArrayList<MenuItem> items;
+    private final Vector3 touchPoint = Vector3.Zero;
+    private final BitmapFont font, titleFont;
+
+    public Menu(MenuTitle title, Vector2 position, ArrayList<MenuItem> items, Alignment alignment, Vector2 padding, BitmapFont font, BitmapFont titleFont) {
+        super(ElementType.MENU, alignment, padding);
+        setPosition(position);
         this.items = items;
-        this.options = options;
         this.title = title == null ? new MenuTitle(this, "") : title;
+        this.font = font;
+        this.titleFont = titleFont;
+        initialize();
     }
 
-    public void render(ColorDefense game) {
+    public void initialize() {
         MenuItem item;
         Vector2 pos;
 
-        // Render Title
-        pos = getPosOfItem(title, items.size());
-        renderItem(game, title, new Vector2(pos.x, position.y + getHeight()));
-        // Render Items
+        pos = getPosOfItem(title, 0);
+        title.setPosition(new Vector2(pos.x, position.y + getHeight()));
+
         for (int i = 0; i < items.size(); i++) {
             item = items.get(i);
             pos = getPosOfItem(item, i);
-            renderItem(game, item, pos);
-            game.batch.end();
+            item.setPosition(pos);
+        }
+    }
+
+    public void render(ColorDefense game, float delta) {
+        // Render Title
+        title.render(game, delta);
+        // Render Items
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).render(game, delta);
             /* DEBUG */
-            ShapeRenderer shapes = new ShapeRenderer();
-            shapes.begin(ShapeRenderer.ShapeType.Line);
-            shapes.setProjectionMatrix(game.camera.combined);
-            shapes.setColor(new Color(0, 1, 0, 0.5f));
-            shapes.rect(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
-            shapes.setColor(new Color(1,0,0,0.5f));
-            shapes.rect(pos.x, pos.y - item.getHeight() + getOptions().getPadding().y, item.getWidth(), item.getHeight() - 2 * getOptions().getPadding().y);
-            shapes.end();
-            game.batch.begin();
+            //game.batch.end();
+            //ShapeRenderer shapes = new ShapeRenderer();
+            //shapes.begin(ShapeRenderer.ShapeType.Line);
+            //shapes.setProjectionMatrix(game.camera.combined);
+            //shapes.setColor(new Color(0, 1, 0, 0.5f));
+            //shapes.rect(title.getPosition().x, title.getPosition().y - title.getHeight(), title.getWidth(), title.getHeight());
+            //shapes.setColor(new Color(1,0,0,0.5f));
+            //shapes.rect(title.getPosition().x, title.getPosition().y - title.getHeight() + getPadding().y, title.getWidth(), title.getHeight() - 2 * getPadding().y);
+            //shapes.end();
+            //game.batch.begin();
         }
 
         //FPS-Counter: options.getFont().draw(game.batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 10, 10);
 
         if (Gdx.input.justTouched()) {
-            Rectangle hitbox;
             game.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0)); // Translate the touched point to coordinates
             for (int i = 0; i < items.size(); i++) {
-                item = items.get(i);
-                pos = getPosOfItem(item, i);
-                if (getOptions().getPaddingHit()) {
-                    hitbox = new Rectangle(pos.x, pos.y - item.getHeight(), item.getWidth(), item.getHeight());
-                } else {
-                    // Maybe difference between horizontal and vertical hitting...
-                    Vector2 padding = getOptions().getPadding();
-                    hitbox = new Rectangle(pos.x + padding.x, pos.y - item.getHeight() + padding.y, item.getContentWidth(), item.getContentHeight());
-                }
-                if (hitbox.contains(touchPoint.x, touchPoint.y)) {
-                    item.listener.onItemSelected(item, new Vector2(touchPoint.x, touchPoint.y));
+                if (items.get(i).getHitbox().contains(touchPoint.x, touchPoint.y)) {
+                    items.get(i).listener.onItemClicked(items.get(i), new Vector2(touchPoint.x, touchPoint.y));
                     break;
                 }
             }
         }
     }
 
-    public void renderItem(ColorDefense game, MenuItem item, Vector2 pos) {
-        item.render(game, pos.x, pos.y);
-    }
-
     private Vector2 getPosOfItem(MenuItem item, int i) {
-        float x = 0, y = position.y + getHeight() - title.getHeight();
-        switch (options.getAlignment()) {
+        float x = getPosition().x, y = getPosition().y + getHeight() - title.getHeight();
+        switch (getAlignment()) {
             case LEFT:
-                x = position.x;
+                x = getPosition().x;
                 break;
             case CENTER:
-                x = position.x + (getMaxWidth() / 2 - item.getWidth() / 2);
+                x = getPosition().x + (getMaxWidth() / 2 - item.getWidth() / 2);
                 break;
             case RIGHT:
-                x = position.x + getMaxWidth() - item.getWidth();
+                x = getPosition().x + getMaxWidth() - item.getWidth();
                 break;
         }
         for (int h = 0; h < i; h++) {
@@ -95,24 +93,22 @@ public class Menu {
         return new Vector2(x, y);
     }
 
-    public MenuOptions getOptions() {
-        return options;
-    }
-
     public MenuItem createItem(String text) {
         return new MenuItem(this, text);
     }
 
-    public MenuItem createItem(String text, MenuItemSelectListener listener) {
+    public MenuItem createItem(String text, OnClickListener listener) {
         return new MenuItem(this, text, listener);
     }
 
     public void setTitle(String text) {
         this.title = new MenuTitle(this, text);
+        initialize();
     }
 
-    public void setTitle(String text, MenuItemSelectListener listener) {
+    public void setTitle(String text, OnClickListener listener) {
         this.title = new MenuTitle(this, text, listener);
+        initialize();
     }
 
     public float getMaxWidth() {
@@ -155,6 +151,7 @@ public class Menu {
 
     public void add(MenuItem item) {
         items.add(item);
+        initialize();
     }
 
     public void moveTo(Vector2 position) {
@@ -165,19 +162,35 @@ public class Menu {
             position.set(position.x, Gdx.graphics.getHeight() - getMaxHeight());
         }
         this.position.set(position);
+        initialize();
     }
 
     public MenuTitle getTitle() {
         return title;
     }
 
+    public BitmapFont getFont() {
+        return this.font;
+    }
+
+    public BitmapFont getTitleFont() {
+        return this.titleFont;
+    }
+
     public static class Builder {
+        private MenuTitle title = null;
         private Vector2 position = Vector2.Zero;
         private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
-        private MenuOptions options = new MenuOptions.Builder().build();
-        private MenuTitle title = null;
+        private Alignment alignment = Alignment.CENTER;
+        private Vector2 padding = Vector2.Zero;
+        private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf"));
+        private BitmapFont font = generator.generateFont(40);
+        private BitmapFont titleFont = generator.generateFont(60);
 
         public Builder() {
+            generator.dispose();
+            font.setColor(0.7f, 0.7f, 0.7f, 1);
+            titleFont.setColor(0.7f, 0.7f, 0.7f, 1);
         }
         public Builder title(MenuTitle title) {
             this.title = title;
@@ -191,12 +204,24 @@ public class Menu {
             this.items = items;
             return this;
         }
-        public Builder options(MenuOptions options) {
-            this.options = options;
+        public Builder alignment(Alignment alignment) {
+            this.alignment = alignment;
+            return this;
+        }
+        public Builder padding(Vector2 padding) {
+            this.padding = padding;
+            return this;
+        }
+        public Builder font(BitmapFont font) {
+            this.font = font;
+            return this;
+        }
+        public Builder titleFont(BitmapFont titleFont) {
+            this.titleFont = titleFont;
             return this;
         }
         public Menu build() {
-            return new Menu(title, position, items, options);
+            return new Menu(title, position, items, alignment, padding, font, titleFont);
         }
     }
 }

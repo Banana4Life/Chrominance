@@ -4,56 +4,51 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.entity.type.Enemy;
 import de.cubeisland.games.level.Level;
+import de.cubeisland.games.ui.Element;
 import de.cubeisland.games.ui.Menu;
 import de.cubeisland.games.ui.MenuItem;
-import de.cubeisland.games.ui.MenuItemSelectListener;
-import de.cubeisland.games.ui.MenuOptions;
+import de.cubeisland.games.ui.OnClickListener;
 
 public class GameScreen extends ScreenAdapter {
 
     private final ColorDefense game;
     private Level level;
-    private OrthographicCamera camera;
     private boolean paused;
     private Menu pauseMenu;
 
     public GameScreen(final ColorDefense game) {
         this.game = game;
 
-        this.camera = new OrthographicCamera();
-        this.camera.setToOrtho(false, 800, 480);
-
         paused = false;
-        pauseMenu = new Menu.Builder().options(new MenuOptions.Builder().padding(new Vector2(20, 10)).alignment(MenuOptions.Alignment.CENTER).build()).build();
+        pauseMenu =  new Menu.Builder().alignment(Element.Alignment.CENTER).padding(new Vector2(20, 10)).build();
         pauseMenu.setTitle("Pause");
-        pauseMenu.add(pauseMenu.createItem("Continue", new MenuItemSelectListener() {
+        pauseMenu.add(pauseMenu.createItem("Continue", new OnClickListener() {
             @Override
-            public void onItemSelected(MenuItem item, Vector2 touchPoint) {
-                unpause();
+            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
+                unpauseGame();
             }
         }));
-        pauseMenu.add(pauseMenu.createItem("Options", new MenuItemSelectListener() {
+        pauseMenu.add(pauseMenu.createItem("Options", new OnClickListener() {
             @Override
-            public void onItemSelected(MenuItem item, Vector2 touchPoint) {
+            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
                 System.out.println("Something different happened...");
             }
         }));
-        pauseMenu.add(pauseMenu.createItem("Exit to main menu", new MenuItemSelectListener() {
+        pauseMenu.add(pauseMenu.createItem("Exit to main menu", new OnClickListener() {
             @Override
-            public void onItemSelected(MenuItem item, Vector2 touchPoint) {
+            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
                 game.setScreen(new MenuScreen(game));
                 dispose();
             }
         }));
         // Center it
-        Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2) - (pauseMenu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (pauseMenu.getMaxHeight() / 2));
+        Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2) - (pauseMenu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (pauseMenu.getHeight() / 2));
         pauseMenu.moveTo(centerPos);
 
         this.level = new Level(Gdx.files.internal("map.bmp"));
@@ -69,7 +64,7 @@ public class GameScreen extends ScreenAdapter {
 
         if (isPaused()) {
             game.batch.begin();
-            pauseMenu.render(game);
+            pauseMenu.render(game, delta);
             game.batch.end();
         } else {
             this.level.update(delta);
@@ -84,7 +79,11 @@ public class GameScreen extends ScreenAdapter {
         return paused;
     }
 
-    public void unpause() {
+    public void unpauseGame() {
         this.paused = false;
+    }
+
+    public void pauseGame() {
+        this.paused = true;
     }
 }
