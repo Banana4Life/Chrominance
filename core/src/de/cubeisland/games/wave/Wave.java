@@ -6,8 +6,10 @@ import java.util.List;
 
 public class Wave {
     private final List<Entity> entities;
+    private int number;
 
-    public Wave(List<Entity> entities) {
+    public Wave(int number, List<Entity> entities) {
+        this.number = number;
         this.entities = entities;
     }
 
@@ -22,5 +24,9 @@ public class Wave {
             }
         }
         return true;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }

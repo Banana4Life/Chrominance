@@ -57,8 +57,6 @@ public class GameScreen extends ScreenAdapter {
         pauseMenu.moveTo(centerPos);
 
         this.level = new Level(Gdx.files.internal("map.bmp"));
-        Entity entity = this.level.spawn(EntityTypes.ENEMY);
-        entity.setLocation(new Vector2(10, 10));
     }
 
     @Override
@@ -88,9 +86,5 @@ public class GameScreen extends ScreenAdapter {
 
     public void unpause() {
         this.paused = false;
-    }
-
-    public void pause() {
-        this.paused = true;
     }
 }

@@ -15,8 +15,10 @@ public class DummyWaveGenerator implements WaveGenerator {
         for (int i = 0; i < waveNumber; ++i) {
             Entity e = entityFactory.createEntity(EntityTypes.RUNNER);
             e.get(Health.class).setHealth(100 * (1 + waveNumber / 10));
+
+            entities.add(e);
         }
 
-        return new Wave(entities);
+        return new Wave(waveNumber, entities);
     }
 }

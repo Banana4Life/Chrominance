@@ -5,9 +5,9 @@ import de.cubeisland.games.component.ComponentHolder;
 
 public final class Entity extends ComponentHolder<Entity> {
     private EntityType type;
-    private Vector2 location = Vector2.Zero;
-    private Vector2 velocity = Vector2.Zero;
-    private boolean alive;
+    private Vector2 location = Vector2.Zero.cpy();
+    private Vector2 velocity = Vector2.Zero.cpy();
+    private boolean alive = true;
 
     public Entity(EntityType type) {
         this.type = type;
