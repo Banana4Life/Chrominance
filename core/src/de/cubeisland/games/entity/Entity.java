@@ -25,12 +25,14 @@ public final class Entity extends ComponentHolder<Entity> {
         return velocity;
     }
 
-    public void setLocation(Vector2 location) {
+    public Entity setLocation(Vector2 location) {
         this.location = location;
+        return this;
     }
 
-    public void setVelocity(Vector2 velocity) {
+    public Entity setVelocity(Vector2 velocity) {
         this.velocity = velocity;
+        return this;
     }
 
 
