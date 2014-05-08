@@ -14,17 +14,17 @@ public class ComponentFactory {
 
     @SuppressWarnings("unchecked")
     public <H extends ComponentHolder<H>, C extends Component<H>> C createComponent(H owner, Class<C> componentType) {
-            Constructor<? extends Component<?>> constructor = this.constructorCache.get(componentType);
+        Constructor<? extends Component<?>> constructor = this.constructorCache.get(componentType);
 
-            if (constructor == null) {
-                try {
-                    constructor = componentType.getConstructor();
-                    constructor.setAccessible(true);
-                    this.constructorCache.put(componentType, constructor);
-                } catch (NoSuchMethodException e) {
-                    throw new IllegalArgumentException("Invalid component: No default constructor!", e);
-                }
+        if (constructor == null) {
+            try {
+                constructor = componentType.getConstructor();
+                constructor.setAccessible(true);
+                this.constructorCache.put(componentType, constructor);
+            } catch (NoSuchMethodException e) {
+                throw new IllegalArgumentException("Invalid component: No default constructor!", e);
             }
+        }
 
         try {
             C component = (C) constructor.newInstance();

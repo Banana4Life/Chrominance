@@ -21,7 +21,7 @@ public abstract class Component<T extends ComponentHolder> implements Comparable
         if (after != null) {
             this.after = after.value();
         }
-        if (this.before == this.after) {
+        if (this.after != null && this.before != null && this.before == this.after) {
             throw new IllegalStateException("The before and after relations may not reference the same class!");
         }
     }

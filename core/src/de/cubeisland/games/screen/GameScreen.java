@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.entity.Entity;
+import de.cubeisland.games.entity.EntityTypes;
+import de.cubeisland.games.entity.type.Enemy;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.ui.Menu;
 import de.cubeisland.games.ui.MenuItem;
@@ -54,6 +57,8 @@ public class GameScreen extends ScreenAdapter {
         pauseMenu.moveTo(centerPos);
 
         this.level = new Level(Gdx.files.internal("map.bmp"));
+        Entity entity = this.level.spawn(EntityTypes.ENEMY);
+        entity.setLocation(new Vector2(10, 10));
     }
 
     @Override

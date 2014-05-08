@@ -16,6 +16,7 @@ public class Render extends Component<Entity> {
         final Vector2 loc = getOwner().getLocation().cpy();
 
         this.shapeRenderer.begin(Filled);
+        this.shapeRenderer.setColor(1, 1, 1, 1);
         this.shapeRenderer.circle(loc.x, loc.y, 20);
         this.shapeRenderer.end();
     }
