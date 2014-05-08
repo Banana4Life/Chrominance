@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by Malte on 29.04.2014.
- */
+
 public class MenuOptions {
 
     public enum Alignment {

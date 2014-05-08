@@ -10,9 +10,6 @@ import de.cubeisland.games.ColorDefense;
 
 import java.util.ArrayList;
 
-/**
- * Created by Malte on 29.04.2014.
- */
 public class Menu {
     private final Vector2 position;
     private final ArrayList<MenuItem> items;

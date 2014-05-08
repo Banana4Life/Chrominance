@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
 
-/**
- * Created by Malte on 29.04.2014.
- */
+
 public class MenuItem {
 
     protected final Menu parent;
@@ -30,7 +28,7 @@ public class MenuItem {
     public void render(ColorDefense game, float x, float y) {
         BitmapFont font = parent.getOptions().getFont();
         Vector2 padding = parent.getOptions().getPadding();
-        font.draw(game.batch, getText(), x + padding.x, y - padding.y);
+        font.draw(game.batch, getText(), Math.round(x + padding.x), Math.round(y - padding.y));
     }
 
     public Menu getParent() {
