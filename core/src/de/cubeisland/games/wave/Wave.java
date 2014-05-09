@@ -18,8 +18,8 @@ public class Wave {
     }
 
     public boolean isCompleted() {
-        for (Entity entity : this.entities) {
-            if (entity.isAlive()) {
+        for (int i = 0; i < entities.size(); ++i) {
+            if (entities.get(i).isAlive()) {
                 return false;
             }
         }

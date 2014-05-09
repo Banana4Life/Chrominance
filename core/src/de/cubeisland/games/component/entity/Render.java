@@ -15,7 +15,7 @@ public class Render extends Component<Entity>
     @Override
     public void update(float delta) {
 
-        final Vector2 loc = getOwner().getLocation().cpy();
+        final Vector2 loc = getOwner().getLocation();
 
         this.shapeRenderer.begin(Filled);
         this.shapeRenderer.setColor(1, 1, 1, 1);

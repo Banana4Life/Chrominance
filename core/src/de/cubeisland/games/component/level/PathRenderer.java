@@ -18,13 +18,14 @@ public class PathRenderer extends Component<Level>
         List<Node> nodes;
         Node lastNode;
         Node currNode;
-        for (Path path : getOwner().getPaths())
+        List<Path> paths = getOwner().getPaths();
+        for (int i = 0; i < paths.size(); ++i)
         {
-            nodes = path.getNodes();
+            nodes = paths.get(i).getNodes();
             lastNode = nodes.get(0);
-            for (int n = 1; n < nodes.size(); n++)
+            for (int j = 1; j < nodes.size(); j++)
             {
-                currNode = nodes.get(n);
+                currNode = nodes.get(j);
 
                 sr.begin(ShapeRenderer.ShapeType.Line);
                 sr.line(currNode.getLocation(), lastNode.getLocation());

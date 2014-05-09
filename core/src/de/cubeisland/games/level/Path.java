@@ -23,7 +23,7 @@ public class Path {
     }
 
     public List<Node> getNodes() {
-        return Collections.unmodifiableList(nodes);
+        return nodes;
     }
 
     public Node getSpawn() {
