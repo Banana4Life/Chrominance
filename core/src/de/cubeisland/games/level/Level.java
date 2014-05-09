@@ -56,9 +56,9 @@ public class Level extends ComponentHolder<Level> {
 
         for (int x = 0; x < rawMap.getWidth(); x++) {
             for (int y = 0; y < rawMap.getHeight(); y++) {
-                TileType tileType = TileType.getType(rawMap.getPixel(x, y));
+                TileType tileType = TileType.getByColorValue(rawMap.getPixel(x, y));
                 dummyMap[x][y] = tileType;
-                if (tileType == TileType.TOWERSLOT) {
+                if (tileType == TileType.TOWER_SLOT) {
                     float scale = Gdx.graphics.getHeight() / dummyMap[0].length;
                     entities.add(entityFactory.createEntity(EntityTypes.TOWER).setLocation(new Vector2((x + 0.5f) * scale, (dummyMap[0].length - 0.5f - y) * scale)));
                 }
@@ -103,9 +103,9 @@ public class Level extends ComponentHolder<Level> {
         }
 
         if (map[x][y] == TileType.PATH) {
-            getPath(map, x + 1, y, new Vector2(1, 0) , currMove, new ArrayList<>(nodeList));
+            getPath(map, x + 1, y, new Vector2(1, 0), currMove, new ArrayList<>(nodeList));
             getPath(map, x - 1, y, new Vector2(-1, 0), currMove, new ArrayList<>(nodeList));
-            getPath(map, x, y + 1, new Vector2(0, 1) , currMove, new ArrayList<>(nodeList));
+            getPath(map, x, y + 1, new Vector2(0, 1), currMove, new ArrayList<>(nodeList));
             getPath(map, x, y - 1, new Vector2(0, -1), currMove, new ArrayList<>(nodeList));
         } else if (map[x][y] == TileType.END_PATH) {
             getPath(map, x + 1, y, new Vector2(1, 0) , new Vector2(1, 0) , new ArrayList<>(nodeList));
