@@ -3,7 +3,9 @@ package de.cubeisland.games.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
 import de.cubeisland.games.entity.Entity;
@@ -18,6 +20,7 @@ import de.cubeisland.games.ui.OnClickListener;
 public class GameScreen extends ScreenAdapter {
 
     private final ColorDefense game;
+    private final ShapeRenderer shapes = new ShapeRenderer();
     private Level level;
     private boolean paused;
     private Menu pauseMenu;
@@ -63,6 +66,15 @@ public class GameScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(game.camera.combined);
 
         if (isPaused()) {
+            this.level.update(0); // Render it but with delta zero
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            shapes.begin(ShapeRenderer.ShapeType.Filled);
+            shapes.setProjectionMatrix(game.camera.combined);
+            shapes.setColor(new Color(0, 0, 0, 0.5f));
+            shapes.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapes.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
             game.batch.begin();
             pauseMenu.render(game, delta);
             game.batch.end();
