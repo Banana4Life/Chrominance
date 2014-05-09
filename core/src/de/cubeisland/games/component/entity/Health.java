@@ -1,8 +1,10 @@
-package de.cubeisland.games.component;
+package de.cubeisland.games.component.entity;
 
+import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
 
-public class Health extends Component<Entity> {
+public class Health extends Component<Entity>
+{
 
     private double health = 0;
 

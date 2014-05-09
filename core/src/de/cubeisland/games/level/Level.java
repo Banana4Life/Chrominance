@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.ComponentFactory;
 import de.cubeisland.games.component.ComponentHolder;
+import de.cubeisland.games.component.level.PathRenderer;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
 import de.cubeisland.games.entity.EntityType;
@@ -27,6 +28,7 @@ public class Level extends ComponentHolder<Level> {
     private final List<Entity> entities;
 
     private final TileType[][] mapData;
+    private final ComponentFactory componentFactory;
 
     private EntityFactory entityFactory;
     private final WaveGenerator waveGenerator;
@@ -34,8 +36,11 @@ public class Level extends ComponentHolder<Level> {
     private final List<Path> paths;
 
     public Level(FileHandle fileHandle) {
-        this.entityFactory = new EntityFactory(new ComponentFactory());
+        this.componentFactory = new ComponentFactory();
+        this.entityFactory = new EntityFactory(componentFactory);
         this.entities = new CopyOnWriteArrayList<>();
+
+        this.attach(componentFactory.createComponent(this, PathRenderer.class));
 
         paths = new ArrayList<>();
 
@@ -144,29 +149,16 @@ public class Level extends ComponentHolder<Level> {
 
         // render paths //
 
-        ShapeRenderer sr = new ShapeRenderer();
-
-        List<Node> nodes;
-        Node lastNode; Node currNode;
-        for (Path path : paths) {
-            nodes = path.getNodes();
-            lastNode = nodes.get(0);
-            for (int n = 1; n < nodes.size(); n++) {
-                currNode = nodes.get(n);
-
-                sr.begin(ShapeRenderer.ShapeType.Line);
-                sr.line(currNode.getLocation(), lastNode.getLocation());
-                sr.end();
-
-                lastNode = currNode;
-            }
-        }
-
         // end //
 
         for (Entity entity : this.entities) {
             entity.update(delta);
         }
         super.update(delta);
+    }
+
+    public List<Path> getPaths()
+    {
+        return paths;
     }
 }

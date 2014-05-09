@@ -1,12 +1,14 @@
-package de.cubeisland.games.component;
+package de.cubeisland.games.component.entity;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 
-public class Render extends Component<Entity> {
+public class Render extends Component<Entity>
+{
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
