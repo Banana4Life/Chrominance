@@ -5,7 +5,9 @@ package de.cubeisland.games.level.tile;
  */
 public enum TileType {
     TOWERSLOT,
-    WAY,
+    BEGIN_PATH,
+    PATH,
+    END_PATH,
     WALL,
     NONE;
 
@@ -13,10 +15,14 @@ public enum TileType {
         switch (colorValue) {
             case -2004317953:
                 return TOWERSLOT;
+            case -16776961:
+                return END_PATH;
             case -1:
                 return WALL;
             case 255:
-                return WAY;
+                return PATH;
+            case 721355007:
+                return BEGIN_PATH;
             default:
                 return NONE;
         }

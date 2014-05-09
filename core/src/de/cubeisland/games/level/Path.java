@@ -1,9 +1,9 @@
 package de.cubeisland.games.level;
 
-import com.badlogic.gdx.math.Vector2;
+        import com.badlogic.gdx.math.Vector2;
 
-import java.util.Collections;
-import java.util.List;
+        import java.util.Collections;
+        import java.util.List;
 
 public class Path {
     private final List<Node> nodes;

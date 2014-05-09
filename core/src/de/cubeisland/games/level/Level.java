@@ -23,7 +23,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Level extends ComponentHolder<Level> {
     private final List<Entity> entities;
+
     private final TileType[][] mapData;
+
     private EntityFactory entityFactory;
     private final WaveGenerator waveGenerator;
     private Wave currentWave;
@@ -33,15 +35,10 @@ public class Level extends ComponentHolder<Level> {
         this.entityFactory = new EntityFactory(new ComponentFactory());
         this.entities = new CopyOnWriteArrayList<>();
 
+        paths = new ArrayList<>();
+
         mapData = loadMap(new Pixmap(fileHandle));
         this.waveGenerator = new DummyWaveGenerator();
-
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(new Node(new Vector2(0, 0)));
-        nodes.add(new Node(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())));
-
-        this.paths = new ArrayList<>();
-        this.paths.add(new Path(nodes));
     }
 
     public List<Entity> getEntities() {
@@ -60,7 +57,41 @@ public class Level extends ComponentHolder<Level> {
             }
         }
 
+        for (int x = 0; x < dummyMap.length; x++) {
+            for (int y = 0; y < dummyMap[0].length; y++) {
+                if (dummyMap[x][y] == TileType.END_PATH) {
+                    getPath(dummyMap, x, y);
+                }
+            }
+        }
+
         return dummyMap;
+    }
+
+    private void getPath(TileType[][] map, int x, int y) {
+        getPath(map, x, y, x + 1, y + 1, new Vector2(1, 1), new ArrayList<Node>());
+    }
+    private void getPath(TileType[][] map, int x, int y, int lastX, int lastY, Vector2 lastMove, List<Node> nodeList) {
+        if (x < 0 || x >= map.length || y < 0 || y >= map[0].length) {
+            return;
+        }
+        Vector2 currMove = new Vector2(lastX - x, lastY - y);
+        if (currMove.hasOppositeDirection(lastMove)) {
+            return;
+        }
+        if (map[x][y] == TileType.BEGIN_PATH) {
+            nodeList.add(new Node(new Vector2(x + 0.5f, y + 0.5f)));
+
+            Collections.reverse(nodeList);
+            paths.add(new Path(nodeList));
+        } else if (map[x][y] == TileType.PATH || map[x][y] == TileType.END_PATH) {
+            nodeList.add(new Node(new Vector2(x + 0.5f, y + 0.5f)));
+
+            getPath(map, x + 1, y, x, y, currMove, new ArrayList<>(nodeList));
+            getPath(map, x - 1, y, x, y, currMove, new ArrayList<>(nodeList));
+            getPath(map, x, y + 1, x, y, currMove, new ArrayList<>(nodeList));
+            getPath(map, x, y - 1, x, y, currMove, new ArrayList<>(nodeList));
+        }
     }
 
     protected void spawn(Entity e) {
@@ -90,10 +121,28 @@ public class Level extends ComponentHolder<Level> {
             }
         }
 
+        // render paths //
+
         ShapeRenderer sr = new ShapeRenderer();
-        sr.begin(ShapeRenderer.ShapeType.Line);
-        sr.line(paths.get(0).getSpawn().getLocation(), paths.get(0).getTarget().getLocation());
-        sr.end();
+        float scale = Gdx.graphics.getHeight() / 10f;
+
+        List<Node> nodes;
+        Node lastNode; Node currNode;
+        for (Path path : paths) {
+            nodes = path.getNodes();
+            lastNode = nodes.get(0);
+            for (int n = 1; n < nodes.size(); n++) {
+                currNode = nodes.get(n);
+
+                sr.begin(ShapeRenderer.ShapeType.Line);
+                sr.line(currNode.getLocation().cpy().scl(scale), lastNode.getLocation().cpy().scl(scale));
+                sr.end();
+
+                lastNode = currNode;
+            }
+        }
+
+        // end //
 
         for (Entity entity : this.entities) {
             entity.update(delta);
