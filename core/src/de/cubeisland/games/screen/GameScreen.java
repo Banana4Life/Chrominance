@@ -71,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapes.begin(ShapeRenderer.ShapeType.Filled);
             shapes.setProjectionMatrix(game.camera.combined);
-            shapes.setColor(new Color(0, 0, 0, 0.5f));
+            shapes.setColor(new Color(0, 0, 0, 0.4f));
             shapes.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             shapes.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
