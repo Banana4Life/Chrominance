@@ -53,14 +53,13 @@ public class Level extends ComponentHolder<Level> {
         TileType[][] dummyMap = new TileType[rawMap.getWidth()][rawMap.getHeight()];
         for (int x = 0; x < rawMap.getWidth(); x++) {
             for (int y = 0; y < rawMap.getHeight(); y++) {
-                dummyMap[x][y] = TileType.getType(rawMap.getPixel(x, y));
-            }
-        }
-
-        for (int x = 0; x < dummyMap.length; x++) {
-            for (int y = 0; y < dummyMap[0].length; y++) {
-                if (dummyMap[x][y] == TileType.END_PATH) {
+                TileType tileType = TileType.getType(rawMap.getPixel(x, y));
+                dummyMap[x][y] = tileType;
+                if (tileType == TileType.END_PATH) {
                     getPath(dummyMap, x, y);
+                }
+                else if (tileType == TileType.TOWERSLOT) {
+                    
                 }
             }
         }
@@ -80,12 +79,12 @@ public class Level extends ComponentHolder<Level> {
             return;
         }
         if (map[x][y] == TileType.BEGIN_PATH) {
-            nodeList.add(new Node(new Vector2(x + 0.5f, y + 0.5f)));
+            nodeList.add(new Node(new Vector2(x + 0.5f, map[0].length - (y + 0.5f))));
 
             Collections.reverse(nodeList);
-            paths.add(new Path(nodeList));
+            paths.add(new Path(nodeList, (float) Gdx.graphics.getHeight() / (float) map[0].length));
         } else if (map[x][y] == TileType.PATH || map[x][y] == TileType.END_PATH) {
-            nodeList.add(new Node(new Vector2(x + 0.5f, y + 0.5f)));
+            nodeList.add(new Node(new Vector2(x + 0.5f, map[0].length - (y + 0.5f))));
 
             getPath(map, x + 1, y, x, y, currMove, new ArrayList<>(nodeList));
             getPath(map, x - 1, y, x, y, currMove, new ArrayList<>(nodeList));
@@ -124,7 +123,6 @@ public class Level extends ComponentHolder<Level> {
         // render paths //
 
         ShapeRenderer sr = new ShapeRenderer();
-        float scale = Gdx.graphics.getHeight() / 10f;
 
         List<Node> nodes;
         Node lastNode; Node currNode;
@@ -135,7 +133,7 @@ public class Level extends ComponentHolder<Level> {
                 currNode = nodes.get(n);
 
                 sr.begin(ShapeRenderer.ShapeType.Line);
-                sr.line(currNode.getLocation().cpy().scl(scale), lastNode.getLocation().cpy().scl(scale));
+                sr.line(currNode.getLocation(), lastNode.getLocation());
                 sr.end();
 
                 lastNode = currNode;
