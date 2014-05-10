@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Before;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
+import de.cubeisland.games.component.event.Event;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.level.Node;
 import de.cubeisland.games.level.Path;
@@ -14,8 +15,7 @@ import static de.cubeisland.games.util.VectorUtil.zero;
 
 @Before(Move.class)
 @Phase(MOVEMENT)
-public class PathFollower extends Component<Entity>
-{
+public class PathFollower extends Component<Entity> {
     private Path path;
     private Node currentTarget;
     private int nodeNumber = 1;
@@ -23,14 +23,13 @@ public class PathFollower extends Component<Entity>
     private float toleranceSquared = tolerance * tolerance;
     private float speed = 20;
 
-    public Path getPath()
-    {
+    public Path getPath() {
         return path;
     }
 
-    public void setPath(Path path)
-    {
+    public PathFollower setPath(Path path) {
         this.path = path;
+        return this;
     }
 
     @Override
@@ -46,6 +45,7 @@ public class PathFollower extends Component<Entity>
                     this.path = null;
                     this.currentTarget = null;
                     getOwner().setVelocity(zero());
+                    emit(new PathCompleteEvent(this.path));
                 } else {
                     this.changeTarget();
                 }
@@ -81,7 +81,20 @@ public class PathFollower extends Component<Entity>
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public PathFollower setSpeed(float speed) {
         this.speed = speed;
+        return this;
+    }
+
+    public static class PathCompleteEvent implements Event {
+        private final Path path;
+
+        public PathCompleteEvent(Path path) {
+            this.path = path;
+        }
+
+        public Path getPath() {
+            return path;
+        }
     }
 }

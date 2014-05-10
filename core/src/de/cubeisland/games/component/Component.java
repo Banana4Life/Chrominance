@@ -1,5 +1,9 @@
 package de.cubeisland.games.component;
 
+import de.cubeisland.games.component.event.Event;
+import de.cubeisland.games.component.event.EventHandler;
+import de.cubeisland.games.component.event.MethodEventHandler;
+
 /**
  *
  * @param <T> the type of the component holder for type safety
@@ -40,6 +44,13 @@ public abstract class Component<T extends ComponentHolder<T>> implements Compara
         this.owner = owner;
         this.onInit();
 
+        for (EventHandler<Event> handler : MethodEventHandler.parseHandlers(this)) {
+            this.owner.registerEventHandler(handler);
+        }
+    }
+
+    protected final void emit(Event event) {
+        this.owner.emit(this, event);
     }
 
     public T getOwner() {
