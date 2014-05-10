@@ -6,24 +6,40 @@ package de.cubeisland.games.component;
  */
 public abstract class Component<T extends ComponentHolder<T>> implements Comparable<Component<?>> {
     private T owner;
-    private Class<? extends Component<?>> before;
-    private Class<? extends Component<?>> after;
+    private final Class<? extends Component<?>> before;
+    private final Class<? extends Component<?>> after;
+    private final TickPhase tickPhase;
+
+    {
+        Before before = this.getClass().getAnnotation(Before.class);
+        if (before != null) {
+            this.before = before.value();
+        } else {
+            this.before = null;
+        }
+        After after = this.getClass().getAnnotation(After.class);
+        if (after != null) {
+            this.after = after.value();
+        } else {
+            this.after = null;
+        }
+
+        if (this.after != null && this.before != null && this.before == this.after) {
+            throw new IllegalStateException("The before and after relations may not reference the same class!");
+        }
+
+        Phase phase = this.getClass().getAnnotation(Phase.class);
+        if (phase != null) {
+            this.tickPhase = phase.value();
+        } else {
+            this.tickPhase = TickPhase.BEGIN;
+        }
+    }
 
     protected final void init(T owner) {
         this.owner = owner;
         this.onInit();
 
-        Before before = this.getClass().getAnnotation(Before.class);
-        if (before != null) {
-            this.before = before.value();
-        }
-        After after = this.getClass().getAnnotation(After.class);
-        if (after != null) {
-            this.after = after.value();
-        }
-        if (this.after != null && this.before != null && this.before == this.after) {
-            throw new IllegalStateException("The before and after relations may not reference the same class!");
-        }
     }
 
     public T getOwner() {
@@ -52,5 +68,9 @@ public abstract class Component<T extends ComponentHolder<T>> implements Compara
             return 1;
         }
         return 0;
+    }
+
+    public final boolean shouldTick(TickPhase currentPhase) {
+        return this.tickPhase == currentPhase;
     }
 }

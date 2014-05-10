@@ -6,13 +6,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.cubeisland.games.component.After;
 import de.cubeisland.games.component.Component;
+import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.level.Node;
 import de.cubeisland.games.level.Path;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
+import static de.cubeisland.games.component.TickPhase.RENDERING;
 
 @After(GridRenderer.class)
+@Phase(RENDERING)
 public class PathRenderer extends Component<Level>
 {
     private final ShapeRenderer sr = new ShapeRenderer();

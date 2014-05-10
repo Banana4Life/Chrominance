@@ -3,6 +3,7 @@ package de.cubeisland.games.component.level;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
+import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.level.Level;
@@ -12,6 +13,9 @@ import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.Wave;
 import de.cubeisland.games.wave.WaveGenerator;
 
+import static de.cubeisland.games.component.TickPhase.BEGIN;
+
+@Phase(BEGIN)
 public class WaveController extends Component<Level> {
     private Difficulty difficulty = Difficulty.NORMAL;
     private WaveGenerator generator;

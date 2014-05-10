@@ -3,6 +3,7 @@ package de.cubeisland.games.level;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.ComponentHolder;
+import de.cubeisland.games.component.TickPhase;
 import de.cubeisland.games.component.level.GridRenderer;
 import de.cubeisland.games.component.level.PathRenderer;
 import de.cubeisland.games.component.level.WaveController;
@@ -62,18 +63,32 @@ public class Level extends ComponentHolder<Level> {
         return this.spawn(e, location);
     }
 
-    @Override
     public void update(float delta) {
+        for (TickPhase phase : TickPhase.values()) {
+            this.update(phase, delta);
+        }
+    }
+
+    @Override
+    public void update(TickPhase tickPhase, float delta) {
+        this.updateLevel(tickPhase, delta);
+        this.updateEntities(tickPhase, delta);
+    }
+
+    private void updateLevel(TickPhase tickPhase, float delta) {
+        super.update(tickPhase, delta);
+    }
+
+    private void updateEntities(TickPhase tickPhase, float delta) {
         Entity e;
         Iterator<Entity> it = this.entities.iterator();
         while (it.hasNext()) {
             e = it.next();
-            e.update(delta);
+            e.update(tickPhase, delta);
             if (!e.isAlive()) {
                 it.remove();
             }
         }
-        super.update(delta);
     }
 
     public Map getMap()

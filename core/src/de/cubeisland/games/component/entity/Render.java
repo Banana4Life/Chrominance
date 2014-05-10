@@ -4,10 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
+import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
+import static de.cubeisland.games.component.TickPhase.RENDERING;
 
+@Phase(RENDERING)
 public class Render extends Component<Entity>
 {
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();

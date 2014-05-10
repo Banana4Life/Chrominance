@@ -1,8 +1,12 @@
 package de.cubeisland.games.component.entity;
 
 import de.cubeisland.games.component.Component;
+import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
 
+import static de.cubeisland.games.component.TickPhase.BEGIN;
+
+@Phase(BEGIN)
 public class Health extends Component<Entity>
 {
 

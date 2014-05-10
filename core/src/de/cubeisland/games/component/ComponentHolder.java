@@ -7,9 +7,11 @@ public class ComponentHolder<T extends ComponentHolder<T>> {
     private List<Component<T>> components = new ArrayList<>();
     protected static final Map<Class<? extends Component<?>>, Constructor<? extends Component<?>>> CONSTRUCTOR_CACHE = new HashMap<>();
 
-    public void update(float delta) {
+    public void update(TickPhase phase, float delta) {
         for (Component<T> component : components) {
-            component.update(delta);
+            if (component.shouldTick(phase)) {
+                component.update(delta);
+            }
         }
     }
 

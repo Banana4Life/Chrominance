@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.After;
 import de.cubeisland.games.component.Component;
+import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
 
+import static de.cubeisland.games.component.TickPhase.MOVEMENT;
+
 @After(Move.class)
+@Phase(MOVEMENT)
 public class GarbageCollector extends Component<Entity> {
     @Override
     public void update(float delta) {

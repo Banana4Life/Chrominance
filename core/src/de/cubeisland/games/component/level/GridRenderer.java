@@ -5,8 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import de.cubeisland.games.component.Component;
+import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.level.Level;
 
+import static de.cubeisland.games.component.TickPhase.RENDERING;
+
+@Phase(RENDERING)
 public class GridRenderer extends Component<Level>
 {
     private final ShapeRenderer sr = new ShapeRenderer();
