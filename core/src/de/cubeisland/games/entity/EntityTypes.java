@@ -7,9 +7,13 @@ import de.cubeisland.games.entity.type.Tower;
 
 
 public abstract class EntityTypes {
-    public static final EntityType RUNNER = new Runner();
-    public static Tower TOWER = new Tower();
-    public static Player PLAYER = new Player();
 
-    public static Bullet BULLET = new Bullet();
+    private EntityTypes() {
+    }
+
+    public static final EntityType RUNNER = new Runner();
+    public static final Tower TOWER = new Tower();
+    public static final Player PLAYER = new Player();
+
+    public static final Bullet BULLET = new Bullet();
 }

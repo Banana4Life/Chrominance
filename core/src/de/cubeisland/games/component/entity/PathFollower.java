@@ -8,7 +8,6 @@ import de.cubeisland.games.component.event.Event;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.level.Node;
 import de.cubeisland.games.level.Path;
-import de.cubeisland.games.util.VectorUtil;
 
 import static de.cubeisland.games.component.TickPhase.MOVEMENT;
 import static de.cubeisland.games.util.VectorUtil.zero;

@@ -1,16 +1,16 @@
 package de.cubeisland.games.level;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.level.tile.TileType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class Map
 {
@@ -41,7 +41,7 @@ public class Map
                 TileType tileType = TileType.getByColorValue(rawMap.getPixel(x, y));
                 tileMap[x][y] = tileType;
                 if (tileType == TileType.TOWER_SLOT) {
-                    this.towerLocations.add(new Vector2((x + 0.5f), (rawMap.getHeight() - 0.5f - y)));
+                    this.towerLocations.add(new Vector2(x + 0.5f, rawMap.getHeight() - 0.5f - y));
                 }
             }
         }

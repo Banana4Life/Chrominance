@@ -8,9 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
-import de.cubeisland.games.entity.Entity;
-import de.cubeisland.games.entity.EntityTypes;
-import de.cubeisland.games.entity.type.Enemy;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.ui.Element;
 import de.cubeisland.games.ui.Menu;
@@ -51,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
             }
         }));
         // Center it
-        Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2) - (pauseMenu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (pauseMenu.getHeight() / 2));
+        Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2f) - (pauseMenu.getMaxWidth() / 2f), (Gdx.graphics.getHeight() / 2f) - (pauseMenu.getHeight() / 2f));
         pauseMenu.moveTo(centerPos);
 
         this.level = new Level(Gdx.files.internal("map.bmp"));
@@ -62,22 +59,24 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.camera.update();
-        game.batch.setProjectionMatrix(game.camera.combined);
+        game.getCamera().update();
+        game.getBatch().setProjectionMatrix(game.getCamera().combined);
 
         if (isPaused()) {
-            this.level.update(0); // Render it but with delta zero
+            // Render it but with delta zero
+            this.level.update(0);
+
             Gdx.gl.glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapes.begin(ShapeRenderer.ShapeType.Filled);
-            shapes.setProjectionMatrix(game.camera.combined);
+            shapes.setProjectionMatrix(game.getCamera().combined);
             shapes.setColor(new Color(0, 0, 0, 0.4f));
             shapes.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             shapes.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
-            game.batch.begin();
+            game.getBatch().begin();
             pauseMenu.render(game, delta);
-            game.batch.end();
+            game.getBatch().end();
         } else {
             this.level.update(delta);
         }

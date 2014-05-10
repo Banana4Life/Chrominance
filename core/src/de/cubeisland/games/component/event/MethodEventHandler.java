@@ -28,7 +28,7 @@ public class MethodEventHandler implements EventHandler<Event> {
         try {
             this.method.invoke(this.holder, sender, event);
         } catch (ReflectiveOperationException e) {
-            e.printStackTrace(System.err);
+            throw new BrokenEventHandlerException("Failed to invoke a event handler!", e);
         }
     }
 

@@ -81,12 +81,12 @@ public class ComponentHolder<T extends ComponentHolder<T>> {
             C component = (C) constructor.newInstance();
             try {
                 component.init((T) this);
-            } catch (RuntimeException | Error e) {
+            } catch (RuntimeException e) {
                 throw new IllegalArgumentException("Invalid component: Error during initialization!", e);
             }
             return component;
         } catch (ReflectiveOperationException e) {
-            throw new IllegalArgumentException("Invalid component: Error during construction!");
+            throw new IllegalArgumentException("Invalid component: Error during construction!", e);
         }
     }
 

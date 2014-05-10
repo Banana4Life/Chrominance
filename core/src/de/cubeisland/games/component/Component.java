@@ -14,16 +14,16 @@ public abstract class Component<T extends ComponentHolder<T>> implements Compara
     private final Class<? extends Component<?>> after;
     private final TickPhase tickPhase;
 
-    {
-        Before before = this.getClass().getAnnotation(Before.class);
-        if (before != null) {
-            this.before = before.value();
+    protected Component() {
+        Before beforeAnnotation = this.getClass().getAnnotation(Before.class);
+        if (beforeAnnotation != null) {
+            this.before = beforeAnnotation.value();
         } else {
             this.before = null;
         }
-        After after = this.getClass().getAnnotation(After.class);
-        if (after != null) {
-            this.after = after.value();
+        After afterAnnotation = this.getClass().getAnnotation(After.class);
+        if (afterAnnotation != null) {
+            this.after = afterAnnotation.value();
         } else {
             this.after = null;
         }
@@ -67,6 +67,38 @@ public abstract class Component<T extends ComponentHolder<T>> implements Compara
     }
 
     public abstract void update(float delta);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Component component = (Component) o;
+
+        if (after != null ? !after.equals(component.after) : component.after != null) {
+            return false;
+        }
+        if (before != null ? !before.equals(component.before) : component.before != null) {
+            return false;
+        }
+        if (tickPhase != component.tickPhase) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = before != null ? before.hashCode() : 0;
+        result = 31 * result + (after != null ? after.hashCode() : 0);
+        result = 31 * result + tickPhase.hashCode();
+        return result;
+    }
 
     @Override
     public int compareTo(Component<?> o) {

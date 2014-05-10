@@ -36,7 +36,7 @@ public class MenuScreen extends ScreenAdapter {
             }
         }));
         // Center it
-        Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2) - (menu.getMaxWidth() / 2), (Gdx.graphics.getHeight() / 2) - (menu.getHeight() / 2));
+        Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2f) - (menu.getMaxWidth() / 2f), (Gdx.graphics.getHeight() / 2f) - (menu.getHeight() / 2f));
         menu.moveTo(centerPos);
 
         //pos = new Vector2(Gdx.graphics.getWidth() / 2 );
@@ -47,21 +47,15 @@ public class MenuScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.camera.update();
-        game.batch.setProjectionMatrix(game.camera.combined);
-        game.batch.begin();
+        game.getCamera().update();
+        game.getBatch().setProjectionMatrix(game.getCamera().combined);
+        game.getBatch().begin();
         menu.render(game, delta);
-        game.batch.end();
+        game.getBatch().end();
 
 //        if (Gdx.input.isTouched()) {
 //            game.setScreen(new GameScreen(game));
 //            dispose();
 //        }
     }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
-
 }

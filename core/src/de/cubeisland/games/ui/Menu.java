@@ -1,26 +1,25 @@
 package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import de.cubeisland.games.ColorDefense;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static de.cubeisland.games.util.VectorUtil.zero;
 
 public class Menu extends Container {
 
     private MenuTitle title;
-    private final ArrayList<MenuItem> items;
+    private final List<MenuItem> items;
     private final Vector3 touchPoint = Vector3.Zero;
     private final BitmapFont font, titleFont;
 
-    public Menu(MenuTitle title, Vector2 position, ArrayList<MenuItem> items, Alignment alignment, Vector2 padding, BitmapFont font, BitmapFont titleFont) {
+    public Menu(MenuTitle title, Vector2 position, List<MenuItem> items, Alignment alignment, Vector2 padding, BitmapFont font, BitmapFont titleFont) {
         super(ElementType.MENU, alignment, padding);
         setPosition(position);
         this.items = items;
@@ -48,8 +47,8 @@ public class Menu extends Container {
         // Render Title
         title.render(game, delta);
         // Render Items
-        for (int i = 0; i < items.size(); i++) {
-            items.get(i).render(game, delta);
+        for (MenuItem item : items) {
+            item.render(game, delta);
             /* DEBUG */
             //game.batch.end();
             //ShapeRenderer shapes = new ShapeRenderer();
@@ -66,10 +65,12 @@ public class Menu extends Container {
         //FPS-Counter: options.getFont().draw(game.batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 10, 10);
 
         if (Gdx.input.justTouched()) {
-            game.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0)); // Translate the touched point to coordinates
-            for (int i = 0; i < items.size(); i++) {
-                if (items.get(i).getHitbox().contains(touchPoint.x, touchPoint.y)) {
-                    items.get(i).listener.onItemClicked(items.get(i), new Vector2(touchPoint.x, touchPoint.y));
+            // Translate the touched point to coordinates
+            game.getCamera().unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+            for (MenuItem item : items) {
+                if (item.getHitbox().contains(touchPoint.x, touchPoint.y)) {
+                    item.listener.onItemClicked(item, new Vector2(touchPoint.x, touchPoint.y));
                     break;
                 }
             }
@@ -77,16 +78,19 @@ public class Menu extends Container {
     }
 
     private Vector2 getPosOfItem(MenuItem item, int i) {
-        float x = getPosition().x, y = getPosition().y + getHeight() - title.getHeight();
+        float x;
+        float y = getPosition().y + getHeight() - title.getHeight();
+
         switch (getAlignment()) {
-            case LEFT:
-                x = getPosition().x;
-                break;
             case CENTER:
                 x = getPosition().x + (getMaxWidth() / 2 - item.getWidth() / 2);
                 break;
             case RIGHT:
                 x = getPosition().x + getMaxWidth() - item.getWidth();
+                break;
+            case LEFT:
+            default:
+                x = getPosition().x;
                 break;
         }
         for (int h = 0; h < i; h++) {
@@ -182,7 +186,7 @@ public class Menu extends Container {
     public static class Builder {
         private MenuTitle title = null;
         private Vector2 position = zero();
-        private ArrayList<MenuItem> items = new ArrayList<>();
+        private List<MenuItem> items = new ArrayList<>();
         private Alignment alignment = Alignment.CENTER;
         private Vector2 padding = zero();
         private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf"));

@@ -30,7 +30,7 @@ public class Clickable extends Element {
     }
 
     public void render(ColorDefense game, float delta) {
-        options.getFont().draw(game.batch, getText(), Math.round(getPosition().x + options.getPadding().x), Math.round(getPosition().y - options.getPadding().y));
+        options.getFont().draw(game.getBatch(), getText(), Math.round(getPosition().x + options.getPadding().x), Math.round(getPosition().y - options.getPadding().y));
     }
 
     @Override

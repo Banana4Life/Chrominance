@@ -13,9 +13,11 @@ import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.DummyWaveGenerator;
-import de.cubeisland.games.wave.Wave;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class Level extends ComponentHolder<Level> {
     private final List<Entity> entities;
@@ -24,7 +26,6 @@ public class Level extends ComponentHolder<Level> {
     private final Map map;
 
     private EntityFactory entityFactory;
-    private Wave currentWave;
 
     public Level(FileHandle fileHandle) {
         this.entityFactory = new EntityFactory(this);
@@ -90,6 +91,7 @@ public class Level extends ComponentHolder<Level> {
             e.update(tickPhase, delta);
             if (!e.isAlive()) {
                 it.remove();
+                System.out.println("Entity removed!");
             }
         }
     }

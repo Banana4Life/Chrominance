@@ -14,7 +14,7 @@ public class MenuTitle extends MenuItem {
     }
 
     public void render(ColorDefense game, float delta) {
-        options.getTitleFont().draw(game.batch, getText(), Math.round(getPosition().x + options.getPadding().x), Math.round(getPosition().y - options.getPadding().y));
+        options.getTitleFont().draw(game.getBatch(), getText(), Math.round(getPosition().x + options.getPadding().x), Math.round(getPosition().y - options.getPadding().y));
     }
 
     public float getWidth() {

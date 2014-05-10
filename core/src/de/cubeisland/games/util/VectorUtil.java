@@ -4,6 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class VectorUtil {
 
+    private VectorUtil() {
+    }
+
     public static Vector2 zero() {
         return new Vector2(0, 0);
     }

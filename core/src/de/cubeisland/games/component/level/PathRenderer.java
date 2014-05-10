@@ -1,7 +1,5 @@
 package de.cubeisland.games.component.level;
 
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.cubeisland.games.component.After;
@@ -10,6 +8,8 @@ import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.level.Node;
 import de.cubeisland.games.level.Path;
+
+import java.util.List;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static de.cubeisland.games.component.TickPhase.RENDERING;

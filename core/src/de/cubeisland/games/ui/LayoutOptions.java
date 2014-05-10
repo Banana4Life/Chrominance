@@ -29,7 +29,9 @@ public class LayoutOptions {
         return font;
     }
 
-    public BitmapFont getTitleFont() { return titleFont; }
+    public BitmapFont getTitleFont() {
+        return titleFont;
+    }
 
     public Vector2 getPadding() {
         return padding;

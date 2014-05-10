@@ -9,11 +9,12 @@ import de.cubeisland.games.screen.MenuScreen;
 
 public class ColorDefense extends Game {
 
-    public SpriteBatch batch;
-    public BitmapFont font;
-    public OrthographicCamera camera;
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private OrthographicCamera camera;
 
-        public void create() {
+    @Override
+    public void create() {
         batch = new SpriteBatch();
         //Use LibGDX's default Arial font.
         font = new BitmapFont();
@@ -22,20 +23,27 @@ public class ColorDefense extends Game {
         this.setScreen(new MenuScreen(this));
     }
 
-    public void render() {
-        super.render(); //important!
-    }
-
+    @Override
     public void dispose() {
         batch.dispose();
         font.dispose();
     }
 
+    @Override
     public void resize(int width, int height) {
         super.resize(width, height);
         camera.setToOrtho(false, width, height);
     }
 
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 
+    public BitmapFont getFont() {
+        return font;
+    }
 
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
 }

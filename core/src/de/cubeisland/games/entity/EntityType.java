@@ -9,7 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class EntityType {
     private final List<Class<? extends Component<Entity>>> components = new CopyOnWriteArrayList<>();
 
-    {
+    protected EntityType() {
         this.add(GarbageCollector.class);
     }
 
