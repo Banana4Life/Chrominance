@@ -1,19 +1,22 @@
 package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Color;
-import de.cubeisland.games.component.entity.PathFollower;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
 
-public class Runner extends Enemy {
+public class Bullet extends Projectile {
+
     @Override
     protected void onInitialize(Entity e) {
         super.onInitialize(e);
 
         e.get(Render.class)
-                .setColor(Color.DARK_GRAY)
-                .setRadius(10);
-        e.get(PathFollower.class)
-                .setSpeed(80);
+                .setColor(Color.YELLOW)
+                .setRadius(4);
+    }
+
+    @Override
+    public float launchSpeed() {
+        return 100;
     }
 }

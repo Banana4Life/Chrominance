@@ -62,7 +62,7 @@ public class PathFollower extends Component<Entity> {
         Node next = this.path.getNodes().get(++this.nodeNumber);
 
         Vector2 v = next.getLocation().cpy().sub(current.getLocation());
-        v.scl(1f/v.len()).scl(this.speed);
+        v.nor().scl(this.speed);
         getOwner().setVelocity(v);
 
         this.currentTarget = next;

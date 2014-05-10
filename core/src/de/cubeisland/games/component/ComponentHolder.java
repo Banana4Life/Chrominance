@@ -90,7 +90,7 @@ public class ComponentHolder<T extends ComponentHolder<T>> {
         }
     }
 
-    public boolean has(Class<Component<T>> componentClass) {
+    public <C extends Component<T>> boolean has(Class<C> componentClass) {
         return this.get(componentClass) != null;
     }
 }

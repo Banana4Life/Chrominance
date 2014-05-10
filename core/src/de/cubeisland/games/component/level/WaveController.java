@@ -53,8 +53,7 @@ public class WaveController extends Component<Level> {
                 Vector2 spawnLoc = path.getSpawn().getLocation();
                 getOwner().spawn(entity, spawnLoc);
                 entity.setVelocity(zero());
-                entity.get(Render.class).setColor(Color.DARK_GRAY);
-                entity.get(PathFollower.class).setPath(path).setSpeed(80);
+                entity.get(PathFollower.class).setPath(path);
             }
         }
     }

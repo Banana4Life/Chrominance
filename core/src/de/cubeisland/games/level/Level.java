@@ -15,13 +15,11 @@ import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.DummyWaveGenerator;
 import de.cubeisland.games.wave.Wave;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Level extends ComponentHolder<Level> {
     private final List<Entity> entities;
+    private final List<Entity> spawnQueue;
 
     private final Map map;
 
@@ -29,8 +27,9 @@ public class Level extends ComponentHolder<Level> {
     private Wave currentWave;
 
     public Level(FileHandle fileHandle) {
-        this.entityFactory = new EntityFactory();
+        this.entityFactory = new EntityFactory(this);
         this.entities = new ArrayList<>();
+        this.spawnQueue = new ArrayList<>();
 
         this.attach(PathRenderer.class);
         this.attach(GridRenderer.class);
@@ -54,7 +53,8 @@ public class Level extends ComponentHolder<Level> {
 
     public Entity spawn(Entity e, Vector2 location) {
         e.setLocation(location);
-        this.entities.add(e);
+        e.initialize();
+        this.spawnQueue.add(e);
         return e;
     }
 
@@ -80,6 +80,9 @@ public class Level extends ComponentHolder<Level> {
     }
 
     private void updateEntities(TickPhase tickPhase, float delta) {
+        this.entities.addAll(this.spawnQueue);
+        this.spawnQueue.clear();
+
         Entity e;
         Iterator<Entity> it = this.entities.iterator();
         while (it.hasNext()) {
