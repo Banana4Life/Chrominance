@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 
+import static de.cubeisland.games.util.VectorUtil.zero;
+
 
 public class LayoutOptions {
 
@@ -38,7 +40,7 @@ public class LayoutOptions {
         private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf"));
         private BitmapFont font = generator.generateFont(40);
         private BitmapFont titleFont = generator.generateFont(60);
-        private Vector2    padding = Vector2.Zero.cpy();
+        private Vector2    padding = zero();
 
         public Builder() {
             generator.dispose();

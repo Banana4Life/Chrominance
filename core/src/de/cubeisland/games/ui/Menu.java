@@ -11,6 +11,8 @@ import de.cubeisland.games.ColorDefense;
 
 import java.util.ArrayList;
 
+import static de.cubeisland.games.util.VectorUtil.zero;
+
 public class Menu extends Container {
 
     private MenuTitle title;
@@ -179,10 +181,10 @@ public class Menu extends Container {
 
     public static class Builder {
         private MenuTitle title = null;
-        private Vector2 position = Vector2.Zero.cpy();
-        private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
+        private Vector2 position = zero();
+        private ArrayList<MenuItem> items = new ArrayList<>();
         private Alignment alignment = Alignment.CENTER;
-        private Vector2 padding = Vector2.Zero.cpy();
+        private Vector2 padding = zero();
         private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf"));
         private BitmapFont font = generator.generateFont(40);
         private BitmapFont titleFont = generator.generateFont(60);

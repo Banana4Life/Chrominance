@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
+import de.cubeisland.games.component.entity.PathFollower;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.level.Level;
@@ -14,6 +15,7 @@ import de.cubeisland.games.wave.Wave;
 import de.cubeisland.games.wave.WaveGenerator;
 
 import static de.cubeisland.games.component.TickPhase.BEGIN;
+import static de.cubeisland.games.util.VectorUtil.zero;
 
 @Phase(BEGIN)
 public class WaveController extends Component<Level> {
@@ -50,10 +52,9 @@ public class WaveController extends Component<Level> {
                 Path path = map.getRandomPath();
                 Vector2 spawnLoc = path.getSpawn().getLocation();
                 getOwner().spawn(entity, spawnLoc);
-                entity
-                    .setVelocity(path.getTarget().getLocation().cpy().sub(spawnLoc).scl(1f/10f))
-                    .get(Render.class)
-                        .setColor(Color.DARK_GRAY);
+                entity.setVelocity(zero());
+                entity.get(Render.class).setColor(Color.DARK_GRAY);
+                entity.get(PathFollower.class).setPath(path);
             }
         }
     }

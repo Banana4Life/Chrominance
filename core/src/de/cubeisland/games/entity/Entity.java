@@ -3,10 +3,12 @@ package de.cubeisland.games.entity;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.ComponentHolder;
 
+import static de.cubeisland.games.util.VectorUtil.zero;
+
 public final class Entity extends ComponentHolder<Entity> {
     private EntityType type;
-    private Vector2 location = Vector2.Zero.cpy();
-    private Vector2 velocity = Vector2.Zero.cpy();
+    private Vector2 location = zero();
+    private Vector2 velocity = zero();
     private boolean alive = true;
 
     public Entity(EntityType type) {

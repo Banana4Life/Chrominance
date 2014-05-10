@@ -3,6 +3,8 @@ package de.cubeisland.games.ui;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
 
+import static de.cubeisland.games.util.VectorUtil.zero;
+
 public class Element {
 
     public static enum ElementType {
@@ -26,7 +28,7 @@ public class Element {
     }
 
     public Element(ElementType type, Alignment alignment) {
-        this(type, alignment, Vector2.Zero.cpy());
+        this(type, alignment, zero());
     }
 
     public Element(ElementType type, Vector2 padding) {
@@ -34,7 +36,7 @@ public class Element {
     }
 
     public Element(ElementType type) {
-        this(type, Alignment.CENTER, Vector2.Zero.cpy());
+        this(type, Alignment.CENTER, zero());
     }
 
     public ElementType getType() {
