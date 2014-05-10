@@ -179,10 +179,10 @@ public class Menu extends Container {
 
     public static class Builder {
         private MenuTitle title = null;
-        private Vector2 position = Vector2.Zero;
+        private Vector2 position = Vector2.Zero.cpy();
         private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
         private Alignment alignment = Alignment.CENTER;
-        private Vector2 padding = Vector2.Zero;
+        private Vector2 padding = Vector2.Zero.cpy();
         private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf"));
         private BitmapFont font = generator.generateFont(40);
         private BitmapFont titleFont = generator.generateFont(60);

@@ -38,7 +38,7 @@ public class LayoutOptions {
         private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf"));
         private BitmapFont font = generator.generateFont(40);
         private BitmapFont titleFont = generator.generateFont(60);
-        private Vector2    padding = Vector2.Zero;
+        private Vector2    padding = Vector2.Zero.cpy();
 
         public Builder() {
             generator.dispose();

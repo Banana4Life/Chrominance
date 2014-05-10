@@ -26,7 +26,7 @@ public class Element {
     }
 
     public Element(ElementType type, Alignment alignment) {
-        this(type, alignment, Vector2.Zero);
+        this(type, alignment, Vector2.Zero.cpy());
     }
 
     public Element(ElementType type, Vector2 padding) {
@@ -34,7 +34,7 @@ public class Element {
     }
 
     public Element(ElementType type) {
-        this(type, Alignment.CENTER, Vector2.Zero);
+        this(type, Alignment.CENTER, Vector2.Zero.cpy());
     }
 
     public ElementType getType() {
