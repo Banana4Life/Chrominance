@@ -4,7 +4,7 @@ package de.cubeisland.games.component;
  *
  * @param <T> the type of the component holder for type safety
  */
-public abstract class Component<T extends ComponentHolder> implements Comparable<Component<?>> {
+public abstract class Component<T extends ComponentHolder<T>> implements Comparable<Component<?>> {
     private T owner;
     private Class<? extends Component<?>> before;
     private Class<? extends Component<?>> after;

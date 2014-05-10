@@ -1,30 +1,28 @@
 package de.cubeisland.games.level;
 
-        import com.badlogic.gdx.math.Matrix3;
-        import com.badlogic.gdx.math.Vector2;
-
-        import java.util.ArrayList;
-        import java.util.Collections;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Path {
     private final List<Node> nodes;
     private final Node spawn;
     private final Node target;
 
-    public Path(List<Node> nodes, float scale) {
+    public Path(Map map, List<Node> nodes) {
         this.nodes = new ArrayList<>();
         for (Node node : nodes) {
-            this.nodes.add(new Node(node.getLocation().cpy().scl(scale)));
+            this.nodes.add(new Node(map.scale(node.getLocation())));
         }
 
-        this.spawn = nodes.get(0);
-        this.target = nodes.get(nodes.size() - 1);
+        this.spawn = this.nodes.get(0);
+        this.target = this.nodes.get(nodes.size() - 1);
     }
 
     public List<Node> getNodes() {
         return nodes;
     }
+
+
 
     public Node getSpawn() {
         return spawn;
