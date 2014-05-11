@@ -3,6 +3,8 @@ package de.cubeisland.games.entity;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.level.Level;
 
+import java.util.UUID;
+
 public class EntityFactory {
     private final Level level;
 
@@ -11,7 +13,7 @@ public class EntityFactory {
     }
 
     public Entity createEntity(EntityType type) {
-        Entity entity = new Entity(type, level);
+        Entity entity = new Entity(UUID.randomUUID(), type, level);
 
         for (Class<? extends Component<Entity>> entry : type.getComponents()) {
             entity.attach(entry);

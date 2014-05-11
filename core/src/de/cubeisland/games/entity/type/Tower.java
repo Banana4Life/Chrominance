@@ -8,6 +8,7 @@ import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.entity.EntityTypes;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Tower extends EntityType {
@@ -24,8 +25,8 @@ public class Tower extends EntityType {
         e.get(Render.class)
                 .setRadius(20);
         e.get(ProjectileLauncher.class)
-                .setCooldown(1, SECONDS)
-                .setTargetRange(120)
+                .setCooldown(1500, MILLISECONDS)
+                .setTargetRange(100)
                 .setProjectile(EntityTypes.BULLET);
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)

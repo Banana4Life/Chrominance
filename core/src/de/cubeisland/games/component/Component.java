@@ -8,7 +8,7 @@ import de.cubeisland.games.component.event.MethodEventHandler;
  *
  * @param <T> the type of the component holder for type safety
  */
-public abstract class Component<T extends ComponentHolder<T>> implements Comparable<Component<?>> {
+public abstract class Component<T extends ComponentHolder<T>> {
     private T owner;
     private final Class<? extends Component<?>> before;
     private final Class<? extends Component<?>> after;
@@ -85,6 +85,9 @@ public abstract class Component<T extends ComponentHolder<T>> implements Compara
         if (before != null ? !before.equals(component.before) : component.before != null) {
             return false;
         }
+        if (!owner.equals(component.owner)) {
+            return false;
+        }
         if (tickPhase != component.tickPhase) {
             return false;
         }
@@ -94,26 +97,22 @@ public abstract class Component<T extends ComponentHolder<T>> implements Compara
 
     @Override
     public int hashCode() {
-        int result = before != null ? before.hashCode() : 0;
+        int result = owner.hashCode();
+        result = 31 * result + (before != null ? before.hashCode() : 0);
         result = 31 * result + (after != null ? after.hashCode() : 0);
         result = 31 * result + tickPhase.hashCode();
         return result;
     }
 
-    @Override
-    public int compareTo(Component<?> o) {
-        if (this.before == o.getClass() || o.after == this.getClass())
-        {
-            return -1;
-        }
-        else if (this.after == o.getClass() || o.before == this.getClass())
-        {
-            return 1;
-        }
-        return 0;
-    }
-
     public final boolean shouldTick(TickPhase currentPhase) {
         return this.tickPhase == currentPhase;
+    }
+
+    public Class<? extends Component<?>> getBefore() {
+        return before;
+    }
+
+    public Class<? extends Component<?>> getAfter() {
+        return after;
     }
 }

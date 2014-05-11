@@ -6,5 +6,6 @@ package de.cubeisland.games.component;
 public enum TickPhase {
     BEGIN,
     MOVEMENT,
+    POST_COLLISION,
     RENDERING;
 }

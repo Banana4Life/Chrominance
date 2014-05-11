@@ -1,6 +1,10 @@
 package de.cubeisland.games.entity;
 
+import de.cubeisland.games.collision.CollisionSource;
+import de.cubeisland.games.collision.CollisionTarget;
 import de.cubeisland.games.component.Component;
+import de.cubeisland.games.component.entity.Collidable;
+import de.cubeisland.games.component.entity.Collider;
 import de.cubeisland.games.component.entity.GarbageCollector;
 
 import java.util.List;
@@ -10,7 +14,14 @@ public abstract class EntityType {
     private final List<Class<? extends Component<Entity>>> components = new CopyOnWriteArrayList<>();
 
     protected EntityType() {
-        this.add(GarbageCollector.class);
+        add(GarbageCollector.class);
+
+        if (this instanceof CollisionSource) {
+            add(Collider.class);
+        }
+        if (this instanceof CollisionTarget) {
+            add(Collidable.class);
+        }
     }
 
     protected final void add(Class<? extends Component<Entity>> component) {

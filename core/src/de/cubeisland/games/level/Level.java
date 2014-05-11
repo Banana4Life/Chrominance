@@ -2,6 +2,8 @@ package de.cubeisland.games.level;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.collision.CollisionDetector;
 import de.cubeisland.games.component.ComponentHolder;
 import de.cubeisland.games.component.TickPhase;
 import de.cubeisland.games.component.level.GridRenderer;
@@ -24,13 +26,17 @@ public class Level extends ComponentHolder<Level> {
     private final List<Entity> spawnQueue;
 
     private final Map map;
+    private final ColorDefense game;
 
-    private EntityFactory entityFactory;
+    private final EntityFactory entityFactory;
+    private final CollisionDetector collisionDetector;
 
-    public Level(FileHandle fileHandle) {
+    public Level(ColorDefense game, FileHandle fileHandle) {
+        this.game = game;
         this.entityFactory = new EntityFactory(this);
         this.entities = new ArrayList<>();
         this.spawnQueue = new ArrayList<>();
+        this.collisionDetector = new CollisionDetector(this);
 
         this.attach(PathRenderer.class);
         this.attach(GridRenderer.class);
@@ -43,7 +49,9 @@ public class Level extends ComponentHolder<Level> {
     }
 
     public List<Entity> getEntities() {
-        return Collections.unmodifiableList(this.entities);
+        List<Entity> copy = new ArrayList<>(this.entities);
+        copy.addAll(this.spawnQueue);
+        return copy;
     }
 
     private void spawnTowers() {
@@ -66,6 +74,10 @@ public class Level extends ComponentHolder<Level> {
 
     public void update(float delta) {
         for (TickPhase phase : TickPhase.values()) {
+            switch (phase) {
+                case POST_COLLISION:
+                    collisionDetector.collide();
+            }
             this.update(phase, delta);
         }
     }
@@ -91,7 +103,7 @@ public class Level extends ComponentHolder<Level> {
             e.update(tickPhase, delta);
             if (!e.isAlive()) {
                 it.remove();
-                System.out.println("Entity removed!");
+                //System.out.println("Entity removed!");
             }
         }
     }
@@ -104,5 +116,9 @@ public class Level extends ComponentHolder<Level> {
     public EntityFactory getEntityFactory()
     {
         return entityFactory;
+    }
+
+    public ColorDefense getGame() {
+        return game;
     }
 }

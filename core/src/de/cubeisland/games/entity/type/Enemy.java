@@ -1,14 +1,12 @@
 package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Color;
+import de.cubeisland.games.collision.CollisionTarget;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
-import de.cubeisland.games.entity.EntityTypes;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-public abstract class Enemy extends EntityType {
+public abstract class Enemy extends EntityType implements CollisionTarget {
     public Enemy() {
         add(PathFollower.class);
         add(Move.class);

@@ -10,6 +10,7 @@ public class ComponentHolder<T extends ComponentHolder<T>> {
     private final List<Component<T>> components = new ArrayList<>();
     private final Map<Class<? extends Event>, Set<EventHandler<Event>>> eventHandlers = new HashMap<>();
     protected static final Map<Class<? extends Component<?>>, Constructor<? extends Component<?>>> CONSTRUCTOR_CACHE = new HashMap<>();
+    private static final ComponentComparator COMPARATOR = new ComponentComparator();
 
     public void emit(Component sender, Event event) {
         Set<EventHandler<Event>> handlers = this.eventHandlers.get(event.getClass());
@@ -41,7 +42,7 @@ public class ComponentHolder<T extends ComponentHolder<T>> {
         C component = this.createComponent(componentClass);
         this.components.add(component);
         component.onAttach();
-        Collections.sort(this.components);
+        Collections.sort(this.components, COMPARATOR);
         return component;
     }
 
@@ -92,5 +93,17 @@ public class ComponentHolder<T extends ComponentHolder<T>> {
 
     public <C extends Component<T>> boolean has(Class<C> componentClass) {
         return this.get(componentClass) != null;
+    }
+
+    private static final class ComponentComparator implements Comparator<Component<?>> {
+        @Override
+        public int compare(Component<?> a, Component<?> b) {
+            if (a.getBefore() == b.getClass() || b.getAfter() == a.getClass()) {
+                return -1;
+            } else if (a.getAfter() == b.getClass() || b.getBefore() == a.getClass()) {
+                return 1;
+            }
+            return 0;
+        }
     }
 }
