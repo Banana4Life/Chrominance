@@ -25,7 +25,7 @@ public class Tower extends EntityType {
                 .setRadius(20);
         e.get(ProjectileLauncher.class)
                 .setCooldown(1, SECONDS)
-                .setTargetRange(80)
+                .setTargetRange(120)
                 .setProjectile(EntityTypes.BULLET);
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)

@@ -1,7 +1,6 @@
 package de.cubeisland.games.wave;
 
 import de.cubeisland.games.component.entity.ColorContainer;
-import de.cubeisland.games.component.entity.Health;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
 import de.cubeisland.games.entity.EntityTypes;

@@ -46,11 +46,6 @@ public class PathRenderer extends Component<Level>
 
                 lastNode = currNode;
             }
-
-            sr.setColor(Color.CYAN);
-            sr.begin(Line);
-            sr.line(path.getSpawn().getLocation(), path.getTarget().getLocation());
-            sr.end();
         }
     }
 }
