@@ -1,5 +1,6 @@
 package de.cubeisland.games.wave;
 
+import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.Health;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
@@ -14,7 +15,7 @@ public class DummyWaveGenerator implements WaveGenerator {
         List<Entity> entities = new ArrayList<>(waveNumber);
         for (int i = 0; i < waveNumber; ++i) {
             Entity e = entityFactory.createEntity(EntityTypes.RUNNER);
-            e.get(Health.class).setHealth(100 * (1 + waveNumber / 10));
+            e.get(ColorContainer.class).setAmount(100 * (1 + waveNumber / 10));
 
             entities.add(e);
         }

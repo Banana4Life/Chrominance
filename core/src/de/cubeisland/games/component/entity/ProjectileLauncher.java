@@ -22,12 +22,17 @@ public class ProjectileLauncher extends Component<Entity> {
             return;
         }
 
+        if (!getOwner().has(ColorContainer.class)) {
+            return;
+        }
+
         Vector2 loc = getOwner().getLocation().cpy();
 
         Entity target = this.findNearestTarget(loc);
         if (target != null) {
             Vector2 v = this.calculateVelocity(loc, target, this.projectile.launchSpeed());
-            getOwner().getLevel().spawn(this.projectile, loc).setVelocity(v);
+            getOwner().getLevel().spawn(this.projectile, loc).setVelocity(v).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
+            getOwner().get(ColorContainer.class).shoot();
             this.lastFired = System.currentTimeMillis();
         }
     }
@@ -41,10 +46,12 @@ public class ProjectileLauncher extends Component<Entity> {
         Entity nearestEntity = null;
         for (Entity e : getOwner().getLevel().getEntities()) {
             if (e.getType() instanceof Enemy) {
-                float distanceSquared = loc.cpy().sub(e.getLocation()).len2();
-                if (distanceSquared < this.targetRangeSquared && distanceSquared < smallestDistance) {
-                    smallestDistance = distanceSquared;
-                    nearestEntity = e;
+                if (e.get(ColorContainer.class).getColor() == getOwner().get(ColorContainer.class).getColor()) {
+                    float distanceSquared = loc.cpy().sub(e.getLocation()).len2();
+                    if (distanceSquared < this.targetRangeSquared && distanceSquared < smallestDistance) {
+                        smallestDistance = distanceSquared;
+                        nearestEntity = e;
+                    }
                 }
             }
         }

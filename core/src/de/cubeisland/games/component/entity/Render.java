@@ -23,6 +23,10 @@ public class Render extends Component<Entity>
 
         final Vector2 loc = getOwner().getLocation();
 
+        if (getOwner().has(ColorContainer.class)) {
+            this.color = getOwner().get(ColorContainer.class).getColor();
+        }
+
         this.sr.begin(Filled);
         this.sr.setColor(this.color);
         this.sr.circle(loc.x, loc.y, radius);

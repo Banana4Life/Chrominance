@@ -11,7 +11,6 @@ public class Bullet extends Projectile {
         super.onInitialize(e);
 
         e.get(Render.class)
-                .setColor(Color.YELLOW)
                 .setRadius(4);
     }
 
