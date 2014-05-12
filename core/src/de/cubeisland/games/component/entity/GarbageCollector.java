@@ -17,11 +17,11 @@ public class GarbageCollector extends Component<Entity> {
     public void update(float delta) {
         Vector2 loc = getOwner().getLocation().cpy();
 
-        if (loc.x < -100 || loc.x > Gdx.graphics.getWidth() + 10) {
+        if (loc.x < -10 || loc.x > Gdx.graphics.getWidth() + 10) {
             getOwner().die();
         }
 
-        if (loc.y < -100 || loc.x > Gdx.graphics.getHeight() + 10) {
+        if (loc.y < -10 || loc.y > Gdx.graphics.getHeight() + 10) {
             getOwner().die();
         }
     }
