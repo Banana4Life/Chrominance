@@ -43,5 +43,6 @@ public class ColorContainer extends Component<Entity> {
         if (amount > 0) {
             return true;
         }
+        return false;
     }
 }
