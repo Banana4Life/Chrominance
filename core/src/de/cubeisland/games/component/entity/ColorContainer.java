@@ -32,6 +32,16 @@ public class ColorContainer extends Component<Entity> {
     }
 
     public void shoot() {
-        this.amount--;
+        if (amount > 0) {
+            this.amount--;
+            if (amount == 0) {
+                color = Color.LIGHT_GRAY;
+            }
+        }
+    }
+    public boolean hasShots() {
+        if (amount > 0) {
+            return true;
+        }
     }
 }
