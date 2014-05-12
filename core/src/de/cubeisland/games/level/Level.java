@@ -80,6 +80,14 @@ public class Level extends ComponentHolder<Level> {
             }
             this.update(phase, delta);
         }
+
+        Iterator<Entity> it = this.entities.iterator();
+        while (it.hasNext()) {
+            if (!it.next().isAlive()) {
+                it.remove();
+                //System.out.println("Entity removed!");
+            }
+        }
     }
 
     @Override
@@ -96,15 +104,8 @@ public class Level extends ComponentHolder<Level> {
         this.entities.addAll(this.spawnQueue);
         this.spawnQueue.clear();
 
-        Entity e;
-        Iterator<Entity> it = this.entities.iterator();
-        while (it.hasNext()) {
-            e = it.next();
-            e.update(tickPhase, delta);
-            if (!e.isAlive()) {
-                it.remove();
-                //System.out.println("Entity removed!");
-            }
+        for (Entity entity : this.entities) {
+            entity.update(tickPhase, delta);
         }
     }
 
