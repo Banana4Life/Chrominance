@@ -5,10 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
-import de.cubeisland.games.ui.Element;
-import de.cubeisland.games.ui.Menu;
-import de.cubeisland.games.ui.MenuItem;
-import de.cubeisland.games.ui.OnClickListener;
+import de.cubeisland.games.ui.*;
 
 public class MenuScreen extends ScreenAdapter {
 
@@ -21,7 +18,7 @@ public class MenuScreen extends ScreenAdapter {
         menu.setTitle("Color Defense");
         menu.add(menu.createItem("Start", new OnClickListener() {
             @Override
-            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
@@ -31,7 +28,7 @@ public class MenuScreen extends ScreenAdapter {
 
         menu.add(menu.createItem("Exit", new OnClickListener() {
             @Override
-            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
                 Gdx.app.exit();
             }
         }));

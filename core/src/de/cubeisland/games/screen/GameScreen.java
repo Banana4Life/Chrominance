@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ColorDefense;
 import de.cubeisland.games.level.Level;
-import de.cubeisland.games.ui.Element;
-import de.cubeisland.games.ui.Menu;
-import de.cubeisland.games.ui.MenuItem;
-import de.cubeisland.games.ui.OnClickListener;
+import de.cubeisland.games.ui.*;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -30,19 +27,19 @@ public class GameScreen extends ScreenAdapter {
         pauseMenu.setTitle("Pause");
         pauseMenu.add(pauseMenu.createItem("Continue", new OnClickListener() {
             @Override
-            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
                 unpauseGame();
             }
         }));
         pauseMenu.add(pauseMenu.createItem("Options", new OnClickListener() {
             @Override
-            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
                 System.out.println("Something different happened...");
             }
         }));
         pauseMenu.add(pauseMenu.createItem("Exit to main menu", new OnClickListener() {
             @Override
-            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
                 game.setScreen(new MenuScreen(game));
                 dispose();
             }

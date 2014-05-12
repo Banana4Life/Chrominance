@@ -8,29 +8,36 @@ import de.cubeisland.games.ColorDefense;
 public class Clickable extends Element {
 
     protected final LayoutOptions options;
-    protected final String text;
     protected Rectangle hitbox;
     public final OnClickListener listener;
+    private final float width, height;
 
 
-    public Clickable(LayoutOptions parent, String text) {
-        this(ElementType.BUTTON, parent, text, new OnClickListener() {
+    public Clickable(LayoutOptions options, float width, float height) {
+        this(ElementType.BUTTON, options, width, height, new OnClickListener() {
             @Override
-            public void onItemClicked(MenuItem item, Vector2 touchPoint) {
-                System.out.println("MenuItem \"" + item.getText() + "\" was clicked");
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
+                // TODO Remove default code
+                System.out.println("No InputListener was defined");
+            }
+        });
+    }
+    public Clickable(ElementType type, LayoutOptions options, float width, float height) {
+        this(type, options, width, height, new OnClickListener() {
+            @Override
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
+                // TODO Remove default code
+                System.out.println("No InputListener was defined");
             }
         });
     }
 
-    public Clickable(ElementType type, LayoutOptions options, String text, OnClickListener listener) {
+    public Clickable(ElementType type, LayoutOptions options, float width, float height, OnClickListener listener) {
         super(type);
         this.options = options;
-        this.text = text;
+        this.width = width;
+        this.height = height;
         this.listener = listener;
-    }
-
-    public void render(ColorDefense game, float delta) {
-        options.getFont().draw(game.getBatch(), getText(), Math.round(getPosition().x + options.getPadding().x), Math.round(getPosition().y - options.getPadding().y));
     }
 
     @Override
@@ -48,16 +55,12 @@ public class Clickable extends Element {
         return options;
     }
 
-    public String getText() {
-        return text;
-    }
-
     public float getWidth() {
         return getContentWidth() + 2 * options.getPadding().x;
     }
 
     public float getContentWidth() {
-        return options.getFont().getBounds(getText()).width;
+        return this.width;
     }
 
     public float getHeight() {
@@ -65,7 +68,7 @@ public class Clickable extends Element {
     }
 
     public float getContentHeight() {
-        return options.getFont().getBounds(getText()).height;
+        return this.height;
     }
 
 }
