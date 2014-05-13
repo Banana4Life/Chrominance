@@ -8,9 +8,7 @@ import de.cubeisland.games.entity.Entity;
 
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
-/**
- * Created by jonas on 11.05.14.
- */
+
 @Phase(RENDERING)
 public class PaletteRenderer extends Component<Entity> {
     private final ShapeRenderer sr = new ShapeRenderer();
