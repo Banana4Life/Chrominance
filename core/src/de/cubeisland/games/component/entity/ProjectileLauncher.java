@@ -54,7 +54,6 @@ public class ProjectileLauncher extends Component<Entity> {
                     if (distanceSquared < this.targetRangeSquared && distanceSquared < smallestDistance) {
                         smallestDistance = distanceSquared;
                         nearestEntity = e;
-                        break; // Added break to stop the loop after first enemy
                     }
                 }
             }
