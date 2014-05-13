@@ -47,7 +47,9 @@ public class ProjectileLauncher extends Component<Entity> {
         for (Entity e : getOwner().getLevel().getEntities()) {
             if (e.getType() instanceof Enemy) {
                 // TODO Check wheater the enemy contains the color and not exactly the color
-                if (e.get(ColorContainer.class).getColor() == getOwner().get(ColorContainer.class).getColor()) {
+                if ((e.get(ColorContainer.class).getColor().r > 0 && getOwner().get(ColorContainer.class).getColor().r > 0) ||
+                   (e.get(ColorContainer.class).getColor().g > 0 && getOwner().get(ColorContainer.class).getColor().g > 0) ||
+                   (e.get(ColorContainer.class).getColor().b > 0 && getOwner().get(ColorContainer.class).getColor().b > 0)) {
                     float distanceSquared = loc.cpy().sub(e.getLocation()).len2();
                     if (distanceSquared < this.targetRangeSquared && distanceSquared < smallestDistance) {
                         smallestDistance = distanceSquared;
