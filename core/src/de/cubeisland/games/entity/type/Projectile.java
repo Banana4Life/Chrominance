@@ -5,7 +5,10 @@ import de.cubeisland.games.component.entity.Move;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.EntityType;
 
+import java.awt.*;
+
 public abstract class Projectile extends EntityType {
+
     protected Projectile() {
         add(Render.class);
         add(Move.class);
@@ -13,4 +16,5 @@ public abstract class Projectile extends EntityType {
     }
 
     public abstract float launchSpeed();
+
 }
