@@ -39,10 +39,12 @@ public class ColorContainer extends Component<Entity> {
     public void shoot() {
         if (amount > 0) {
             this.amount--;
-            this.color.sub(this.colorStep);
-            //if (amount == 0) {
-                //color = Color.LIGHT_GRAY;
-            //}
+            //color.sub(this.colorStep);
+            color = getColor().cpy().sub(this.colorStep);
+            //color = new Color(getColor()).sub(this.colorStep); // This would work, but the towers stop shooting...
+            if (amount == 0) {
+                //color = new Color(getColor()).sub(this.colorStep);
+            }
         }
     }
     public boolean hasShots() {
