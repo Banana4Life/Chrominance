@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DummyWaveGenerator implements WaveGenerator {
+    private final Difficulty difficulty;
+
+    public DummyWaveGenerator(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
     @Override
     public Wave generate(EntityFactory entityFactory, int waveNumber, Difficulty difficulty) {
         List<Entity> entities = new ArrayList<>(waveNumber);
@@ -20,5 +26,9 @@ public class DummyWaveGenerator implements WaveGenerator {
         }
 
         return new Wave(waveNumber, entities);
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 }

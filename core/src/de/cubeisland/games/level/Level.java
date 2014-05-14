@@ -30,6 +30,7 @@ public class Level extends ComponentHolder<Level> {
 
     private final EntityFactory entityFactory;
     private final CollisionDetector collisionDetector;
+    private final Difficulty difficulty;
 
     private float saturation = 0f;
 
@@ -39,11 +40,12 @@ public class Level extends ComponentHolder<Level> {
         this.entities = new ArrayList<>();
         this.spawnQueue = new ArrayList<>();
         this.collisionDetector = new CollisionDetector(this);
+        this.difficulty = Difficulty.NORMAL;
 
         this.attach(PathRenderer.class);
         this.attach(GridRenderer.class);
         this.attach(WaveController.class)
-                .setGenerator(new DummyWaveGenerator())
+                .setGenerator(new DummyWaveGenerator(this.difficulty))
                 .setDifficulty(Difficulty.EASY);
 
         this.map = Map.load(fileHandle);
@@ -137,5 +139,9 @@ public class Level extends ComponentHolder<Level> {
 
     public ColorDefense getGame() {
         return game;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 }
