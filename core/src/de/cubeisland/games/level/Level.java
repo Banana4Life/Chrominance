@@ -31,7 +31,7 @@ public class Level extends ComponentHolder<Level> {
     private final EntityFactory entityFactory;
     private final CollisionDetector collisionDetector;
 
-    private float saturation = 0.0f;
+    private float saturation = 0f;
 
     public Level(ColorDefense game, FileHandle fileHandle) {
         this.game = game;
@@ -55,9 +55,13 @@ public class Level extends ComponentHolder<Level> {
     }
     public void setSaturation(float saturation) {
         this.saturation = saturation;
+        if (this.saturation < 0f) this.saturation = 0;
+        if (this.saturation > 1f) this.saturation = 1;
     }
     public void subSaturation(float amount) {
         this.saturation += amount;
+        if (saturation < 0f) saturation = 0;
+        if (saturation > 1f) saturation = 1;
     }
 
     public List<Entity> getEntities() {
