@@ -62,3 +62,6 @@ build/
 
 ## Windows
 Thumbs.db
+
+## OSX
+.DS_Store
