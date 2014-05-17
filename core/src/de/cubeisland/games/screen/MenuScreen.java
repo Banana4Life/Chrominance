@@ -4,15 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.ui.*;
 
 public class MenuScreen extends ScreenAdapter {
 
-    final ColorDefense game;
+    final Chrominance game;
     final Menu menu;
 
-    public MenuScreen(final ColorDefense game) {
+    public MenuScreen(final Chrominance game) {
         this.game = game;
         menu = new Menu.Builder().alignment(Element.Alignment.CENTER).padding(new Vector2(20, 10)).build();
         menu.setTitle("Color Defense");

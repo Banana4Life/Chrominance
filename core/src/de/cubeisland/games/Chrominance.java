@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.cubeisland.games.screen.MenuScreen;
 
-public class ColorDefense extends Game {
+public class Chrominance extends Game {
 
     private SpriteBatch batch;
     private BitmapFont font;

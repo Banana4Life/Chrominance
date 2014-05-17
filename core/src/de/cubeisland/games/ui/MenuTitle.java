@@ -1,6 +1,6 @@
 package de.cubeisland.games.ui;
 
-import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.Chrominance;
 
 
 public class MenuTitle extends MenuItem {
@@ -21,7 +21,7 @@ public class MenuTitle extends MenuItem {
         super(parent, options.getTitleFont().getBounds(text).width, options.getTitleFont().getBounds(text).height, text, listener);
     }
 
-    public void render(ColorDefense game, float delta) {
+    public void render(Chrominance game, float delta) {
         options.getTitleFont().draw(game.getBatch(), getText(), Math.round(getPosition().x + options.getPadding().x), Math.round(getPosition().y - options.getPadding().y));
     }
 

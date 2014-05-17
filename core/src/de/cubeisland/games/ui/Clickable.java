@@ -3,7 +3,6 @@ package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.ColorDefense;
 
 public class Clickable extends Element {
 

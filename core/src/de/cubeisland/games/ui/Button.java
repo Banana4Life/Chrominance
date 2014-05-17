@@ -1,7 +1,7 @@
 package de.cubeisland.games.ui;
 
 
-import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.Chrominance;
 
 public class Button extends Clickable {
 
@@ -31,7 +31,7 @@ public class Button extends Clickable {
         this.text = text;
     }
 
-    public void render(ColorDefense game, float delta) {
+    public void render(Chrominance game, float delta) {
         options.getFont().draw(game.getBatch(), getText(), Math.round(getPosition().x + options.getPadding().x), Math.round(getPosition().y - options.getPadding().y));
     }
 

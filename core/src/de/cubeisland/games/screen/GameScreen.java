@@ -6,17 +6,16 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.shaders.DefaultShader;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.ui.*;
 
 public class GameScreen extends ScreenAdapter {
 
-    private final ColorDefense game;
+    private final Chrominance game;
     private final ShapeRenderer shapes = new ShapeRenderer();
     private final ShaderProgram shader;
     private Level level;
@@ -24,7 +23,7 @@ public class GameScreen extends ScreenAdapter {
     private Menu pauseMenu;
     private Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
 
-    public GameScreen(final ColorDefense game) {
+    public GameScreen(final Chrominance game) {
         this.game = game;
 
         ShaderProgram.pedantic = false;

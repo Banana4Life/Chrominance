@@ -1,7 +1,7 @@
 package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.Chrominance;
 
 import static de.cubeisland.games.util.VectorUtil.zero;
 
@@ -59,7 +59,7 @@ public class Element {
         this.position = position;
     }
 
-    public void render(ColorDefense game, float delta) {
+    public void render(Chrominance game, float delta) {
 
     }
 }

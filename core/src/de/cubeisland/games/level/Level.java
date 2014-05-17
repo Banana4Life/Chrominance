@@ -2,7 +2,7 @@ package de.cubeisland.games.level;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.ColorDefense;
+import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.collision.CollisionDetector;
 import de.cubeisland.games.component.ComponentHolder;
 import de.cubeisland.games.component.TickPhase;
@@ -17,7 +17,6 @@ import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.DummyWaveGenerator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class Level extends ComponentHolder<Level> {
     private final List<Entity> spawnQueue;
 
     private final Map map;
-    private final ColorDefense game;
+    private final Chrominance game;
 
     private final EntityFactory entityFactory;
     private final CollisionDetector collisionDetector;
@@ -34,7 +33,7 @@ public class Level extends ComponentHolder<Level> {
 
     private float saturation = 0f;
 
-    public Level(ColorDefense game, FileHandle fileHandle) {
+    public Level(Chrominance game, FileHandle fileHandle) {
         this.game = game;
         this.entityFactory = new EntityFactory(this);
         this.entities = new ArrayList<>();
@@ -137,7 +136,7 @@ public class Level extends ComponentHolder<Level> {
         return entityFactory;
     }
 
-    public ColorDefense getGame() {
+    public Chrominance getGame() {
         return game;
     }
 
