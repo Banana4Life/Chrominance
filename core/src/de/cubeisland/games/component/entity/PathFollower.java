@@ -19,8 +19,12 @@ public class PathFollower extends Component<Entity> {
     private Node currentTarget;
     private int nodeNumber = 1;
     private float tolerance = 3;
-    private float toleranceSquared = tolerance * tolerance;
+    private float scaledToleranceSquared;
     private float speed = 20;
+
+    public PathFollower() {
+        this.setTolerance(this.tolerance);
+    }
 
     public Path getPath() {
         return path;
@@ -38,8 +42,8 @@ public class PathFollower extends Component<Entity> {
                 this.changeTarget();
             }
             Vector2 distance = this.currentTarget.getLocation().cpy().sub(getOwner().getLocation());
-            if (distance.len2() <= this.toleranceSquared) {
-                getOwner().getLocation().add(distance);
+            if (withinTolerance(distance, delta)) {
+                getOwner().getVelocity().set(distance);
                 if (this.currentTarget == this.path.getTarget()) {
                     this.path = null;
                     this.currentTarget = null;
@@ -51,6 +55,10 @@ public class PathFollower extends Component<Entity> {
                 }
             }
         }
+    }
+
+    private boolean withinTolerance(Vector2 distance, float delta) {
+        return distance.len2() <= this.scaledToleranceSquared * delta;
     }
 
     private void changeTarget() {
@@ -70,7 +78,8 @@ public class PathFollower extends Component<Entity> {
 
     public void setTolerance(float tolerance) {
         this.tolerance = tolerance;
-        this.toleranceSquared = tolerance * tolerance;
+        this.scaledToleranceSquared = getSpeed() / tolerance;
+        this.scaledToleranceSquared *= this.scaledToleranceSquared;
     }
 
     public float getTolerance() {
@@ -83,6 +92,7 @@ public class PathFollower extends Component<Entity> {
 
     public PathFollower setSpeed(float speed) {
         this.speed = speed;
+        this.setTolerance(this.getTolerance());
         return this;
     }
 
