@@ -20,8 +20,8 @@ public class Chrominance extends Game {
         //Use LibGDX's default Arial font.
         font = new BitmapFont();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.setScreen(new GameScreen(this));
+        camera.setToOrtho(false);
+        this.setScreen(new MenuScreen(this));
     }
 
     @Override

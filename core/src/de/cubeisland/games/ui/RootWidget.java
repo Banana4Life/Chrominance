@@ -9,27 +9,32 @@ public class RootWidget extends Container {
     private final Vector2 position = new Vector2(0, 0);
 
     @Override
-    public Vector2 getPosition() {
+    public Widget getParent() {
+        return null;
+    }
+
+    @Override
+    public final Vector2 getPosition() {
         return this.position;
     }
 
     @Override
-    public float getWidth() {
+    public final float getWidth() {
         return Gdx.graphics.getWidth();
     }
 
     @Override
-    public float getContentWidth() {
+    public final float getContentWidth() {
         return getWidth() - getPaddingLeft() - getPaddingRight();
     }
 
     @Override
-    public float getHeight() {
+    public final float getHeight() {
         return Gdx.graphics.getWidth();
     }
 
     @Override
-    public float getContentHeight() {
+    public final float getContentHeight() {
         return getHeight() - getPaddingTop() - getPaddingBottom();
     }
 }

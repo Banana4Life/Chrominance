@@ -16,6 +16,9 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
     private VerticalAlignment verticalAlignment     = VerticalAlignment.TOP;
 
+    private Sizing horizontalSizing = Sizing.FILL_PARENT;
+    private Sizing verticalSizing   = Sizing.FIT_CONTENT;
+
     private int   zIndex        = 0;
     private float positionX     = 0;
     private float positionY     = 0;
@@ -27,6 +30,11 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     private float paddingRight  = 0;
     private float paddingBottom = 0;
     private float paddingLeft   = 0;
+
+    private float marginTop     = 0;
+    private float marginRight   = 0;
+    private float marginBottom  = 0;
+    private float marginLeft    = 0;
 
     public Widget getParent() {
         return parent;
@@ -56,6 +64,15 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
 
     public void setZIndex(int zIndex) {
         this.zIndex = zIndex;
+    }
+
+    public Vector2 getAbsolutePosition() {
+        Vector2 pos = getPosition();
+        Widget parent = getParent();
+        if (parent != null) {
+            pos.add(parent.getAbsolutePosition());
+        }
+        return pos;
     }
 
     public Vector2 getPosition() {
@@ -121,6 +138,12 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         return this;
     }
 
+    public Widget setContentDimensions(float width, float height) {
+        setContentWidth(width);
+        setContentHeight(height);
+        return this;
+    }
+
     public float getWidth() {
         return getPaddingLeft() + getContentWidth() + getPaddingRight();
     }
@@ -180,9 +203,9 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     @Override
     public final int compareTo(Widget o) {
         if (this.zIndex > o.zIndex) {
-            return 1;
-        } else if (this.zIndex < o.zIndex) {
             return -1;
+        } else if (this.zIndex < o.zIndex) {
+            return 1;
         }
         return 0;
     }
@@ -201,10 +224,10 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     }
 
     public final void render() {
+        this.draw();
         for (Widget child : this.children) {
             child.render();
         }
-        this.draw();
     }
 
     protected void draw() {
