@@ -9,7 +9,7 @@ public abstract class AbstractMenuScreen<T extends Game> extends AbstractScreen<
     public AbstractMenuScreen(T game, Menu menu) {
         super(game);
         this.menu = menu;
-        this.getRootWidget().addWidget(menu);
+        this.getRootWidget().addChild(menu);
     }
 
     public Menu getMenu() {

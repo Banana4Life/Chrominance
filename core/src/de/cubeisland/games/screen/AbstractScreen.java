@@ -30,7 +30,7 @@ public abstract class AbstractScreen<T extends Game> implements Screen {
 
         this.renderScreen(getGame(), delta);
 
-        this.rootWidget.renderWidgets();
+        this.rootWidget.render();
     }
 
     public abstract void renderScreen(T game, float delta);
