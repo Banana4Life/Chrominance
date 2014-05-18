@@ -30,7 +30,8 @@ public class ProjectileLauncher extends Component<Entity> {
 
         Entity target = this.findNearestTarget(loc);
         if (target != null) {
-            Vector2 v = this.calculateVelocity(loc, target, this.projectile.launchSpeed());
+            // Vector2 v = this.calculateVelocity(loc, target, this.projectile.launchSpeed());
+            Vector2 v = this.calculateVelocity(loc, target.get(PathFollower.class).getIntersection(loc, this.projectile.launchSpeed()), this.projectile.launchSpeed());
             getOwner().getLevel().spawn(this.projectile, loc).setVelocity(v).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
             getOwner().get(ColorContainer.class).shoot();
             this.lastFired = System.currentTimeMillis();
@@ -39,6 +40,9 @@ public class ProjectileLauncher extends Component<Entity> {
 
     protected Vector2 calculateVelocity(Vector2 loc, Entity target, float speed) {
         return target.getLocation().cpy().sub(loc).nor().scl(speed);
+    }
+    protected Vector2 calculateVelocity(Vector2 loc, Vector2 target, float speed) {
+        return target.cpy().sub(loc).nor().scl(speed);
     }
 
     protected Entity findNearestTarget(Vector2 loc) {
