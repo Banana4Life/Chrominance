@@ -23,6 +23,7 @@ public class PathFollower extends Component<Entity> {
     private float speed = 20;
 
     public PathFollower() {
+        // set current value to calculate the scaled squared value
         this.setTolerance(this.tolerance);
     }
 
