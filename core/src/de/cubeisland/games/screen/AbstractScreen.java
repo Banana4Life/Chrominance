@@ -4,23 +4,23 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import de.cubeisland.games.ui.WidgetManager;
+import de.cubeisland.games.ui.RootWidget;
 
 public abstract class AbstractScreen<T extends Game> implements Screen {
     private final T game;
-    private final WidgetManager widgetManager;
+    private final RootWidget rootWidget;
 
     public AbstractScreen(T game) {
         this.game = game;
-        this.widgetManager = new WidgetManager();
+        this.rootWidget = new RootWidget();
     }
 
     public T getGame() {
         return game;
     }
 
-    public WidgetManager getWidgetManager() {
-        return widgetManager;
+    public RootWidget getRootWidget() {
+        return rootWidget;
     }
 
     @Override
@@ -30,13 +30,13 @@ public abstract class AbstractScreen<T extends Game> implements Screen {
 
         this.renderScreen(getGame(), delta);
 
-        this.widgetManager.renderWidgets();
+        this.rootWidget.renderWidgets();
     }
 
     public abstract void renderScreen(T game, float delta);
 
     @Override
     public void dispose() {
-        this.widgetManager.dispose();
+        this.rootWidget.dispose();
     }
 }

@@ -1,16 +1,20 @@
 package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
-public abstract class Widget implements Invalidatable, Comparable<Widget> {
+public abstract class Widget implements Invalidatable, Comparable<Widget>, Disposable {
 
     private Widget parent = null;
-    private HorizontalAlignment alignment = HorizontalAlignment.LEFT;
     private final List<Widget> children = new ArrayList<>();
+
+    private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
+    private VerticalAlignment verticalAlignment     = VerticalAlignment.TOP;
 
     private int   zIndex        = 0;
     private float positionX     = 0;
@@ -28,12 +32,21 @@ public abstract class Widget implements Invalidatable, Comparable<Widget> {
         return parent;
     }
 
-    public HorizontalAlignment getAlignment() {
-        return this.alignment;
+    public HorizontalAlignment getHorizontalAlignment() {
+        return this.horizontalAlignment;
     }
 
-    public Widget setAlignment(HorizontalAlignment alignment) {
-        this.alignment = alignment;
+    public Widget setHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
+        this.horizontalAlignment = horizontalAlignment;
+        return this;
+    }
+
+    public VerticalAlignment getVerticalAlignment() {
+        return this.verticalAlignment;
+    }
+
+    public Widget setHorizontalAlignment(VerticalAlignment verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
         return this;
     }
 
@@ -108,6 +121,10 @@ public abstract class Widget implements Invalidatable, Comparable<Widget> {
         return this;
     }
 
+    public float getWidth() {
+        return getPaddingLeft() + getContentWidth() + getPaddingRight();
+    }
+
     public float getContentWidth() {
         return contentWidth;
     }
@@ -115,6 +132,10 @@ public abstract class Widget implements Invalidatable, Comparable<Widget> {
     public Widget setContentWidth(float contentWidth) {
         this.contentWidth = contentWidth;
         return this;
+    }
+
+    public float getHeight() {
+        return getPaddingTop() + getContentHeight() + getPaddingBottom();
     }
 
     public float getContentHeight() {
@@ -164,6 +185,15 @@ public abstract class Widget implements Invalidatable, Comparable<Widget> {
             return -1;
         }
         return 0;
+    }
+
+    @Override
+    public void dispose() {
+        Iterator<Widget> it = this.children.iterator();
+        while (it.hasNext()) {
+            it.next().dispose();
+            it.remove();
+        }
     }
 
     protected void recalculate() {
