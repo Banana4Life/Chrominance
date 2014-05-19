@@ -31,7 +31,7 @@ public class Container extends Widget {
         if (this.backgroundColor.a > 0) {
             this.renderer.begin(Filled);
             this.renderer.setColor(this.backgroundColor);
-            this.renderer.rect(pos.x, pos.y, getWidth(), getHeight());
+            this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
             this.renderer.end();
         }
     }

@@ -6,7 +6,7 @@ import de.cubeisland.games.ui.widgets.Container;
 
 public class RootWidget extends Container {
 
-    private final Vector2 position = new Vector2(0, 0);
+    private Vector2 position;
 
     @Override
     public Widget getParent() {
@@ -15,6 +15,9 @@ public class RootWidget extends Container {
 
     @Override
     public final Vector2 getPosition() {
+        if (this.position == null) {
+            this.position = new Vector2(0, Gdx.graphics.getHeight());
+        }
         return this.position;
     }
 
@@ -36,5 +39,10 @@ public class RootWidget extends Container {
     @Override
     public final float getContentHeight() {
         return getHeight() - getPaddingTop() - getPaddingBottom();
+    }
+
+    @Override
+    protected void recalculate() {
+        this.position = null;
     }
 }
