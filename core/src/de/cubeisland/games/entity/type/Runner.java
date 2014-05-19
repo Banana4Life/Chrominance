@@ -23,7 +23,7 @@ public class Runner extends Enemy {
         e.get(Render.class)
                 .setRadius(collisionVolume.getRadius());
         e.get(PathFollower.class)
-                .setSpeed(20);
+                .setSpeed(80);
     }
 
     @Override
