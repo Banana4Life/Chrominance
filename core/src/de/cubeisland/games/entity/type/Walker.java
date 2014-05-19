@@ -10,7 +10,7 @@ import de.cubeisland.games.component.entity.PathFollower;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
 
-public class Runner extends Enemy {
+public class Walker extends Enemy {
 
     private final Circle collisionVolume = new Circle(10);
 
@@ -23,7 +23,7 @@ public class Runner extends Enemy {
         e.get(Render.class)
                 .setRadius(collisionVolume.getRadius());
         e.get(PathFollower.class)
-                .setSpeed(20);
+                .setSpeed(10);
     }
 
     @Override

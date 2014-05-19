@@ -1,9 +1,6 @@
 package de.cubeisland.games.entity;
 
-import de.cubeisland.games.entity.type.Bullet;
-import de.cubeisland.games.entity.type.ColorPalette;
-import de.cubeisland.games.entity.type.Runner;
-import de.cubeisland.games.entity.type.Tower;
+import de.cubeisland.games.entity.type.*;
 
 
 public abstract class EntityTypes {
@@ -12,6 +9,7 @@ public abstract class EntityTypes {
     }
 
     public static final EntityType RUNNER = new Runner();
+    public static final EntityType WALKER = new Walker();
     public static final Tower TOWER = new Tower();
     public static final ColorPalette COLOR_PALETTE = new ColorPalette();
 
