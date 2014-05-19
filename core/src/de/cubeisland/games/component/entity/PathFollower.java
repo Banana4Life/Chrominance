@@ -18,7 +18,7 @@ public class PathFollower extends Component<Entity> {
     private Path path;
     private Node currentTarget;
     private int nodeNumber = 1;
-    private float tolerance = 3;
+    private float tolerance = 10f; // this is WEIRD!
     private float scaledToleranceSquared;
     private float speed = 20;
 
@@ -44,7 +44,7 @@ public class PathFollower extends Component<Entity> {
             }
             Vector2 distance = this.currentTarget.getLocation().cpy().sub(getOwner().getLocation());
             if (withinTolerance(distance, delta)) {
-                getOwner().getVelocity().set(distance);
+                getOwner().getLocation().add(distance);
                 if (this.currentTarget == this.path.getTarget()) {
                     this.path = null;
                     this.currentTarget = null;
