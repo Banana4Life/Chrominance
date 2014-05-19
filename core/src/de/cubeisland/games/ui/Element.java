@@ -6,7 +6,6 @@ import de.cubeisland.games.Chrominance;
 import static de.cubeisland.games.util.VectorUtil.zero;
 
 public class Element {
-
     public static enum ElementType {
         CONTAINER, BUTTON, MENU, MENUITEM
     }

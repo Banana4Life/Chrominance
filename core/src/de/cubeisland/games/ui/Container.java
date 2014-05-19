@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Container extends Element {
-
-
     public Container(Alignment alignment, Vector2 padding) {
         this(ElementType.CONTAINER, alignment, padding);
     }
