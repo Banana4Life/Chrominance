@@ -27,7 +27,7 @@ public class Bullet extends Projectile implements CollisionSource {
 
     @Override
     public float launchSpeed() {
-        return 1000;
+        return 100;
     }
 
     @Override
