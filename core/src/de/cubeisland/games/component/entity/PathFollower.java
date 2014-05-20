@@ -113,7 +113,11 @@ public class PathFollower extends Component<Entity> {
         }
     }*/
     public Vector2 getIntersection(Vector2 towerPosition, float bulletSpeed) {
-        return getIntersection(towerPosition, bulletSpeed, 0, 0);
+        if (this.speed < bulletSpeed) {
+            return getIntersection(towerPosition, bulletSpeed, 0, 0);
+        } else {
+            throw new IllegalStateException("BulletSpeed has to be bigger than the enemy velocity");
+        }
     }
     private Vector2 getIntersection(Vector2 towerPosition, float bulletSpeed, int iteration, float i) {
         Vector2 ownVelocity;
