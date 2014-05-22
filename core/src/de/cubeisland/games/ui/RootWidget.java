@@ -38,7 +38,7 @@ public class RootWidget extends Container {
 
     @Override
     public final float getHeight() {
-        return Gdx.graphics.getWidth();
+        return Gdx.graphics.getHeight();
     }
 
     @Override

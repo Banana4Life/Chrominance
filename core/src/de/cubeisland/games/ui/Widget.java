@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Widget implements Invalidatable, Comparable<Widget>, Disposable {
 
+    private static final AtomicInteger WIDGET_COUNTER = new AtomicInteger(0);
+    private final int id;
     private Widget parent = null;
     private final List<Widget> children = new ArrayList<>();
 
@@ -35,6 +38,14 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     private float marginRight   = 0;
     private float marginBottom  = 0;
     private float marginLeft    = 0;
+
+    protected Widget() {
+        id = WIDGET_COUNTER.getAndIncrement();
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public Widget getParent() {
         return parent;
@@ -351,5 +362,26 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     }
 
     protected void draw() {
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Widget)) {
+            return false;
+        }
+        return ((Widget)obj).id == this.id;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + ":" + this.id;
     }
 }
