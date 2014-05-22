@@ -14,6 +14,11 @@ public class RootWidget extends Container {
     }
 
     @Override
+    public RootWidget getRoot() {
+        return this;
+    }
+
+    @Override
     public final Vector2 getPosition() {
         if (this.position == null) {
             this.position = new Vector2(0, Gdx.graphics.getHeight());

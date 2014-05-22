@@ -19,7 +19,7 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     private Sizing horizontalSizing = Sizing.FILL_PARENT;
     private Sizing verticalSizing   = Sizing.FIT_CONTENT;
 
-    private int   zIndex        = 0;
+    private int   depth         = 0;
     private float positionX     = 0;
     private float positionY     = 0;
 
@@ -40,6 +40,10 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         return parent;
     }
 
+    public RootWidget getRoot() {
+        return getParent().getRoot();
+    }
+
     public HorizontalAlignment getHorizontalAlignment() {
         return this.horizontalAlignment;
     }
@@ -58,19 +62,20 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         return this;
     }
 
-    public int getZIndex() {
-        return zIndex;
+    public int getDepth() {
+        return depth;
     }
 
-    public void setZIndex(int zIndex) {
-        this.zIndex = zIndex;
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     public Vector2 getAbsolutePosition() {
         Vector2 pos = getPosition();
         Widget parent = getParent();
         if (parent != null) {
-            pos.add(parent.getAbsolutePosition());
+            Vector2 parentPos = parent.getAbsolutePosition();
+            pos.add(parentPos.x, -parentPos.y);
         }
         return pos;
     }
@@ -125,17 +130,72 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         return this;
     }
 
-    public Widget setPadding(float vertical, float horizontal) {
-        this.setPaddingTop(vertical);
-        this.setPaddingBottom(vertical);
-        this.setPaddingLeft(horizontal);
-        this.setPaddingRight(horizontal);
+    public Widget setPadding(float top, float right, float bottom, float left) {
+        this.setPaddingTop(top);
+        this.setPaddingRight(right);
+        this.setPaddingBottom(bottom);
+        this.setPaddingLeft(left);
         return this;
     }
 
+    public Widget setPadding(float vertical, float horizontal) {
+        return this.setPadding(vertical, horizontal, vertical, horizontal);
+    }
+
     public Widget setPadding(float padding) {
-        this.setPadding(padding, padding);
+        return this.setPadding(padding, padding);
+    }
+
+    public float getMarginTop() {
+        return marginTop;
+    }
+
+    public Widget setMarginTop(float marginTop) {
+        this.marginTop = marginTop;
         return this;
+    }
+
+    public float getMarginRight() {
+        return marginRight;
+    }
+
+    public Widget setMarginRight(float marginRight) {
+        this.marginRight = marginRight;
+        return this;
+    }
+
+    public float getMarginBottom() {
+        return marginBottom;
+    }
+
+    public Widget setMarginBottom(float marginBottom) {
+        this.marginBottom = marginBottom;
+        return this;
+    }
+
+    public float getMarginLeft() {
+        return marginLeft;
+    }
+
+    public Widget setMarginLeft(float marginLeft) {
+        this.marginLeft = marginLeft;
+        return this;
+    }
+
+    public Widget setMargin(float top, float right, float bottom, float left) {
+        this.setMarginTop(top);
+        this.setMarginRight(right);
+        this.setMarginBottom(bottom);
+        this.setMarginLeft(left);
+        return this;
+    }
+
+    public Widget setMargin(float horizontal, float vertical) {
+        return this.setMargin(vertical, horizontal, vertical, horizontal);
+    }
+
+    public Widget setMargin(float value) {
+        return this.setMargin(value, value);
     }
 
     public Widget setContentDimensions(float width, float height) {
@@ -174,7 +234,7 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         if (widget == this) {
             throw new IllegalArgumentException("You can't add the widget as a child of itself!");
         }
-        if (this.children.contains(widget)) {
+        if (this.children.contains(widget) || this == widget.parent) {
             throw new IllegalArgumentException("The given widget is already a child!");
         }
         this.children.add(widget);
@@ -202,9 +262,9 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
 
     @Override
     public final int compareTo(Widget o) {
-        if (this.zIndex > o.zIndex) {
+        if (this.depth > o.depth) {
             return -1;
-        } else if (this.zIndex < o.zIndex) {
+        } else if (this.depth < o.depth) {
             return 1;
         }
         return 0;
@@ -220,7 +280,67 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     }
 
     protected void recalculate() {
+        this.positionX = this.calculatePositionX();
+        this.positionY = this.calculatePositionY();
 
+        this.contentWidth = this.getContentWidth();
+        this.contentHeight = this.getContentHeight();
+    }
+
+    protected float calculatePositionX() {
+        switch (horizontalAlignment) {
+            case CENTER:
+                return getParent().getContentWidth() / 2f - this.calculateInnerWidth() / 2f;
+            case RIGHT:
+                return getParent().getContentWidth() - this.calculateInnerWidth();
+            case LEFT:
+            default:
+                return this.marginLeft;
+        }
+    }
+
+    protected float calculatePositionY() {
+        switch (verticalAlignment) {
+            case MIDDLE:
+                return getParent().getContentHeight() / 2f - this.calculateInnerHeight() / 2f;
+            case BOTTOM:
+                return this.calculateInnerWidth() + this.marginBottom;
+            case TOP:
+            default:
+                return getParent().getHeight() - this.marginTop;
+        }
+    }
+
+    protected float calculateInnerWidth() {
+        switch (horizontalSizing) {
+            case FIT_CONTENT:
+                return this.calculatedChildrenWidth();
+            case FILL_PARENT:
+                return getParent().getContentWidth() - getMarginLeft() - getMarginRight() - getPaddingLeft() - getPaddingRight();
+            case STATIC:
+            default:
+                return this.contentWidth;
+        }
+    }
+
+    protected float calculatedChildrenWidth() {
+        return 0;
+    }
+
+    protected float calculateInnerHeight() {
+        switch (verticalSizing) {
+            case FIT_CONTENT:
+                return this.calculatedChildrenHeight();
+            case FILL_PARENT:
+                return getParent().getContentHeight() - getMarginBottom() - getMarginTop() - getPaddingBottom() - getPaddingTop();
+            case STATIC:
+            default:
+                return this.contentHeight;
+        }
+    }
+
+    protected float calculatedChildrenHeight() {
+        return 0;
     }
 
     public final void render() {
