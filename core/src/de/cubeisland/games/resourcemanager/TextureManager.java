@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class TextureManager extends ResourceManager {
     public Texture badlogic;
+    public Texture towerBase;
+    public Texture towerTurret;
 
     public TextureManager() {
         super("./textures");
