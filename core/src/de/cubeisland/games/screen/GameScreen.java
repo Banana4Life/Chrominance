@@ -21,7 +21,6 @@ public class GameScreen extends ScreenAdapter {
     private Level level;
     private boolean paused;
     private Menu pauseMenu;
-    private Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
 
     public GameScreen(final Chrominance game) {
         this.game = game;
@@ -73,7 +72,7 @@ public class GameScreen extends ScreenAdapter {
         shader.setUniformf("Saturation", level.getSaturation());
 
         game.getBatch().begin();
-        game.getBatch().draw(texture, 500, 100, 100, 100);
+        game.getBatch().draw(game.textureManager.badlogic, 500, 100, 100, 100);
         game.getBatch().end();
 
         if (isPaused()) {

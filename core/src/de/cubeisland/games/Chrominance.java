@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.cubeisland.games.resourcemanager.TextureManager;
 import de.cubeisland.games.screen.MenuScreen;
 
 public class Chrominance extends Game {
@@ -13,6 +14,8 @@ public class Chrominance extends Game {
     private BitmapFont font;
     private OrthographicCamera camera;
 
+    public TextureManager textureManager;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -20,6 +23,7 @@ public class Chrominance extends Game {
         font = new BitmapFont();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.textureManager = new TextureManager();
         this.setScreen(new MenuScreen(this));
     }
 
