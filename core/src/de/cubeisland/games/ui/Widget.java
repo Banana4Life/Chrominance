@@ -86,7 +86,7 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         Widget parent = getParent();
         if (parent != null) {
             Vector2 parentPos = parent.getAbsolutePosition();
-            pos.add(parentPos.x, -parentPos.y);
+            pos.set(parentPos.x + pos.x, parentPos.y - pos.y);
         }
         return pos;
     }

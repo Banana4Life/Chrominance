@@ -1,6 +1,5 @@
 package de.cubeisland.games.ui.widgets;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -8,6 +7,7 @@ import de.cubeisland.games.ui.RootWidget;
 import de.cubeisland.games.ui.Widget;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
+import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 
 public class Container extends Widget {
 
@@ -33,14 +33,20 @@ public class Container extends Widget {
             this.renderer.begin(Filled);
             this.renderer.setColor(Color.BLACK);
             this.renderer.circle(pos.x, pos.y, 5);
+            this.renderer.setColor(Color.MAGENTA);
             this.renderer.circle(pos.x + getWidth(), pos.y - getHeight(), 5);
+            this.renderer.end();
+
+            this.renderer.begin(Line);
+            this.renderer.setColor(Color.ORANGE);
+            this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
             this.renderer.end();
         }
 
         if (this.backgroundColor.a > 0) {
             this.renderer.begin(Filled);
             this.renderer.setColor(this.backgroundColor);
-            this.renderer.rect(pos.x, pos.y, getWidth(), getHeight());
+            this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
             this.renderer.end();
         }
     }
