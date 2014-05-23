@@ -67,7 +67,14 @@ public class GameScreen extends ScreenAdapter {
         game.getCamera().update();
         game.getBatch().setProjectionMatrix(game.getCamera().combined);
 
-        shader.begin();
+        game.getBatch().setShader(null);
+
+        game.getBatch().begin();
+        game.getBatch().draw(game.textureManager.badlogic, 400, 100, 100, 100);
+        game.getBatch().end();
+
+        game.getBatch().setShader(shader);
+
         shader.setUniformf("Saturation", level.getSaturation());
 
         game.getBatch().begin();
@@ -93,8 +100,6 @@ public class GameScreen extends ScreenAdapter {
         } else {
             this.level.update(delta);
         }
-
-        shader.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             paused = true;
