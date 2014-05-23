@@ -6,7 +6,7 @@ import de.cubeisland.games.level.Map;
 
 import java.lang.reflect.Field;
 
-public class MapManager extends ResourceManager<Map> {
+public class MapManager extends ResourceManager {
     public Map map1;
 
     public MapManager() {

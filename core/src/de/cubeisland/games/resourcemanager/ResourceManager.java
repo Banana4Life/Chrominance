@@ -6,7 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public abstract class ResourceManager<T> {
+public abstract class ResourceManager {
     private String directory;
 
     public ResourceManager(String directory) {

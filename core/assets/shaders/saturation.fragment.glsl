@@ -1,10 +1,11 @@
-varying vec4 v_color;
 vec4 color;
-varying vec2 v_texCoords;
-uniform sampler2D u_texture;
-
-uniform float Saturation;
 float averageColorValue;
+
+varying vec4 v_color;
+varying vec2 v_texCoords;
+
+uniform sampler2D u_texture;
+uniform float Saturation;
 
 float getColorValue(float value) {
     return (value - ((value - averageColorValue) * Saturation));

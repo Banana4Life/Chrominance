@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public class TextureManager extends ResourceManager<Texture> {
+public class TextureManager extends ResourceManager {
     public Texture badlogic;
 
     public TextureManager() {

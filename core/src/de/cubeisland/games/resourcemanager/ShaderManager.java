@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public class ShaderManager extends ResourceManager<ShaderProgram> {
+public class ShaderManager extends ResourceManager {
     public ShaderProgram saturation;
 
     public ShaderManager() {
