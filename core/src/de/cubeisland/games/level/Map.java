@@ -21,7 +21,7 @@ public class Map
     private final float height;
     private final Random random;
 
-    private Map(FileHandle fileHandle) {
+    public Map(FileHandle fileHandle) {
         paths = new ArrayList<>();
         towerLocations = new ArrayList<>();
 
@@ -99,11 +99,6 @@ public class Map
 
     public TileType getTypeAt(int x, int y) {
         return mapData[x][y];
-    }
-
-    public static Map load(FileHandle fileHandle) {
-
-        return new Map(fileHandle);
     }
 
     public List<Path> getPaths() {

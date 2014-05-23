@@ -26,8 +26,7 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
 
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("shaders/saturation.vertex.glsl"), Gdx.files.internal("shaders/saturation.fragment.glsl"));
-        System.out.println(shader.isCompiled() ? "Shader compiled successfully." : shader.getLog());
+        shader = game.shaderManager.saturation;
 
         game.getBatch().setShader(shader);
 
@@ -57,7 +56,7 @@ public class GameScreen extends ScreenAdapter {
         Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2f) - (pauseMenu.getMaxWidth() / 2f), (Gdx.graphics.getHeight() / 2f) - (pauseMenu.getHeight() / 2f));
         pauseMenu.moveTo(centerPos);
 
-        this.level = new Level(this.game, Gdx.files.internal("map.bmp"));
+        this.level = new Level(this.game, this.game.mapManager.map1);
     }
 
     @Override

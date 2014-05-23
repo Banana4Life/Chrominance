@@ -33,7 +33,7 @@ public class Level extends ComponentHolder<Level> {
 
     private float saturation = 0f;
 
-    public Level(Chrominance game, FileHandle fileHandle) {
+    public Level(Chrominance game, Map map) {
         this.game = game;
         this.entityFactory = new EntityFactory(this);
         this.entities = new ArrayList<>();
@@ -47,7 +47,7 @@ public class Level extends ComponentHolder<Level> {
                 .setGenerator(new DummyWaveGenerator(this.difficulty))
                 .setDifficulty(Difficulty.EASY);
 
-        this.map = Map.load(fileHandle);
+        this.map = map;
         this.spawnTowers();
     }
 

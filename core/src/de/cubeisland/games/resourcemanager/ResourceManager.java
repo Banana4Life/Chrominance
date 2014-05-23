@@ -4,37 +4,40 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 import java.lang.reflect.Field;
+import java.util.*;
 
 public abstract class ResourceManager<T> {
-    private final String basePath = ".";
+    private String directory;
 
-    public ResourceManager() {
+    public ResourceManager(String directory) {
+        this.directory = directory;
+
         loadResources();
     }
 
     private void loadResources() {
-        FileHandle basePath = Gdx.files.internal(this.basePath);
+        FileHandle baseDir = Gdx.files.internal(this.directory);
 
         Field[] fields = this.getClass().getFields();
+        Map<String, FileHandle> fileMap = getFileMap(baseDir);
 
         for (Field field : fields) {
-            loadResource(field, basePath);
+            makeResource(field, fileMap);
         }
     }
-    private void loadResource(Field field, FileHandle file) {
-        if (file.isDirectory()) {
-            FileHandle[] childFiles = file.list();
 
-            for (FileHandle childFile : childFiles) {
-                loadResource(field, childFile);
+    protected abstract void makeResource(Field field, Map<String, FileHandle> fileMap);
+
+    private Map<String, FileHandle> getFileMap(FileHandle file) {
+        HashMap<String, FileHandle> fileMap = new HashMap<>();
+        if (file.isDirectory()) {
+            for (FileHandle childFile : file.list()) {
+                fileMap.putAll(getFileMap(childFile));
             }
-        } else if(file.nameWithoutExtension().equals(field.getName())) {
-            try {
-                field.set(this, loadFile(file));
-            } catch (IllegalAccessException e) {
-                Gdx.app.log("Error loading files", e.getMessage());
-            }
+            return fileMap;
+        } else {
+            fileMap.put(file.nameWithoutExtension(), file);
+            return fileMap;
         }
     }
-    protected abstract T loadFile(FileHandle file);
 }
