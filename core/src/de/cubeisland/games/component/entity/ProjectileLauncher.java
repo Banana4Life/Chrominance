@@ -42,7 +42,11 @@ public class ProjectileLauncher extends Component<Entity> {
         return target.getLocation().cpy().sub(loc).nor().scl(speed);
     }
     protected Vector2 calculateVelocity(Vector2 loc, Vector2 target, float speed) {
-        return target.cpy().sub(loc).nor().scl(speed);
+        if (target != null && loc != null) {
+            return target.cpy().sub(loc).nor().scl(speed);
+        } else {
+            return null;
+        }
     }
 
     protected Entity findNearestTarget(Vector2 loc) {

@@ -48,7 +48,9 @@ public final class Entity extends ComponentHolder<Entity> {
     }
 
     public Entity setVelocity(Vector2 velocity) {
-        this.velocity = velocity.cpy();
+        if (velocity != null) {
+            this.velocity = velocity.cpy();
+        }
         return this;
     }
 
