@@ -67,17 +67,11 @@ public class GameScreen extends ScreenAdapter {
         game.getCamera().update();
         game.getBatch().setProjectionMatrix(game.getCamera().combined);
 
-        game.getBatch().setShader(null);
-
         game.getBatch().begin();
+        game.getBatch().pauseShader();
         game.getBatch().draw(game.textureManager.badlogic, 400, 100, 100, 100);
-        game.getBatch().end();
-
-        game.getBatch().setShader(shader);
-
+        game.getBatch().continueShader();
         shader.setUniformf("Saturation", level.getSaturation());
-
-        game.getBatch().begin();
         game.getBatch().draw(game.textureManager.badlogic, 500, 100, 100, 100);
         game.getBatch().end();
 

@@ -4,15 +4,15 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.cubeisland.games.resourcemanager.MapManager;
 import de.cubeisland.games.resourcemanager.ShaderManager;
 import de.cubeisland.games.resourcemanager.TextureManager;
 import de.cubeisland.games.screen.MenuScreen;
+import de.cubeisland.games.util.BetterBatch;
 
 public class Chrominance extends Game {
 
-    private SpriteBatch batch;
+    private BetterBatch batch;
     private BitmapFont font;
     private OrthographicCamera camera;
 
@@ -22,7 +22,7 @@ public class Chrominance extends Game {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        batch = new BetterBatch();
         //Use LibGDX's default Arial font.
         font = new BitmapFont();
         camera = new OrthographicCamera();
@@ -45,7 +45,7 @@ public class Chrominance extends Game {
         camera.setToOrtho(false, width, height);
     }
 
-    public SpriteBatch getBatch() {
+    public BetterBatch getBatch() {
         return batch;
     }
 
