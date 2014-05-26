@@ -1,26 +1,31 @@
 package de.cubeisland.games.event;
 
-import de.cubeisland.games.component.Component;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MethodEventHandler implements EventHandler<Event> {
+public class MethodEventHandler implements EventHandler<Event, EventSender> {
 
     private final Object holder;
     private final Method method;
-    private final Class<Event> applicableType;
+    private final Class<Event> applicableEvent;
+    private final Class<EventSender> applicableSender;
 
-    public MethodEventHandler(Object holder, Method method, Class<Event> applicableType) {
+    public MethodEventHandler(Object holder, Method method, Class<Event> applicableEvent, Class<EventSender> applicableSender) {
         this.holder = holder;
         this.method = method;
-        this.applicableType = applicableType;
+        this.applicableEvent = applicableEvent;
+        this.applicableSender = applicableSender;
     }
 
     @Override
-    public Class<Event> getApplicableType() {
-        return this.applicableType;
+    public Class<Event> getApplicableEvent() {
+        return this.applicableEvent;
+    }
+
+    @Override
+    public Class<EventSender> getApplicableSender() {
+        return this.applicableSender;
     }
 
     @Override
@@ -33,14 +38,14 @@ public class MethodEventHandler implements EventHandler<Event> {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<EventHandler<Event>> parseHandlers(Object o) {
-        final List<EventHandler<Event>> handlers = new ArrayList<>();
+    public static List<EventHandler<Event, EventSender>> parseHandlers(Object o) {
+        final List<EventHandler<Event, EventSender>> handlers = new ArrayList<>();
         for (Method method : o.getClass().getMethods()) {
             if ("handle".equals(method.getName()) && method.getReturnType() == void.class) {
                 Class<?>[] paramTypes = method.getParameterTypes();
                 if (paramTypes.length == 2 && EventSender.class.isAssignableFrom(paramTypes[0]) && Event.class.isAssignableFrom(paramTypes[1])) {
                     method.setAccessible(true);
-                    handlers.add(new MethodEventHandler(o, method, (Class<Event>) paramTypes[1]));
+                    handlers.add(new MethodEventHandler(o, method, (Class<Event>) paramTypes[1], (Class<EventSender>) paramTypes[0]));
                 }
             }
         }
