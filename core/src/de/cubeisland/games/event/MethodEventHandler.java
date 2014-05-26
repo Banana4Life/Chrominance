@@ -1,4 +1,4 @@
-package de.cubeisland.games.component.event;
+package de.cubeisland.games.event;
 
 import de.cubeisland.games.component.Component;
 
@@ -24,7 +24,7 @@ public class MethodEventHandler implements EventHandler<Event> {
     }
 
     @Override
-    public void handle(Component sender, Event event) {
+    public void handle(EventSender sender, Event event) {
         try {
             this.method.invoke(this.holder, sender, event);
         } catch (ReflectiveOperationException e) {
@@ -38,7 +38,7 @@ public class MethodEventHandler implements EventHandler<Event> {
         for (Method method : o.getClass().getMethods()) {
             if ("handle".equals(method.getName()) && method.getReturnType() == void.class) {
                 Class<?>[] paramTypes = method.getParameterTypes();
-                if (paramTypes.length == 2 && Component.class.isAssignableFrom(paramTypes[0]) && Event.class.isAssignableFrom(paramTypes[1])) {
+                if (paramTypes.length == 2 && EventSender.class.isAssignableFrom(paramTypes[0]) && Event.class.isAssignableFrom(paramTypes[1])) {
                     method.setAccessible(true);
                     handlers.add(new MethodEventHandler(o, method, (Class<Event>) paramTypes[1]));
                 }

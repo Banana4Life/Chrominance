@@ -1,18 +1,20 @@
 package de.cubeisland.games.component;
 
-import de.cubeisland.games.component.event.Event;
-import de.cubeisland.games.component.event.EventHandler;
+import de.cubeisland.games.event.Event;
+import de.cubeisland.games.event.EventHandler;
+import de.cubeisland.games.event.EventSender;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
 
-public class ComponentHolder<T extends ComponentHolder<T>> {
+public class ComponentHolder<T extends ComponentHolder<T>> implements EventSender {
     private final List<Component<T>> components = new ArrayList<>();
     private final Map<Class<? extends Event>, Set<EventHandler<Event>>> eventHandlers = new HashMap<>();
     protected static final Map<Class<? extends Component<?>>, Constructor<? extends Component<?>>> CONSTRUCTOR_CACHE = new HashMap<>();
     private static final ComponentComparator COMPARATOR = new ComponentComparator();
 
-    public void emit(Component sender, Event event) {
+    @Override
+    public void trigger(EventSender sender, Event event) {
         Set<EventHandler<Event>> handlers = this.eventHandlers.get(event.getClass());
         if (handlers != null) {
             for (EventHandler<Event> handler : handlers) {

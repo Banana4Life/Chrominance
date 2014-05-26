@@ -1,8 +1,8 @@
-package de.cubeisland.games.component.event;
+package de.cubeisland.games.event;
 
 import de.cubeisland.games.component.Component;
 
 public interface EventHandler<T extends Event> {
     Class<T> getApplicableType();
-    void handle(Component sender, T event);
+    void handle(EventSender sender, T event);
 }

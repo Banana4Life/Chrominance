@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Before;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
-import de.cubeisland.games.component.event.Event;
+import de.cubeisland.games.event.Event;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.level.Node;
 import de.cubeisland.games.level.Path;
@@ -52,7 +52,7 @@ public class PathFollower extends Component<Entity> {
                     this.currentTarget = null;
                     getOwner().setVelocity(zero());
                     getOwner().getLevel().subSaturation(0.1f);
-                    emit(new PathCompleteEvent(this.path));
+                    trigger(this, new PathCompleteEvent(this.path));
                 } else {
                     this.changeTarget();
                 }
