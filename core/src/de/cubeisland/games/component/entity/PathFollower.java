@@ -99,19 +99,6 @@ public class PathFollower extends Component<Entity> {
         return this;
     }
 
-    /*public Vector2 getIntersection(Vector2 towerPosition, float bulletSpeed) {
-        Vector2 ownVelocity = getOwner().getVelocity().cpy();
-        if (ownVelocity.len() <= bulletSpeed) {
-            Vector2 ownPosition = getOwner().getLocation().cpy();
-            float partOne = 2f * ((ownVelocity.x * ownVelocity.x) + (ownVelocity.y * ownVelocity.y) - (bulletSpeed * bulletSpeed));
-            float partTwo = 2f * ((ownPosition.x * ownVelocity.x) + (ownPosition.y * ownVelocity.y) - (towerPosition.x * ownVelocity.x) - (towerPosition.y * ownVelocity.y));
-            float partThree = (ownPosition.x * ownPosition.x) - (2f * ownPosition.x * towerPosition.x) + (ownPosition.y * ownPosition.y) - (2f * ownPosition.y * towerPosition.y) + (towerPosition.x * towerPosition.x) + (towerPosition.y * towerPosition.y);
-            float i = (1f / partOne) * (-(float) Math.sqrt((partTwo * partTwo) - (2f * partOne * partThree)) - partTwo);
-            return ownVelocity.scl(i).add(ownPosition);
-        } else {
-            throw new IllegalStateException("BulletSpeed has to be bigger than the enemy velocity");
-        }
-    }*/
     public Vector2 getIntersection(Vector2 towerPosition, float bulletSpeed) {
         if (this.speed < bulletSpeed) {
             return getIntersection(towerPosition, bulletSpeed, 0, 0);
