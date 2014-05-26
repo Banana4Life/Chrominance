@@ -30,6 +30,6 @@ public class Tower extends EntityType {
                 .setProjectile(EntityTypes.BULLET);
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)
-                .setAmount(10);
+                .setAmount(1);
     }
 }
