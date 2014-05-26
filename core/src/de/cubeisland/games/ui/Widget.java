@@ -3,28 +3,30 @@ package de.cubeisland.games.ui;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class Widget implements Invalidatable, Comparable<Widget>, Disposable {
+public abstract class Widget implements Invalidatable, Disposable {
 
+    private static final WidgetDepthComparator BY_DEPTH = new WidgetDepthComparator();
     private static final AtomicInteger WIDGET_COUNTER = new AtomicInteger(0);
     private final int id;
     private Widget parent = null;
     private final List<Widget> children = new ArrayList<>();
 
+    //region Positioning fields
+    private Positioning         positioning         = Positioning.RELATIVE_ALIGNED;
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
-    private VerticalAlignment verticalAlignment     = VerticalAlignment.TOP;
+    private VerticalAlignment   verticalAlignment   = VerticalAlignment.TOP;
 
     private Sizing horizontalSizing = Sizing.FILL_PARENT;
     private Sizing verticalSizing   = Sizing.FIT_CONTENT;
 
     private int   depth         = 0;
-    private float positionX     = 0;
-    private float positionY     = 0;
+    private float x             = 0;
+    private float y             = 0;
+    private float absX          = 0;
+    private float absY          = 0;
 
     private float contentWidth  = 0;
     private float contentHeight = 0;
@@ -38,11 +40,13 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     private float marginRight   = 0;
     private float marginBottom  = 0;
     private float marginLeft    = 0;
+    //endregion
 
     protected Widget() {
         id = WIDGET_COUNTER.getAndIncrement();
     }
 
+    //region Getters and Setters
     public int getId() {
         return id;
     }
@@ -53,6 +57,22 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
 
     public RootWidget getRoot() {
         return getParent().getRoot();
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    public Positioning getPositioning() {
+        return positioning;
+    }
+
+    public void setPositioning(Positioning positioning) {
+        this.positioning = positioning;
     }
 
     public HorizontalAlignment getHorizontalAlignment() {
@@ -68,31 +88,59 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         return this.verticalAlignment;
     }
 
-    public Widget setHorizontalAlignment(VerticalAlignment verticalAlignment) {
+    public Widget setVerticalAlignment(VerticalAlignment verticalAlignment) {
         this.verticalAlignment = verticalAlignment;
         return this;
     }
 
-    public int getDepth() {
-        return depth;
+    public Widget setAlignment(VerticalAlignment alignment) {
+        this.setVerticalAlignment(alignment);
+        return this;
     }
 
-    public void setDepth(int depth) {
-        this.depth = depth;
+    public Widget setAlignment(HorizontalAlignment alignment) {
+        this.setHorizontalAlignment(alignment);
+        return this;
     }
 
-    public Vector2 getAbsolutePosition() {
-        Vector2 pos = getPosition();
-        Widget parent = getParent();
-        if (parent != null) {
-            Vector2 parentPos = parent.getAbsolutePosition();
-            pos.set(parentPos.x + pos.x, parentPos.y - pos.y);
-        }
-        return pos;
+    public Widget setAlignment(HorizontalAlignment horizontal, VerticalAlignment vertical) {
+        this.setAlignment(horizontal);
+        this.setAlignment(vertical);
+        return this;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public Widget setX(float x) {
+        this.x = x;
+        return this;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public Widget setY(float y) {
+        this.y = y;
+        return this;
     }
 
     public Vector2 getPosition() {
-        return new Vector2(positionX, positionY);
+        return new Vector2(x, y);
+    }
+
+    public float getAbsoluteX() {
+        return this.absX;
+    }
+
+    public float getAbsoluteY() {
+        return this.absY;
+    }
+
+    public Vector2 getAbsolutePosition() {
+        return new Vector2(absX, absY);
     }
 
     public Widget setPosition(Vector2 position) {
@@ -100,8 +148,8 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     }
 
     public Widget setPosition(float x, float y) {
-        this.positionX = x;
-        this.positionY = y;
+        this.x = x;
+        this.y = y;
         return this;
     }
 
@@ -236,6 +284,29 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         return contentHeight;
     }
 
+    public Sizing getHorizontalSizing() {
+        return horizontalSizing;
+    }
+
+    public void setHorizontalSizing(Sizing horizontalSizing) {
+        this.horizontalSizing = horizontalSizing;
+    }
+
+    public Sizing getVerticalSizing() {
+        return verticalSizing;
+    }
+
+    public Widget setVerticalSizing(Sizing verticalSizing) {
+        this.verticalSizing = verticalSizing;
+        return this;
+    }
+
+    public Widget setSizing(Sizing sizing) {
+        this.setHorizontalSizing(sizing);
+        this.setVerticalSizing(sizing);
+        return this;
+    }
+
     public Widget setContentHeight(float contentHeight) {
         this.contentHeight = contentHeight;
         return this;
@@ -250,7 +321,8 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         }
         this.children.add(widget);
         widget.parent = this;
-        Collections.sort(this.children);
+        Collections.sort(this.children, BY_DEPTH);
+        widget.invalidate();
         return this;
     }
 
@@ -263,22 +335,17 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
         return this;
     }
 
+    public List<Widget> getChildren() {
+        return new ArrayList<>(this.children);
+    }
+    //endregion
+
     @Override
     public final void invalidate() {
         this.recalculate();
         for (Widget child : this.children) {
             child.invalidate();
         }
-    }
-
-    @Override
-    public final int compareTo(Widget o) {
-        if (this.depth > o.depth) {
-            return -1;
-        } else if (this.depth < o.depth) {
-            return 1;
-        }
-        return 0;
     }
 
     @Override
@@ -291,67 +358,142 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     }
 
     protected void recalculate() {
-        this.positionX = this.calculatePositionX();
-        this.positionY = this.calculatePositionY();
 
-        this.contentWidth = this.getContentWidth();
-        this.contentHeight = this.getContentHeight();
+        if (getParent().getVerticalSizing() == Sizing.FIT_CONTENT && getVerticalSizing() == Sizing.FILL_PARENT) {
+            throw new IllegalStateException("Circular vertical sizing dependency: parent has FIT_CONTENT and child has FILL_PARENT. Parent: " + getParent() + ", Child: " + this);
+        }
+        if (getParent().getHorizontalSizing() == Sizing.FIT_CONTENT && getHorizontalSizing() == Sizing.FILL_PARENT) {
+            throw new IllegalStateException("Circular horizontal sizing dependency: parent has FIT_CONTENT and child has FILL_PARENT. Parent: " + getParent() + ", Child: " + this);
+        }
+
+        this.x = calculateX();
+        this.y = calculateY();
+
+        this.absX = calculateAbsoluteX();
+        this.absY = calculateAbsoluteY();
+
+        this.contentWidth = calculateInnerWidth();
+        this.contentHeight = calculateInnerHeight();
     }
 
-    protected float calculatePositionX() {
-        switch (horizontalAlignment) {
-            case CENTER:
-                return getParent().getContentWidth() / 2f - this.calculateInnerWidth() / 2f;
-            case RIGHT:
-                return getParent().getContentWidth() - this.calculateInnerWidth();
-            case LEFT:
+    protected float calculateAbsoluteX() {
+
+        float x = this.x;
+
+        if (this.positioning != Positioning.ABSOLUTE) {
+            Widget w = this;
+            while (w.getParent() != null) {
+                x += w.getX();
+                w = w.getParent();
+            }
+        }
+
+        return x;
+    }
+
+    protected float calculateAbsoluteY() {
+
+        float y = this.y;
+
+        if (this.positioning != Positioning.ABSOLUTE) {
+            Widget w = this;
+            while (w.getParent() != null) {
+                y += w.getY();
+                w = w.getParent();
+            }
+        }
+
+        return getRoot().getHeight() - y;
+    }
+
+    protected float calculateX() {
+        switch (positioning) {
+            case RELATIVE_ALIGNED:
+                return this.calculateAlignedPositionX();
+            case RELATIVE:
+            case ABSOLUTE:
             default:
-                return this.marginLeft;
+                return this.x;
         }
     }
 
-    protected float calculatePositionY() {
+    protected float calculateY() {
+        switch (positioning) {
+            case RELATIVE_ALIGNED:
+                return this.calculateAlignedPositionY();
+            case RELATIVE:
+            case ABSOLUTE:
+            default:
+                return this.y;
+        }
+    }
+
+    protected float calculateAlignedPositionX() {
+        switch (horizontalAlignment) {
+            case CENTER:
+                return getParent().getContentWidth() / 2f - getWidth() / 2f;
+            case RIGHT:
+                return getParent().getContentWidth() - getWidth() - getMarginRight();
+            case LEFT:
+            default:
+                return getMarginLeft();
+        }
+    }
+
+    protected float calculateAlignedPositionY() {
         switch (verticalAlignment) {
             case MIDDLE:
-                return getParent().getContentHeight() / 2f - this.calculateInnerHeight() / 2f;
+                return getParent().getContentHeight() / 2f - getHeight() / 2f;
             case BOTTOM:
-                return this.calculateInnerWidth() + this.marginBottom;
+                return getContentHeight() - getHeight() - getMarginBottom();
             case TOP:
             default:
-                return getParent().getHeight() - this.marginTop;
+                return this.getMarginTop();
         }
     }
 
     protected float calculateInnerWidth() {
         switch (horizontalSizing) {
             case FIT_CONTENT:
-                return this.calculatedChildrenWidth();
+                return calculatedChildrenWidth();
             case FILL_PARENT:
                 return getParent().getContentWidth() - getMarginLeft() - getMarginRight() - getPaddingLeft() - getPaddingRight();
             case STATIC:
             default:
-                return this.contentWidth;
+                return getContentWidth();
         }
-    }
-
-    protected float calculatedChildrenWidth() {
-        return 0;
     }
 
     protected float calculateInnerHeight() {
         switch (verticalSizing) {
             case FIT_CONTENT:
-                return this.calculatedChildrenHeight();
+                return calculatedChildrenHeight();
             case FILL_PARENT:
                 return getParent().getContentHeight() - getMarginBottom() - getMarginTop() - getPaddingBottom() - getPaddingTop();
             case STATIC:
             default:
-                return this.contentHeight;
+                return getContentHeight();
         }
     }
 
+    protected float calculatedChildrenWidth() {
+        float width = 0;
+
+        for (Widget child : this.children) {
+            width = Math.max(width, child.getX() + child.calculateInnerWidth() + child.getMarginLeft() + child.getMarginRight());
+        }
+
+        return width;
+    }
+
     protected float calculatedChildrenHeight() {
-        return 0;
+        float height = 0;
+
+        for (Widget child : this.children) {
+            height = Math.max(height, child.getY() + child.calculateInnerHeight() + child.getMarginTop() + child.getMarginBottom());
+        }
+
+        return height;
     }
 
     public final void render() {
@@ -364,6 +506,7 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     protected void draw() {
     }
 
+    //region Object overrides
     @Override
     public int hashCode() {
         return this.id;
@@ -384,4 +527,17 @@ public abstract class Widget implements Invalidatable, Comparable<Widget>, Dispo
     public String toString() {
         return getClass().getName() + ":" + this.id;
     }
+
+    private static final class WidgetDepthComparator implements Comparator<Widget> {
+        @Override
+        public int compare(Widget w1, Widget w2) {
+            if (w1.depth > w2.depth) {
+                return -1;
+            } else if (w1.depth < w2.depth) {
+                return 1;
+            }
+            return 0;
+        }
+    }
+    //endregion
 }

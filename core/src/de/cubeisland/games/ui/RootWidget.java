@@ -8,6 +8,12 @@ public class RootWidget extends Container {
 
     private Vector2 position;
 
+    public RootWidget() {
+        setSizing(Sizing.STATIC);
+        setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.TOP);
+        setPositioning(Positioning.ABSOLUTE);
+    }
+
     @Override
     public Widget getParent() {
         return null;
@@ -49,5 +55,9 @@ public class RootWidget extends Container {
     @Override
     protected void recalculate() {
         this.position = null;
+    }
+
+    @Override
+    protected final void draw() {
     }
 }

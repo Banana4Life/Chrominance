@@ -29,21 +29,19 @@ public class Container extends Widget {
         super.draw();
         Vector2 pos = this.getAbsolutePosition();
 
-        if (!(this instanceof RootWidget)) {
-            this.renderer.begin(Filled);
-            this.renderer.setColor(Color.BLACK);
-            this.renderer.circle(pos.x, pos.y, 5);
-            this.renderer.setColor(Color.MAGENTA);
-            this.renderer.circle(pos.x + getWidth(), pos.y - getHeight(), 5);
-            this.renderer.end();
+        this.renderer.begin(Filled);
+        this.renderer.setColor(Color.BLACK);
+        this.renderer.circle(pos.x, pos.y, 5);
+        this.renderer.setColor(Color.MAGENTA);
+        this.renderer.circle(pos.x + getWidth(), pos.y - getHeight(), 5);
+        this.renderer.end();
 
-            this.renderer.begin(Line);
-            this.renderer.setColor(Color.ORANGE);
-            this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
-            this.renderer.end();
-        }
+        this.renderer.begin(Line);
+        this.renderer.setColor(Color.ORANGE);
+        this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
+        this.renderer.end();
 
-        if (this.backgroundColor.a > 0) {
+        if (this.backgroundColor.a > 0f) {
             this.renderer.begin(Filled);
             this.renderer.setColor(this.backgroundColor);
             this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
