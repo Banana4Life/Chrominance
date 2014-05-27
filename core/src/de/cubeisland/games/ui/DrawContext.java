@@ -1,22 +1,29 @@
 package de.cubeisland.games.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.cubeisland.games.Base2DGame;
 
 public class DrawContext {
+    private final Base2DGame game;
     private final ShapeRenderer shapeRenderer;
-    private final SpriteBatch spriteBatch;
+    private final Batch batch;
 
-    public DrawContext(ShapeRenderer shapeRenderer, SpriteBatch spriteBatch) {
+    public DrawContext(Base2DGame game, ShapeRenderer shapeRenderer, Batch batch) {
+        this.game = game;
         this.shapeRenderer = shapeRenderer;
-        this.spriteBatch = spriteBatch;
+        this.batch = batch;
+    }
+
+    public Base2DGame getGame() {
+        return game;
     }
 
     public ShapeRenderer getShapeRenderer() {
         return shapeRenderer;
     }
 
-    public SpriteBatch getSpriteBatch() {
-        return spriteBatch;
+    public Batch getBatch() {
+        return batch;
     }
 }

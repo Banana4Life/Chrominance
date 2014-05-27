@@ -9,7 +9,7 @@ import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeT
 
 public class Font implements Invalidatable {
     private final FreeTypeFontGenerator generator;
-    private SizeDefinition size;
+    private final SizeDefinition size;
     private BitmapFont bitmapFont;
 
     protected Font(FreeTypeFontGenerator generator, SizeDefinition size) {
@@ -27,13 +27,11 @@ public class Font implements Invalidatable {
     }
 
     public Font setSize(int size) {
-        this.size = new StaticSize(size);
-        return this;
+        return new Font(this.generator, size);
     }
 
     public Font setSize(Widget container, float percentage) {
-        this.size = new PercentageSize(container, percentage);
-        return this;
+        return new Font(this.generator, container, percentage);
     }
 
     public int getSize() {
@@ -51,7 +49,9 @@ public class Font implements Invalidatable {
 
     @Override
     public void invalidate() {
-        this.bitmapFont.dispose();
-        this.bitmapFont = null;
+        if (this.bitmapFont != null) {
+            this.bitmapFont.dispose();
+            this.bitmapFont = null;
+        }
     }
 }

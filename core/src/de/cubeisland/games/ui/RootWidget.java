@@ -58,6 +58,11 @@ public class RootWidget extends Container {
     }
 
     @Override
+    public boolean isVisible() {
+        return true;
+    }
+
+    @Override
     protected final void draw(DrawContext context) {
     }
 }

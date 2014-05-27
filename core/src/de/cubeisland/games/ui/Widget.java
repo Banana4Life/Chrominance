@@ -1,10 +1,16 @@
 package de.cubeisland.games.ui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import de.cubeisland.games.ui.layout.Layout;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
+import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 
 public abstract class Widget implements Invalidatable, Disposable {
 
@@ -15,9 +21,10 @@ public abstract class Widget implements Invalidatable, Disposable {
     private final List<Widget> children = new ArrayList<>();
 
     //region Positioning fields
-    private Positioning         positioning         = Positioning.RELATIVE_ALIGNED;
+    private Positioning         positioning         = null;
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
     private VerticalAlignment   verticalAlignment   = VerticalAlignment.TOP;
+    private Layout              layout              = null;
 
     private Sizing horizontalSizing = Sizing.FILL_PARENT;
     private Sizing verticalSizing   = Sizing.FIT_CONTENT;
@@ -26,20 +33,26 @@ public abstract class Widget implements Invalidatable, Disposable {
     private float x             = 0;
     private float y             = 0;
     private float absX          = 0;
+
     private float absY          = 0;
-
     private float contentWidth  = 0;
-    private float contentHeight = 0;
 
+    private float contentHeight = 0;
     private float paddingTop    = 0;
     private float paddingRight  = 0;
     private float paddingBottom = 0;
-    private float paddingLeft   = 0;
 
+    private float paddingLeft   = 0;
     private float marginTop     = 0;
     private float marginRight   = 0;
     private float marginBottom  = 0;
     private float marginLeft    = 0;
+    //endregion
+
+    //region visual properties
+    private boolean visible       = true;
+    private Color foregroundColor = Color.BLACK.cpy();
+    private Color backgroundColor = Color.CLEAR.cpy();
     //endregion
 
     protected Widget() {
@@ -107,6 +120,14 @@ public abstract class Widget implements Invalidatable, Disposable {
         this.setAlignment(horizontal);
         this.setAlignment(vertical);
         return this;
+    }
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
     }
 
     public float getX() {
@@ -276,12 +297,20 @@ public abstract class Widget implements Invalidatable, Disposable {
         return this;
     }
 
+    public float getOuterWidth() {
+        return getWidth() + getMarginLeft() + getMarginRight();
+    }
+
     public float getHeight() {
         return getPaddingTop() + getContentHeight() + getPaddingBottom();
     }
 
     public float getContentHeight() {
         return contentHeight;
+    }
+
+    public float getOuterHeight() {
+        return getHeight() + getMarginTop() + getMarginBottom();
     }
 
     public Sizing getHorizontalSizing() {
@@ -312,6 +341,39 @@ public abstract class Widget implements Invalidatable, Disposable {
         return this;
     }
 
+    public Color getForegroundColor() {
+        if (this.foregroundColor != null) {
+            return foregroundColor.cpy();
+        }
+        Widget parent = getParent();
+        if (parent != null) {
+            return parent.getForegroundColor();
+        }
+        return null;
+    }
+
+    public void setForegroundColor(Color foregroundColor) {
+        this.foregroundColor = foregroundColor.cpy();
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor.cpy();
+    }
+
+    public Widget setBackgroundColor(Color color) {
+        this.backgroundColor = color.cpy();
+        return this;
+    }
+
+    public boolean isVisible() {
+        return this.visible;
+    }
+
+    public Widget setVisible(boolean visible) {
+        this.visible = visible;
+        return this;
+    }
+
     public Widget addChild(Widget widget) {
         if (widget == this) {
             throw new IllegalArgumentException("You can't add the widget as a child of itself!");
@@ -322,7 +384,12 @@ public abstract class Widget implements Invalidatable, Disposable {
         this.children.add(widget);
         widget.parent = this;
         Collections.sort(this.children, BY_DEPTH);
-        widget.invalidate();
+        if (getLayout() != null && widget.positioning == null) {
+            widget.positioning = Positioning.LAYOUT;
+        }
+        if (getParent() != null) {
+            this.invalidate();
+        }
         return this;
     }
 
@@ -342,9 +409,17 @@ public abstract class Widget implements Invalidatable, Disposable {
 
     @Override
     public final void invalidate() {
+        // skip while not in the graph yet
+        if (getParent() == null) {
+            return;
+        }
+
         this.recalculate();
         for (Widget child : this.children) {
             child.invalidate();
+        }
+        if (this.layout != null) {
+            this.layout.positionWidgets(this.children);
         }
     }
 
@@ -378,13 +453,15 @@ public abstract class Widget implements Invalidatable, Disposable {
 
     protected float calculateAbsoluteX() {
 
-        float x = this.x;
+        float x = 0;
 
         if (this.positioning != Positioning.ABSOLUTE) {
             Widget w = this;
+            Widget p;
             while (w.getParent() != null) {
-                x += w.getX();
-                w = w.getParent();
+                p = w.getParent();
+                x += p.getPaddingLeft() + w.getX();
+                w = p;
             }
         }
 
@@ -393,13 +470,15 @@ public abstract class Widget implements Invalidatable, Disposable {
 
     protected float calculateAbsoluteY() {
 
-        float y = this.y;
+        float y = 0;
 
         if (this.positioning != Positioning.ABSOLUTE) {
             Widget w = this;
+            Widget p;
             while (w.getParent() != null) {
-                y += w.getY();
-                w = w.getParent();
+                p = w.getParent();
+                y += p.getPaddingTop() + w.getY();
+                w = p;
             }
         }
 
@@ -407,25 +486,17 @@ public abstract class Widget implements Invalidatable, Disposable {
     }
 
     protected float calculateX() {
-        switch (positioning) {
-            case RELATIVE_ALIGNED:
-                return this.calculateAlignedPositionX();
-            case RELATIVE:
-            case ABSOLUTE:
-            default:
-                return this.x;
+        if (positioning == null) {
+            return this.calculateAlignedPositionX();
         }
+        return this.x;
     }
 
     protected float calculateY() {
-        switch (positioning) {
-            case RELATIVE_ALIGNED:
-                return this.calculateAlignedPositionY();
-            case RELATIVE:
-            case ABSOLUTE:
-            default:
-                return this.y;
+        if (positioning == null) {
+            return this.calculateAlignedPositionY();
         }
+        return this.y;
     }
 
     protected float calculateAlignedPositionX() {
@@ -497,6 +568,9 @@ public abstract class Widget implements Invalidatable, Disposable {
     }
 
     public final void render(DrawContext context) {
+        if (!isVisible()) {
+            return;
+        }
         this.draw(context);
         for (Widget child : this.children) {
             child.render(context);
@@ -504,6 +578,46 @@ public abstract class Widget implements Invalidatable, Disposable {
     }
 
     protected void draw(DrawContext context) {
+        Vector2 pos = this.getAbsolutePosition();
+
+        final ShapeRenderer r = context.getShapeRenderer();
+
+        if (context.getGame().isDebug()) {
+            r.begin(Filled);
+            r.setColor(Color.BLACK);
+            r.circle(pos.x, pos.y, 5);
+            r.setColor(Color.MAGENTA);
+            r.circle(pos.x + getWidth(), pos.y - getHeight(), 5);
+            r.end();
+
+            r.begin(Line);
+            r.setColor(Color.ORANGE);
+            r.rect(pos.x, pos.y, getWidth(), -getHeight());
+            r.end();
+        }
+
+        if (this.backgroundColor.a > 0f) {
+            r.begin(Filled);
+            r.setColor(this.backgroundColor);
+            r.rect(pos.x, pos.y, getWidth(), -getHeight());
+            r.end();
+        }
+
+        if (context.getGame().isDebug()) {
+            if (getPaddingTop() + getPaddingBottom() + getPaddingLeft() + getPaddingRight() > 0) {
+                r.begin(Line);
+                r.setColor(Color.BLACK);
+                r.rect(pos.x + getPaddingLeft(), pos.y - getPaddingTop(), getContentWidth(), -getContentHeight());
+                r.end();
+            }
+
+            if (getMarginTop() + getMarginBottom() + getMarginLeft() + getMarginRight() > 0) {
+                r.begin(Line);
+                r.setColor(Color.PINK);
+                r.rect(pos.x - getMarginLeft(), pos.y + getMarginTop(), getOuterWidth(), -getOuterHeight());
+                r.end();
+            }
+        }
     }
 
     //region Object overrides

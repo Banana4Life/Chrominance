@@ -1,6 +1,7 @@
 package de.cubeisland.games;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,6 +11,11 @@ public abstract class Base2DGame extends Game {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
+    private final boolean debug;
+
+    protected Base2DGame() {
+        this.debug = System.getProperty("debug") != null;
+    }
 
     @Override
     public void create() {
@@ -47,5 +53,13 @@ public abstract class Base2DGame extends Game {
 
     public ShapeRenderer getShapeRenderer() {
         return this.shapeRenderer;
+    }
+
+    public int getFPS() {
+        return Gdx.graphics.getFramesPerSecond();
+    }
+
+    public boolean isDebug() {
+        return this.debug;
     }
 }

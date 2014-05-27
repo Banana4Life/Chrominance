@@ -3,7 +3,6 @@ package de.cubeisland.games.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.cubeisland.games.Base2DGame;
 import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.RootWidget;
@@ -16,7 +15,7 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     public AbstractScreen(T game) {
         this.game = game;
         this.rootWidget = new RootWidget();
-        this.context = new DrawContext(game.getShapeRenderer(), game.getBatch());
+        this.context = new DrawContext(game, game.getShapeRenderer(), game.getBatch());
     }
 
     public T getGame() {

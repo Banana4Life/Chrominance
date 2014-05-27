@@ -12,7 +12,7 @@ public enum Positioning {
     RELATIVE,
 
     /**
-     * The position relative to the parent, but automatically aligned through VerticalAlignment and horizontalAlignment
+     * The position is determined by the layout
      */
-    RELATIVE_ALIGNED
+    LAYOUT
 }
