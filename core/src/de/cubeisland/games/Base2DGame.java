@@ -3,17 +3,23 @@ package de.cubeisland.games;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class Base2DGame extends Game {
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
+    private ShapeRenderer shapeRenderer;
 
     @Override
     public void create() {
-        this.batch = new SpriteBatch();
         this.camera = new OrthographicCamera();
+        this.batch = new SpriteBatch();
+        this.shapeRenderer = new ShapeRenderer();
+
         this.camera.setToOrtho(false);
+        this.batch.setProjectionMatrix(this.camera.combined);
+        this.shapeRenderer.setProjectionMatrix(this.camera.combined);
     }
 
     @Override
@@ -37,5 +43,9 @@ public abstract class Base2DGame extends Game {
 
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public ShapeRenderer getShapeRenderer() {
+        return shapeRenderer;
     }
 }

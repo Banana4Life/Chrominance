@@ -16,7 +16,7 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     public AbstractScreen(T game) {
         this.game = game;
         this.rootWidget = new RootWidget();
-        this.context = new DrawContext(new ShapeRenderer(), game.getBatch());
+        this.context = new DrawContext(game.getShapeRenderer(), game.getBatch());
     }
 
     public T getGame() {
