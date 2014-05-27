@@ -4,15 +4,20 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.cubeisland.games.BaseGame;
+import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.RootWidget;
 
-public abstract class AbstractScreen<T extends Game> implements Screen {
+public abstract class AbstractScreen<T extends BaseGame> implements Screen {
     private final T game;
     private final RootWidget rootWidget;
+    private final DrawContext context;
 
     public AbstractScreen(T game) {
         this.game = game;
         this.rootWidget = new RootWidget();
+        this.context = new DrawContext(new ShapeRenderer(), game.getBatch());
     }
 
     public T getGame() {
@@ -30,7 +35,7 @@ public abstract class AbstractScreen<T extends Game> implements Screen {
 
         this.renderScreen(getGame(), delta);
 
-        this.rootWidget.render();
+        this.rootWidget.render(this.context);
     }
 
     public abstract void renderScreen(T game, float delta);

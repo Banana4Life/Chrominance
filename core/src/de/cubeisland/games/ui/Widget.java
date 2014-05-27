@@ -496,14 +496,14 @@ public abstract class Widget implements Invalidatable, Disposable {
         return height;
     }
 
-    public final void render() {
-        this.draw();
+    public final void render(DrawContext context) {
+        this.draw(context);
         for (Widget child : this.children) {
-            child.render();
+            child.render(context);
         }
     }
 
-    protected void draw() {
+    protected void draw(DrawContext context) {
     }
 
     //region Object overrides

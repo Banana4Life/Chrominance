@@ -1,5 +1,6 @@
 package de.cubeisland.games.ui.widgets;
 
+import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.Widget;
 import de.cubeisland.games.ui.font.Font;
 
@@ -26,7 +27,7 @@ public class Label extends Widget {
     }
 
     @Override
-    protected void draw() {
-        super.draw();
+    protected void draw(DrawContext context) {
+        super.draw(context);
     }
 }

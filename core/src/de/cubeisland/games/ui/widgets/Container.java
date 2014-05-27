@@ -3,6 +3,7 @@ package de.cubeisland.games.ui.widgets;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.RootWidget;
 import de.cubeisland.games.ui.Widget;
 
@@ -25,27 +26,29 @@ public class Container extends Widget {
     }
 
     @Override
-    protected void draw() {
-        super.draw();
+    protected void draw(DrawContext context) {
+        super.draw(context);
         Vector2 pos = this.getAbsolutePosition();
 
-        this.renderer.begin(Filled);
-        this.renderer.setColor(Color.BLACK);
-        this.renderer.circle(pos.x, pos.y, 5);
-        this.renderer.setColor(Color.MAGENTA);
-        this.renderer.circle(pos.x + getWidth(), pos.y - getHeight(), 5);
-        this.renderer.end();
+        final ShapeRenderer r = context.getShapeRenderer();
 
-        this.renderer.begin(Line);
-        this.renderer.setColor(Color.ORANGE);
-        this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
-        this.renderer.end();
+        r.begin(Filled);
+        r.setColor(Color.BLACK);
+        r.circle(pos.x, pos.y, 5);
+        r.setColor(Color.MAGENTA);
+        r.circle(pos.x + getWidth(), pos.y - getHeight(), 5);
+        r.end();
+
+        r.begin(Line);
+        r.setColor(Color.ORANGE);
+        r.rect(pos.x, pos.y, getWidth(), -getHeight());
+        r.end();
 
         if (this.backgroundColor.a > 0f) {
-            this.renderer.begin(Filled);
-            this.renderer.setColor(this.backgroundColor);
-            this.renderer.rect(pos.x, pos.y, getWidth(), -getHeight());
-            this.renderer.end();
+            r.begin(Filled);
+            r.setColor(this.backgroundColor);
+            r.rect(pos.x, pos.y, getWidth(), -getHeight());
+            r.end();
         }
     }
 

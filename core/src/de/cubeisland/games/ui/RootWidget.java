@@ -58,6 +58,6 @@ public class RootWidget extends Container {
     }
 
     @Override
-    protected final void draw() {
+    protected final void draw(DrawContext context) {
     }
 }
