@@ -29,7 +29,7 @@ public class MenuScreen extends AbstractMenuScreen<Chrominance> {
 
         label = new Label();
         label.setFont(new Font(new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf")), c3, .5f))
-             .setContentDimensions(100, 100).setPosition(10, 100).setMargin(10).setVerticalSizing(FILL_PARENT)
+             .setMargin(10)
              .setForegroundColor(BLACK);
         c3.addChild(label);
 
@@ -42,11 +42,6 @@ public class MenuScreen extends AbstractMenuScreen<Chrominance> {
     public void renderScreen(Chrominance game, float delta) {
 
         label.setText("FPS: " + game.getFPS());
-
-//        game.getBatch().setProjectionMatrix(game.getCamera().combined);
-//        game.getBatch().begin();
-//        menu.draw(game, delta);
-//        game.getBatch().end();
     }
 
     @Override
