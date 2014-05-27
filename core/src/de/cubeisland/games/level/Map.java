@@ -117,21 +117,33 @@ public class Map
         return height;
     }
 
-    public float getHorizontalScale() {
-        return Gdx.graphics.getWidth() / this.getWidth();
+    public float getScale() {
+        return Math.min(Gdx.graphics.getWidth() / this.width, Gdx.graphics.getHeight() / this.height);
     }
 
-    public float getVerticalScale() {
-        return Gdx.graphics.getHeight() / this.getHeight();
+    public float getXOffset() {
+        float scaleWmH = (Gdx.graphics.getWidth() / this.width) - (Gdx.graphics.getHeight() / this.height);
+        if (scaleWmH > 0) {
+            return scaleWmH * this.width / 2;
+        } else {
+            return 0;
+        }
+    }
+    public float getYOffset() {
+        float scaleHmW = (Gdx.graphics.getHeight() / this.height) - (Gdx.graphics.getWidth() / this.width);
+        if (scaleHmW > 0) {
+            return scaleHmW * this.height / 2;
+        } else {
+            return 0;
+        }
     }
 
     public Vector2 scale(Vector2 in) {
-        Vector2 out = in.cpy();
-
-        out.x *= getHorizontalScale();
-        out.y *= getVerticalScale();
-
-        return out;
+        return in.cpy().scl(getScale());
+    }
+    public Vector2 offset(Vector2 in) {
+        Vector2 offsetVec = new Vector2(getXOffset(), getYOffset());
+        return in.cpy().add(offsetVec);
     }
 
     public Path getRandomPath() {

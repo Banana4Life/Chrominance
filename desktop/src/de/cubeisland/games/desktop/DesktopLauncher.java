@@ -7,7 +7,7 @@ import de.cubeisland.games.Chrominance;
 public class DesktopLauncher {
     public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.samples = 8;
+        config.samples = 0;
         new LwjglApplication(new Chrominance(), config);
     }
 }

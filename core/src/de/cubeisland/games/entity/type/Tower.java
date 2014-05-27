@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.ProjectileLauncher;
 import de.cubeisland.games.component.entity.Render;
+import de.cubeisland.games.component.entity.TowerRender;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.entity.EntityTypes;
@@ -13,7 +14,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Tower extends EntityType {
     public Tower() {
-        add(Render.class);
+        add(TowerRender.class);
         add(ProjectileLauncher.class);
         add(ColorContainer.class);
     }
@@ -22,8 +23,7 @@ public class Tower extends EntityType {
     protected void onInitialize(Entity e) {
         super.onInitialize(e);
 
-        e.get(Render.class)
-                .setRadius(20);
+        e.get(TowerRender.class);
         e.get(ProjectileLauncher.class)
                 .setCooldown(1500, MILLISECONDS)
                 .setTargetRange(100)

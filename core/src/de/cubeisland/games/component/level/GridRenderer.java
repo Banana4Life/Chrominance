@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.level.Level;
+import de.cubeisland.games.level.Map;
 
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
@@ -24,20 +25,23 @@ public class GridRenderer extends Component<Level>
     @Override
     public void update(float delta)
     {
-        final float cellWidth = getOwner().getMap().getHorizontalScale();
-        final float cellHeight = getOwner().getMap().getVerticalScale();
+        final Map map = getOwner().getMap();
+        final float cellWidth = map.getScale();
+        final float cellHeight = map.getScale();
+        final float xOffset = map.getXOffset();
+        final float yOffset = map.getYOffset();
 
         // horizontal lines
-        for (int i = 1; i < getOwner().getMap().getHeight(); ++i)
+        for (int i = 1; i < map.getHeight(); ++i)
         {
-            float y = Gdx.graphics.getHeight() - (i * cellHeight);
+            float y = Gdx.graphics.getHeight() - (i * cellHeight) - yOffset;
             this.drawLine(0, y, Gdx.graphics.getWidth() - 1, y);
         }
 
         // vertical lines
-        for (int i = 1; i < getOwner().getMap().getWidth(); ++i)
+        for (int i = 1; i < map.getWidth(); ++i)
         {
-            float x = Gdx.graphics.getWidth() - (i * cellWidth);
+            float x = Gdx.graphics.getWidth() - (i * cellWidth) - xOffset;
             this.drawLine(x, Gdx.graphics.getHeight() - 1, x, 0);
         }
     }
