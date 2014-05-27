@@ -20,7 +20,7 @@ public class MenuScreen extends AbstractMenuScreen<Chrominance> {
 
         Widget c1 = new Container().setBackgroundColor(GREEN ).setContentDimensions(100, 100).setMargin(10).setSizing(STATIC);
         Widget c2 = new Container().setBackgroundColor(RED   ).setContentDimensions( 70,  70).setMargin(10).setSizing(STATIC);
-        Widget c3 = new Container().setBackgroundColor(YELLOW).setContentHeight(150).setMargin(10).setSizing(STATIC);
+        Widget c3 = new Container().setBackgroundColor(YELLOW).setContentHeight(300).setMargin(10).setSizing(STATIC);
 
         rt.addChild(c1);
         c1.addChild(c2);
@@ -30,7 +30,6 @@ public class MenuScreen extends AbstractMenuScreen<Chrominance> {
     @Override
     public void renderScreen(Chrominance game, float delta) {
 
-//        game.getCamera().update();
 //        game.getBatch().setProjectionMatrix(game.getCamera().combined);
 //        game.getBatch().begin();
 //        menu.draw(game, delta);

@@ -28,8 +28,6 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
 
     @Override
     public void renderScreen(Chrominance game, float delta) {
-        game.getCamera().update();
-        game.getBatch().setProjectionMatrix(game.getCamera().combined);
 
         shader.begin();
         shader.setUniformf("Saturation", level.getSaturation());
