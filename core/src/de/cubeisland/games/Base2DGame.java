@@ -34,18 +34,18 @@ public abstract class Base2DGame extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        camera.setToOrtho(false, width, height);
+        this.camera.setToOrtho(false, width, height);
     }
 
     public SpriteBatch getBatch() {
-        return batch;
+        return this.batch;
     }
 
     public OrthographicCamera getCamera() {
-        return camera;
+        return this.camera;
     }
 
     public ShapeRenderer getShapeRenderer() {
-        return shapeRenderer;
+        return this.shapeRenderer;
     }
 }
