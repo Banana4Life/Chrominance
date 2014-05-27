@@ -1,10 +1,9 @@
 package de.cubeisland.games.screen;
 
-import com.badlogic.gdx.Game;
-import de.cubeisland.games.BaseGame;
+import de.cubeisland.games.Base2DGame;
 import de.cubeisland.games.ui.menu.Menu;
 
-public abstract class AbstractMenuScreen<T extends BaseGame> extends AbstractScreen<T> {
+public abstract class AbstractMenuScreen<T extends Base2DGame> extends AbstractScreen<T> {
     private final Menu menu;
 
     public AbstractMenuScreen(T game, Menu menu) {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class BaseGame extends Game {
+public abstract class Base2DGame extends Game {
 
     private SpriteBatch batch;
     private OrthographicCamera camera;

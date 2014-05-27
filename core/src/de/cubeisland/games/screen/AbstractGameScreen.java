@@ -1,9 +1,8 @@
 package de.cubeisland.games.screen;
 
-import com.badlogic.gdx.Game;
-import de.cubeisland.games.BaseGame;
+import de.cubeisland.games.Base2DGame;
 
-public abstract class AbstractGameScreen<T extends BaseGame> extends AbstractScreen<T> {
+public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractScreen<T> {
     private boolean paused;
 
     public AbstractGameScreen(T game) {
