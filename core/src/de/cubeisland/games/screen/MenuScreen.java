@@ -29,6 +29,7 @@ public class MenuScreen extends AbstractMenuScreen<Chrominance> {
 
         label = new Label();
         label.setFont(new Font(new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf")), c3, .5f))
+             .setContentDimensions(100, 100).setPosition(10, 100).setMargin(10).setVerticalSizing(FILL_PARENT)
              .setForegroundColor(BLACK);
         c3.addChild(label);
 
