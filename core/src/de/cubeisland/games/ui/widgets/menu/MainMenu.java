@@ -1,4 +1,4 @@
-package de.cubeisland.games.ui.menu;
+package de.cubeisland.games.ui.widgets.menu;
 
 public class MainMenu extends Menu {
 

@@ -1,4 +1,4 @@
-package de.cubeisland.games.ui.menu;
+package de.cubeisland.games.ui.widgets.menu;
 
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.ui.widgets.Container;

@@ -4,17 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import de.cubeisland.games.Chrominance;
-import de.cubeisland.games.ui.Sizing;
 import de.cubeisland.games.ui.Widget;
 import de.cubeisland.games.ui.font.Font;
-import de.cubeisland.games.ui.menu.MainMenu;
+import de.cubeisland.games.ui.widgets.menu.MainMenu;
 import de.cubeisland.games.ui.widgets.Container;
 import de.cubeisland.games.ui.widgets.Image;
 import de.cubeisland.games.ui.widgets.Label;
 
 import static com.badlogic.gdx.graphics.Color.*;
 import static de.cubeisland.games.ui.Sizing.FILL_PARENT;
-import static de.cubeisland.games.ui.Sizing.STATIC;
 
 public class MenuScreen extends AbstractMenuScreen<Chrominance> {
 

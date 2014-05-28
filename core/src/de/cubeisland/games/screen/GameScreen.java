@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.Level;
-import de.cubeisland.games.ui.menu.Menu;
+import de.cubeisland.games.ui.widgets.menu.Menu;
 
 public class GameScreen extends AbstractGameScreen<Chrominance> {
 
