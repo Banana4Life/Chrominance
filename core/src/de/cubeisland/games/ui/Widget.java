@@ -50,6 +50,7 @@ public abstract class Widget implements Invalidatable, Disposable {
     //endregion
 
     //region visual properties
+    private boolean active        = true;
     private boolean visible       = true;
     private Color foregroundColor = Color.BLACK.cpy();
     private Color backgroundColor = Color.CLEAR.cpy();
@@ -76,16 +77,18 @@ public abstract class Widget implements Invalidatable, Disposable {
         return depth;
     }
 
-    public void setDepth(int depth) {
+    public Widget setDepth(int depth) {
         this.depth = depth;
+        return this;
     }
 
     public Positioning getPositioning() {
         return positioning;
     }
 
-    public void setPositioning(Positioning positioning) {
+    public Widget setPositioning(Positioning positioning) {
         this.positioning = positioning;
+        return this;
     }
 
     public HorizontalAlignment getHorizontalAlignment() {
@@ -126,8 +129,9 @@ public abstract class Widget implements Invalidatable, Disposable {
         return layout;
     }
 
-    public void setLayout(Layout layout) {
+    public Widget setLayout(Layout layout) {
         this.layout = layout;
+        return this;
     }
 
     public float getX() {
@@ -317,8 +321,9 @@ public abstract class Widget implements Invalidatable, Disposable {
         return horizontalSizing;
     }
 
-    public void setHorizontalSizing(Sizing horizontalSizing) {
+    public Widget setHorizontalSizing(Sizing horizontalSizing) {
         this.horizontalSizing = horizontalSizing;
+        return this;
     }
 
     public Sizing getVerticalSizing() {
@@ -352,8 +357,9 @@ public abstract class Widget implements Invalidatable, Disposable {
         return null;
     }
 
-    public void setForegroundColor(Color foregroundColor) {
+    public Widget setForegroundColor(Color foregroundColor) {
         this.foregroundColor = foregroundColor.cpy();
+        return this;
     }
 
     public Color getBackgroundColor() {
@@ -371,6 +377,15 @@ public abstract class Widget implements Invalidatable, Disposable {
 
     public Widget setVisible(boolean visible) {
         this.visible = visible;
+        return this;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public Widget setActive(boolean active) {
+        this.active = active;
         return this;
     }
 
@@ -416,7 +431,9 @@ public abstract class Widget implements Invalidatable, Disposable {
 
         this.recalculate();
         for (Widget child : this.children) {
-            child.invalidate();
+            if (child.isActive()) {
+                child.invalidate();
+            }
         }
         if (this.layout != null) {
             this.layout.positionWidgets(this.children);
@@ -573,7 +590,9 @@ public abstract class Widget implements Invalidatable, Disposable {
         }
         this.draw(context);
         for (Widget child : this.children) {
-            child.render(context);
+            if (child.isActive()) {
+                child.render(context);
+            }
         }
     }
 
