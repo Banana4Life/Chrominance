@@ -56,7 +56,7 @@ public class GameScreen extends ScreenAdapter {
         Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2f) - (pauseMenu.getMaxWidth() / 2f), (Gdx.graphics.getHeight() / 2f) - (pauseMenu.getHeight() / 2f));
         pauseMenu.moveTo(centerPos);
 
-        this.level = new Level(this.game, this.game.mapManager.map1);
+        this.level = new Level(this, this.game.mapManager.map1);
     }
 
     @Override
@@ -110,5 +110,14 @@ public class GameScreen extends ScreenAdapter {
 
     public void pauseGame() {
         this.paused = true;
+    }
+
+    public Chrominance getGame() {
+        return game;
+    }
+
+    public void won() {
+        //TODO: Implement things that happen when you win
+        System.out.println("You won!");
     }
 }

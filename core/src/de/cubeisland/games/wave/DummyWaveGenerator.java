@@ -33,6 +33,11 @@ public class DummyWaveGenerator implements WaveGenerator {
         return new Wave(waveNumber, entities);
     }
 
+    @Override
+    public boolean hasFinished() {
+        return false;
+    }
+
     public Difficulty getDifficulty() {
         return difficulty;
     }

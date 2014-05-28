@@ -75,4 +75,8 @@ public class WaveController extends Component<Level> {
     public void setDelay (long delay, TimeUnit unit) {
         this.delay = unit.toMillis(delay);
     }
+
+    public boolean hasFinished() {
+        return generator.hasFinished();
+    }
 }

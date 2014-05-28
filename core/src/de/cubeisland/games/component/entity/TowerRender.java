@@ -20,7 +20,7 @@ public class TowerRender extends Component<Entity> {
     public void update(float delta) {
         final Vector2 loc = getOwner().getLocation();
         final float scale = getOwner().getLevel().getMap().getScale();
-        final Chrominance game = getOwner().getLevel().getGame();
+        final Chrominance game = getOwner().getLevel().getScreen().getGame();
         final BetterBatch batch = game.getBatch();
         final ProjectileLauncher projectileLauncher = getOwner().get(ProjectileLauncher.class);
         final float rotation = projectileLauncher.getRotation() - 90;

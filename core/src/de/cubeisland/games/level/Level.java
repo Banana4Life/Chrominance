@@ -1,6 +1,5 @@
 package de.cubeisland.games.level;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.collision.CollisionDetector;
@@ -12,7 +11,7 @@ import de.cubeisland.games.component.level.WaveController;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
 import de.cubeisland.games.entity.EntityType;
-import de.cubeisland.games.entity.EntityTypes;
+import de.cubeisland.games.screen.GameScreen;
 import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.DummyWaveGenerator;
 
@@ -25,7 +24,7 @@ public class Level extends ComponentHolder<Level> {
     private final List<Entity> spawnQueue;
 
     private final Map map;
-    private final Chrominance game;
+    private final GameScreen screen;
 
     private final EntityFactory entityFactory;
     private final CollisionDetector collisionDetector;
@@ -33,8 +32,8 @@ public class Level extends ComponentHolder<Level> {
 
     private float saturation = 0f;
 
-    public Level(Chrominance game, Map map) {
-        this.game = game;
+    public Level(GameScreen screen, Map map) {
+        this.screen = screen;
         this.entityFactory = new EntityFactory(this);
         this.entities = new ArrayList<>();
         this.spawnQueue = new ArrayList<>();
@@ -73,7 +72,7 @@ public class Level extends ComponentHolder<Level> {
 
     private void spawnTowers() {
         for (Vector2 loc : this.map.getTowerLocations()) {
-            this.spawn(game.towerManager.towerSlow, getMap().offset(getMap().scale(loc)));
+            this.spawn(screen.getGame().towerManager.towerSlow, getMap().offset(getMap().scale(loc)));
         }
     }
 
@@ -90,6 +89,10 @@ public class Level extends ComponentHolder<Level> {
     }
 
     public void update(float delta) {
+        if (this.get(WaveController.class).hasFinished()) {
+            screen.won();
+        }
+
         for (TickPhase phase : TickPhase.values()) {
             switch (phase) {
                 case POST_COLLISION:
@@ -136,8 +139,8 @@ public class Level extends ComponentHolder<Level> {
         return entityFactory;
     }
 
-    public Chrominance getGame() {
-        return game;
+    public GameScreen getScreen() {
+        return screen;
     }
 
     public Difficulty getDifficulty() {
