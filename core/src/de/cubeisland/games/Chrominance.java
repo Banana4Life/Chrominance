@@ -20,6 +20,7 @@ public class Chrominance extends Game {
     private BetterBatch batch;
     private BitmapFont font;
     private OrthographicCamera camera;
+
     private final Reflector reflector;
 
     public TextureManager textureManager;
@@ -33,19 +34,19 @@ public class Chrominance extends Game {
 
     @Override
     public void create() {
+        reflector.getCodecManager().registerCodec(new YamlCodec());
+        reflector.getDefaultConverterManager().registerConverter(Vector2.class, new Vector2Converter());
+
         batch = new BetterBatch();
         //Use LibGDX's default Arial font.
         font = new BitmapFont();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.textureManager = new TextureManager();
-        this.shaderManager = new ShaderManager();
-        this.mapManager = new MapManager();
-        this.towerManager = new TowerManager();
+        this.textureManager = new TextureManager(this);
+        this.shaderManager = new ShaderManager(this);
+        this.mapManager = new MapManager(this);
+        this.towerManager = new TowerManager(this);
         this.setScreen(new MenuScreen(this));
-        reflector.getCodecManager().registerCodec(new YamlCodec());
-
-        reflector.getDefaultConverterManager().registerConverter(Vector2.class, new Vector2Converter());
     }
 
     @Override
@@ -70,6 +71,10 @@ public class Chrominance extends Game {
 
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public Reflector getReflector() {
+        return reflector;
     }
 
 }

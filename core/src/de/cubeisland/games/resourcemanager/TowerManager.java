@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.engine.reflect.ReflectedYaml;
+import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.entity.type.Tower;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,8 @@ public class TowerManager extends ResourceManager {
     public Tower towerRange;
     public Tower towerPoison;
 
-    public TowerManager() {
-        super("./tower");
+    public TowerManager(Chrominance game) {
+        super(game, "./tower");
     }
 
     @Override
@@ -33,16 +34,30 @@ public class TowerManager extends ResourceManager {
             baseTexture = new Texture(fileMap.get("towerBase"));
         }
         final Texture turretTexture = new Texture(fileMap.get(fieldName + "Turret"));
-        List<Vector2> muzzleOffset = new ArrayList<>();
-        muzzleOffset.add(new Vector2(0, 0));
+
+        TowerConfig config = this.getGame().getReflector().load(TowerConfig.class, fileMap.get(fieldName + "Config").file());
+
         try {
             field.set(this, new Tower()
-                                .setCenterOffset(new Vector2(10, 0))
-                                .setMuzzleOffset(muzzleOffset)
+                                .setCenterOffset(config.centerOffset)
+                                .setMuzzleOffset(config.muzzleOffset)
                                 .setTurretTexture(turretTexture)
-                                .setBaseTexture(baseTexture));
+                                .setBaseTexture(baseTexture)
+                                .setMaxShots(config.maxShots)
+                                .setMaxRotationPerTick(config.maxRotationPerTick)
+                                .setTargetRange(config.targetRange)
+                                .setCooldown(config.cooldown));
         } catch (IllegalAccessException e) {
             Gdx.app.log("Error loading towers", e.getMessage());
         }
+    }
+
+    public static class TowerConfig extends ReflectedYaml {
+        public List<Vector2> muzzleOffset;
+        public Vector2 centerOffset;
+        public float maxShots;
+        public float maxRotationPerTick;
+        public float targetRange;
+        public long cooldown;
     }
 }

@@ -3,6 +3,7 @@ package de.cubeisland.games.resourcemanager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import de.cubeisland.games.Chrominance;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -10,8 +11,8 @@ import java.util.Map;
 public class ShaderManager extends ResourceManager {
     public ShaderProgram saturation;
 
-    public ShaderManager() {
-        super("./shaders");
+    public ShaderManager(Chrominance game) {
+        super(game, "./shaders");
     }
 
     @Override

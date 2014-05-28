@@ -120,4 +120,8 @@ public class GameScreen extends ScreenAdapter {
         //TODO: Implement things that happen when you win
         System.out.println("You won!");
     }
+    public void lost() {
+        //TODO: Implement things that happen when you lose
+        System.out.println("You lose!");
+    }
 }

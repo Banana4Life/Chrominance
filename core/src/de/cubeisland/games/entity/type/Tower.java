@@ -20,6 +20,10 @@ public class Tower extends EntityType {
     private List<Vector2> muzzleOffset = new ArrayList<>();
     private Texture turretTexture;
     private Texture baseTexture;
+    private float maxShots = 10;
+    private float maxRotationPerTick = 300;
+    private float targetRange = 100;
+    private long cooldown = 1500;
 
     public Tower() {
         add(TowerRender.class);
@@ -37,14 +41,16 @@ public class Tower extends EntityType {
                 .setTurretTexture(turretTexture)
                 .setBaseTexture(baseTexture);
         e.get(ProjectileLauncher.class)
-                .setCooldown(1500, MILLISECONDS)
-                .setTargetRange(100)
+                .setCooldown(cooldown, MILLISECONDS)
+                .setTargetRange(targetRange)
                 .setProjectile(EntityTypes.BULLET)
                 .setCenterOffset(centerOffset)
-                .setMuzzleOffset(muzzleOffset);
+                .setMuzzleOffset(muzzleOffset)
+                .setMaxRotationPerTick(maxRotationPerTick);
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)
-                .setAmount(10);
+                .setMaxAmount(maxShots)
+                .refill();
     }
 
     public Tower setCenterOffset(Vector2 centerOffset) {
@@ -61,6 +67,22 @@ public class Tower extends EntityType {
     }
     public Tower setBaseTexture(Texture texture) {
         this.baseTexture = texture;
+        return this;
+    }
+    public Tower setMaxShots(float maxShots) {
+        this.maxShots = maxShots;
+        return this;
+    }
+    public Tower setMaxRotationPerTick(float maxRotationPerTick) {
+        this.maxRotationPerTick = maxRotationPerTick;
+        return this;
+    }
+    public Tower setTargetRange(float targetRange) {
+        this.targetRange = targetRange;
+        return this;
+    }
+    public Tower setCooldown(long cooldown) {
+        this.cooldown = cooldown;
         return this;
     }
 }

@@ -92,6 +92,9 @@ public class Level extends ComponentHolder<Level> {
         if (this.get(WaveController.class).hasFinished()) {
             screen.won();
         }
+        if (this.saturation <= 0) {
+            screen.lost();
+        }
 
         for (TickPhase phase : TickPhase.values()) {
             switch (phase) {
