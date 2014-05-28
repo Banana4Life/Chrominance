@@ -17,6 +17,7 @@ public class ProjectileLauncher extends Component<Entity> {
     private long lastFired = 0;
     private float rotation = 0;
     private float maxRotationPerTick = 300;
+    private Vector2 centerOffset = new Vector2(0, -10);
 
     @Override
     public void update(float delta) {
@@ -145,5 +146,13 @@ public class ProjectileLauncher extends Component<Entity> {
 
     public float getRotation() {
         return rotation;
+    }
+
+    public ProjectileLauncher setCenterOffset(float offsetX, float offsetY) {
+        centerOffset = new Vector2(offsetX, offsetY);
+        return this;
+    }
+    public Vector2 getCenterOffset() {
+        return centerOffset.cpy();
     }
 }
