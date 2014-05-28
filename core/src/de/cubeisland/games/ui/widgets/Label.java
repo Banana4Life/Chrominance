@@ -1,6 +1,5 @@
 package de.cubeisland.games.ui.widgets;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import de.cubeisland.games.ui.DrawContext;
@@ -41,6 +40,9 @@ public class Label extends Widget {
 
     @Override
     protected void recalculate() {
+        if (this.text != null) {
+            return;
+        }
         super.recalculate();
         this.font.invalidate();
         this.bounds = null;
@@ -65,7 +67,7 @@ public class Label extends Widget {
         b.begin();
         BitmapFont font = this.font.getBitmapFont();
         font.setColor(getForegroundColor());
-        font.draw(context.getBatch(), this.text, getX(), getY());
+        font.draw(context.getBatch(), this.text, getAbsoluteX(), getAbsoluteY());
         b.end();
     }
 }
