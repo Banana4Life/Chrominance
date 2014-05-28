@@ -15,6 +15,8 @@ public class ProjectileLauncher extends Component<Entity> {
     private float targetRangeSquared = this.targetRange * this.targetRange;
     private long cooldown = 0;
     private long lastFired = 0;
+    private float rotation = 0;
+    private float maxRotationPerTick = 300;
 
     @Override
     public void update(float delta) {
@@ -30,11 +32,15 @@ public class ProjectileLauncher extends Component<Entity> {
 
         Entity target = this.findNearestTarget(loc);
         if (target != null) {
-            // Vector2 v = this.calculateVelocity(loc, target, this.projectile.launchSpeed());
             Vector2 v = this.calculateVelocity(loc, target.get(PathFollower.class).getIntersection(loc, this.projectile.launchSpeed()), this.projectile.launchSpeed());
-            getOwner().getLevel().spawn(this.projectile, loc).setVelocity(v).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
-            getOwner().get(ColorContainer.class).shoot();
-            this.lastFired = System.currentTimeMillis();
+            if (v != null) {
+                this.rotate(v.angle(), delta);
+                if (rotation == v.angle()) {
+                    getOwner().getLevel().spawn(this.projectile, loc).setVelocity(v).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
+                    getOwner().get(ColorContainer.class).shoot();
+                    this.lastFired = System.currentTimeMillis();
+                }
+            }
         }
     }
 
@@ -100,5 +106,44 @@ public class ProjectileLauncher extends Component<Entity> {
     public ProjectileLauncher setCooldown(long cooldown, TimeUnit unit) {
         this.cooldown = unit.toMillis(cooldown);
         return this;
+    }
+
+    public ProjectileLauncher setRotation(float rotation) {
+        this.rotation = getAngleInLimits(rotation);
+        return this;
+    }
+    public ProjectileLauncher setMaxRotationPerTick(float maxRotationPerTick) {
+        this.maxRotationPerTick = maxRotationPerTick;
+        return this;
+    }
+    private void rotate(float newAngle, float delta) {
+        newAngle = getAngleInLimits(newAngle);
+        float leftRotation = getAngleInLimits(rotation - newAngle);
+        float rightRotation = getAngleInLimits(newAngle - rotation);
+
+        if (Math.abs(rotation - newAngle) <= maxRotationPerTick * delta) {
+            rotation = newAngle;
+        } else if(leftRotation < rightRotation) {
+            rotation = getAngleInLimits(rotation - (maxRotationPerTick * delta));
+        } else {
+            rotation = getAngleInLimits(rotation + (maxRotationPerTick * delta));
+        }
+    }
+
+    /**
+     * Calculates the given angle to the range of 0-360
+     * @param angle
+     */
+    private float getAngleInLimits(float angle) {
+        if (angle < 0) {
+            angle = 360 - (Math.abs(angle) % 360);
+        } else if(angle > 360) {
+            angle %= 360;
+        }
+        return angle;
+    }
+
+    public float getRotation() {
+        return rotation;
     }
 }
