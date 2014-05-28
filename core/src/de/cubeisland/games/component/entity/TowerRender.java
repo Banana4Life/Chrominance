@@ -22,7 +22,7 @@ public class TowerRender extends Component<Entity> {
         final Chrominance game = getOwner().getLevel().getGame();
         final BetterBatch batch = game.getBatch();
         final Texture baseTexture = game.textureManager.towerBase;
-        final Texture turretTexture = game.textureManager.towerTurret;
+        final Texture turretTexture = game.textureManager.turretSlow;
         final ProjectileLauncher projectileLauncher = getOwner().get(ProjectileLauncher.class);
         final float rotation = projectileLauncher.getRotation() - 90;
         final float sinRot = (float)Math.sin(Math.toRadians(rotation));

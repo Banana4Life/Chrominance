@@ -17,7 +17,7 @@ public class ProjectileLauncher extends Component<Entity> {
     private long lastFired = 0;
     private float rotation = 0;
     private float maxRotationPerTick = 300;
-    private Vector2 centerOffset = new Vector2(0, -10);
+    private Vector2 centerOffset = new Vector2(0, 0);
 
     @Override
     public void update(float delta) {
