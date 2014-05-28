@@ -4,9 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.resourcemanager.MapManager;
 import de.cubeisland.games.resourcemanager.ShaderManager;
 import de.cubeisland.games.resourcemanager.TextureManager;
+import de.cubeisland.games.resourcemanager.TowerManager;
 import de.cubeisland.games.screen.MenuScreen;
 import de.cubeisland.games.util.BetterBatch;
 
@@ -19,6 +21,7 @@ public class Chrominance extends Game {
     public TextureManager textureManager;
     public ShaderManager shaderManager;
     public MapManager mapManager;
+    public TowerManager towerManager;
 
     @Override
     public void create() {
@@ -30,6 +33,7 @@ public class Chrominance extends Game {
         this.textureManager = new TextureManager();
         this.shaderManager = new ShaderManager();
         this.mapManager = new MapManager();
+        this.towerManager = new TowerManager();
         this.setScreen(new MenuScreen(this));
     }
 

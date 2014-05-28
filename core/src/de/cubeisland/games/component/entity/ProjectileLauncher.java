@@ -6,6 +6,8 @@ import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.type.Enemy;
 import de.cubeisland.games.entity.type.Projectile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ProjectileLauncher extends Component<Entity> {
@@ -18,6 +20,7 @@ public class ProjectileLauncher extends Component<Entity> {
     private float rotation = 0;
     private float maxRotationPerTick = 300;
     private Vector2 centerOffset = new Vector2(0, 0);
+    private List<Vector2> muzzleOffset = new ArrayList<>();
 
     @Override
     public void update(float delta) {
@@ -152,7 +155,16 @@ public class ProjectileLauncher extends Component<Entity> {
         centerOffset = new Vector2(offsetX, offsetY);
         return this;
     }
+    public ProjectileLauncher setCenterOffset(Vector2 centerOffset) {
+        this.centerOffset = centerOffset.cpy();
+        return this;
+    }
     public Vector2 getCenterOffset() {
         return centerOffset.cpy();
+    }
+
+    public ProjectileLauncher setMuzzleOffset(List<Vector2> muzzleOffset) {
+        this.muzzleOffset = muzzleOffset;
+        return this;
     }
 }

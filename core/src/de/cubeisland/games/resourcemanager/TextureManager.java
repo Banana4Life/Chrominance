@@ -9,12 +9,6 @@ import java.util.Map;
 
 public class TextureManager extends ResourceManager {
     public Texture badlogic;
-    public Texture towerBase;
-    public Texture turretSlow;
-    public Texture towerPoison;
-    public Texture turretHighFreq;
-    public Texture turretRange;
-    public Texture turretPower;
 
     public TextureManager() {
         super("./textures");

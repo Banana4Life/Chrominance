@@ -73,7 +73,7 @@ public class Level extends ComponentHolder<Level> {
 
     private void spawnTowers() {
         for (Vector2 loc : this.map.getTowerLocations()) {
-            this.spawn(EntityTypes.TOWER, getMap().offset(getMap().scale(loc)));
+            this.spawn(game.towerManager.towerSlow, getMap().offset(getMap().scale(loc)));
         }
     }
 
