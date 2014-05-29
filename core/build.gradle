@@ -9,5 +9,5 @@ eclipse.project {
 }
 
 dependencies {
-    compile 'de.cubeisland.engine:reflect:2.0.2'
+    compile 'de.cubeisland.engine:reflect:2.0.3'
 }
