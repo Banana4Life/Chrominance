@@ -1,6 +1,7 @@
 package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.ui.widgets.Container;
 
@@ -12,6 +13,7 @@ public class RootWidget extends Container {
         setSizing(Sizing.STATIC);
         setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.TOP);
         setPositioning(Positioning.ABSOLUTE);
+        setForegroundColor(Color.BLACK);
     }
 
     @Override

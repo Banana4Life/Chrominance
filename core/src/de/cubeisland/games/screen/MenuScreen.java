@@ -28,11 +28,10 @@ public class MenuScreen extends AbstractMenuScreen<Chrominance> {
         Widget c3 = new Container().setBackgroundTexture(new Texture(Gdx.files.internal("map.bmp"))).setBackgroundColor(YELLOW).setContentHeight(300).setMargin(10).setVerticalSizing(FILL_PARENT).setPadding(3);
 
         label = new Label();
-        label.setFont(new Font(new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf")), c3, .2f))
-             .setForegroundColor(BLACK);
-        c3.addChild(label);
+        label.setFont(new Font(new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf")), c3, .2f));
+        c3.addChild(label.setDepth(100));
 
-        Image img = new Image(new Texture(Gdx.files.internal("badlogic.jpg"))).setScale(2.5f);
+        Widget img = new Image(new Texture(Gdx.files.internal("badlogic.jpg"))).setScale(1).setDepth(-30);
         c3.addChild(img);
 
         rt.addChild(c1);

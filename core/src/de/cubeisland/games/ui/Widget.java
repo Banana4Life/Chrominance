@@ -52,7 +52,7 @@ public abstract class Widget implements Invalidatable, Disposable {
     //region visual properties
     private boolean active        = true;
     private boolean visible       = true;
-    private Color foregroundColor = Color.BLACK.cpy();
+    private Color foregroundColor = null;
     private Color backgroundColor = Color.CLEAR.cpy();
     //endregion
 
@@ -665,9 +665,9 @@ public abstract class Widget implements Invalidatable, Disposable {
         @Override
         public int compare(Widget w1, Widget w2) {
             if (w1.depth > w2.depth) {
-                return -1;
-            } else if (w1.depth < w2.depth) {
                 return 1;
+            } else if (w1.depth < w2.depth) {
+                return -1;
             }
             return 0;
         }
