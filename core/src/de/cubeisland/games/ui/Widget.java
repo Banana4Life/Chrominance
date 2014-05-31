@@ -74,6 +74,10 @@ public abstract class Widget implements Invalidatable, Disposable {
         return getParent().getRoot();
     }
 
+    public final boolean isRoot() {
+        return this instanceof RootWidget;
+    }
+
     public int getDepth() {
         return depth;
     }
@@ -404,9 +408,7 @@ public abstract class Widget implements Invalidatable, Disposable {
         this.childrenOrderedByDepth.add(widget);
         Collections.sort(this.childrenOrderedByDepth, BY_DEPTH);
         widget.parent = this;
-        if (getParent() != null || this instanceof RootWidget) {
-            this.invalidate();
-        }
+        invalidate();
 
         return this;
     }
@@ -429,7 +431,7 @@ public abstract class Widget implements Invalidatable, Disposable {
     @Override
     public final void invalidate() {
         // skip while not in the graph yet
-        if (getParent() == null) {
+        if (getParent() == null && !isRoot()) {
             return;
         }
 
