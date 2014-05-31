@@ -19,6 +19,7 @@ public abstract class Widget implements Invalidatable, Disposable {
     private final int id;
     private Widget parent = null;
     private final List<Widget> children = new ArrayList<>();
+    private final List<Widget> childrenOrderedByDepth = new ArrayList<>();
 
     //region Positioning fields
     private Positioning         positioning         = null;
@@ -397,8 +398,9 @@ public abstract class Widget implements Invalidatable, Disposable {
             throw new IllegalArgumentException("The given widget is already a child!");
         }
         this.children.add(widget);
+        this.childrenOrderedByDepth.add(widget);
+        Collections.sort(this.childrenOrderedByDepth, BY_DEPTH);
         widget.parent = this;
-        Collections.sort(this.children, BY_DEPTH);
         if (getLayout() != null && widget.positioning == null) {
             widget.positioning = Positioning.LAYOUT;
         }
@@ -411,6 +413,7 @@ public abstract class Widget implements Invalidatable, Disposable {
     public Widget removeChild(Widget widget) {
         if (widget.parent == this) {
             this.children.remove(widget);
+            this.childrenOrderedByDepth.remove(widget);
             widget.parent = null;
         }
 
@@ -589,7 +592,7 @@ public abstract class Widget implements Invalidatable, Disposable {
             return;
         }
         this.draw(context);
-        for (Widget child : this.children) {
+        for (Widget child : this.childrenOrderedByDepth) {
             if (child.isActive()) {
                 child.render(context);
             }
