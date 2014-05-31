@@ -12,22 +12,22 @@ public class MainMenu extends Menu<Chrominance> {
         super(font);
     }
 
-    @Entry("Start")
+    @Entry(label = "Start", order = 0)
     public Screen start() {
         return new GameScreen(getGame());
     }
 
-    @Entry("Options")
+    @Entry(label = "Options", order = 10)
     public GameScreen options() {
         return new OptionsScreen(getGame());
     }
 
-    @Entry("Credits")
+    @Entry(label = "Credits", order = 20)
     public GameScreen credits() {
         return new CreditsScreen(getGame());
     }
 
-    @Entry("Exit")
+    @Entry(label = "Exit", order = 30)
     public GameScreen end() {
         return new EndScreen(getGame());
     }

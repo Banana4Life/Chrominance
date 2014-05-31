@@ -20,13 +20,14 @@ public abstract class Widget implements Invalidatable, Disposable {
     private Widget parent = null;
     private final List<Widget> children = new ArrayList<>();
     private final List<Widget> childrenOrderedByDepth = new ArrayList<>();
+    private boolean recalculating = false;
 
     //region Positioning fields
     private Positioning         positioning         = null;
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
     private VerticalAlignment   verticalAlignment   = VerticalAlignment.TOP;
-    private Layout              layout              = null;
 
+    private Layout layout           = null;
     private Sizing horizontalSizing = Sizing.FILL_PARENT;
     private Sizing verticalSizing   = Sizing.FIT_CONTENT;
 
@@ -34,16 +35,16 @@ public abstract class Widget implements Invalidatable, Disposable {
     private float x             = 0;
     private float y             = 0;
     private float absX          = 0;
-
     private float absY          = 0;
-    private float contentWidth  = 0;
 
+    private float contentWidth  = 0;
     private float contentHeight = 0;
+
     private float paddingTop    = 0;
     private float paddingRight  = 0;
     private float paddingBottom = 0;
-
     private float paddingLeft   = 0;
+
     private float marginTop     = 0;
     private float marginRight   = 0;
     private float marginBottom  = 0;
@@ -145,6 +146,7 @@ public abstract class Widget implements Invalidatable, Disposable {
 
     public Widget setX(float x) {
         this.x = x;
+        invalidate();
         return this;
     }
 
@@ -154,6 +156,7 @@ public abstract class Widget implements Invalidatable, Disposable {
 
     public Widget setY(float y) {
         this.y = y;
+        invalidate();
         return this;
     }
 
@@ -429,29 +432,40 @@ public abstract class Widget implements Invalidatable, Disposable {
     //endregion
 
     @Override
+    public void dispose() {
+        Iterator<Widget> it = this.children.iterator();
+        while (it.hasNext()) {
+            it.next().dispose();
+            it.remove();
+        }
+    }
+
+    @Override
     public final void invalidate() {
         // skip while not in the graph yet
         if (getParent() == null && !isRoot()) {
             return;
         }
 
-        this.recalculate();
+        if (this.recalculating) {
+            return;
+        }
+
+        this.recalculating = true;
+        try {
+            this.recalculate();
+        } finally {
+            this.recalculating = false;
+        }
+
         for (Widget child : this.children) {
             if (child.isActive()) {
                 child.invalidate();
             }
         }
+
         if (this.layout != null) {
             this.layout.positionWidgets(this.children);
-        }
-    }
-
-    @Override
-    public void dispose() {
-        Iterator<Widget> it = this.children.iterator();
-        while (it.hasNext()) {
-            it.next().dispose();
-            it.remove();
         }
     }
 
@@ -505,14 +519,14 @@ public abstract class Widget implements Invalidatable, Disposable {
     }
 
     protected float calculateX() {
-        if (positioning == null) {
+        if (positioning == null && getParent().getLayout() == null) {
             return this.calculateAlignedPositionX();
         }
         return this.x;
     }
 
     protected float calculateY() {
-        if (positioning == null) {
+        if (positioning == null && getParent().getLayout() == null) {
             return this.calculateAlignedPositionY();
         }
         return this.y;

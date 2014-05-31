@@ -15,17 +15,17 @@ public class PauseMenu extends Menu<Chrominance> {
         super(font);
     }
 
-    @Entry("Continue")
+    @Entry(label = "Continue", order = 0)
     public MenuAction continueGame() {
         return GameScreen.CLOSE;
     }
 
-    @Entry("Back to main menu")
+    @Entry(label = "Back to main menu", order = 10)
     public MainMenuScreen mainMenu() {
         return new MainMenuScreen(getGame());
     }
 
-    @Entry("Quit")
+    @Entry(label = "Quit", order = 20)
     public EndScreen end() {
         return new EndScreen(getGame());
     }
