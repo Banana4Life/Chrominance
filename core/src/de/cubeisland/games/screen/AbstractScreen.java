@@ -9,12 +9,12 @@ import de.cubeisland.games.ui.RootWidget;
 
 public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     private final T game;
-    private final RootWidget rootWidget;
+    private final RootWidget<T> rootWidget;
     private final DrawContext context;
 
     public AbstractScreen(T game) {
         this.game = game;
-        this.rootWidget = new RootWidget();
+        this.rootWidget = new RootWidget<>(this);
         this.context = new DrawContext(game, game.getShapeRenderer(), game.getBatch());
     }
 

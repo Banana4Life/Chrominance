@@ -394,6 +394,9 @@ public abstract class Widget implements Invalidatable, Disposable {
         if (widget == this) {
             throw new IllegalArgumentException("You can't add the widget as a child of itself!");
         }
+        if (widget.parent != null) {
+            throw new IllegalArgumentException("The given widget is already a child of a different widget!");
+        }
         if (this.children.contains(widget) || this == widget.parent) {
             throw new IllegalArgumentException("The given widget is already a child!");
         }
@@ -401,12 +404,10 @@ public abstract class Widget implements Invalidatable, Disposable {
         this.childrenOrderedByDepth.add(widget);
         Collections.sort(this.childrenOrderedByDepth, BY_DEPTH);
         widget.parent = this;
-        if (getLayout() != null && widget.positioning == null) {
-            widget.positioning = Positioning.LAYOUT;
-        }
-        if (getParent() != null) {
+        if (getParent() != null || this instanceof RootWidget) {
             this.invalidate();
         }
+
         return this;
     }
 
@@ -475,14 +476,12 @@ public abstract class Widget implements Invalidatable, Disposable {
 
         float x = 0;
 
-        if (this.positioning != Positioning.ABSOLUTE) {
-            Widget w = this;
-            Widget p;
-            while (w.getParent() != null) {
-                p = w.getParent();
-                x += p.getPaddingLeft() + w.getX();
-                w = p;
-            }
+        Widget w = this;
+        Widget p;
+        while (w.getParent() != null) {
+            p = w.getParent();
+            x += p.getPaddingLeft() + w.getX();
+            w = p;
         }
 
         return x;
@@ -492,14 +491,12 @@ public abstract class Widget implements Invalidatable, Disposable {
 
         float y = 0;
 
-        if (this.positioning != Positioning.ABSOLUTE) {
-            Widget w = this;
-            Widget p;
-            while (w.getParent() != null) {
-                p = w.getParent();
-                y += p.getPaddingTop() + w.getY();
-                w = p;
-            }
+        Widget w = this;
+        Widget p;
+        while (w.getParent() != null) {
+            p = w.getParent();
+            y += p.getPaddingTop() + w.getY();
+            w = p;
         }
 
         return getRoot().getHeight() - y;

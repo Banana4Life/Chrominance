@@ -1,13 +1,17 @@
 package de.cubeisland.games.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.ui.widgets.menu.Menu;
+import de.cubeisland.games.ui.widgets.menu.MenuAction;
 
 public class GameScreen extends AbstractGameScreen<Chrominance> {
+
+    public static final MenuAction CLOSE = new CloseMenuAction();
 
     private final ShaderProgram shader;
     private Level level;
@@ -39,5 +43,13 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         this.level.update(delta);
 
         shader.end();
+    }
+
+
+    private static class CloseMenuAction implements MenuAction {
+        @Override
+        public void go(Screen screen) {
+
+        }
     }
 }

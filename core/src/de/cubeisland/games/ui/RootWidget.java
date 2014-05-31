@@ -3,17 +3,24 @@ package de.cubeisland.games.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.Base2DGame;
+import de.cubeisland.games.screen.AbstractScreen;
 import de.cubeisland.games.ui.widgets.Container;
 
-public class RootWidget extends Container {
+public class RootWidget<T extends Base2DGame> extends Container {
 
     private Vector2 position;
+    private final AbstractScreen<T> screen;
 
-    public RootWidget() {
+    public RootWidget(AbstractScreen<T> screen) {
+        this.screen = screen;
         setSizing(Sizing.STATIC);
         setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.TOP);
-        setPositioning(Positioning.ABSOLUTE);
         setForegroundColor(Color.BLACK);
+    }
+
+    public AbstractScreen<T> getScreen() {
+        return screen;
     }
 
     @Override

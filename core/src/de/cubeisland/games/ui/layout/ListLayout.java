@@ -1,6 +1,8 @@
 package de.cubeisland.games.ui.layout;
 
+import de.cubeisland.games.ui.HorizontalAlignment;
 import de.cubeisland.games.ui.Positioning;
+import de.cubeisland.games.ui.VerticalAlignment;
 import de.cubeisland.games.ui.Widget;
 
 import java.util.List;
@@ -12,7 +14,7 @@ public class ListLayout implements Layout {
         float y = 0;
 
         for (Widget widget : widgets) {
-            if (widget.getPositioning() != Positioning.LAYOUT) {
+            if (widget.getPositioning() == null) {
                 continue;
             }
             y += widget.getMarginTop();
