@@ -35,7 +35,7 @@ public class TowerManager extends ResourceManager {
         }
         final Texture turretTexture = new Texture(fileMap.get(fieldName + "Turret"));
 
-        TowerConfig config = this.getGame().getReflector().load(TowerConfig.class, fileMap.get(fieldName + "Config").file());
+        TowerConfig config = this.getGame().getReflector().load(TowerConfig.class, fileMap.get(fieldName + "Config").read());
 
         try {
             field.set(this, new Tower()

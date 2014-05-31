@@ -1,13 +1,6 @@
-muzzle-offset: 
-  - 
-    - 0.0
-    - 0.0
-
-center-offset: 
-  - 0.0
-  - 0.0
-
-max-shots: 100.0
-max-rotation-per-tick: 100.0
-target-range: 100.0
+muzzle-offset: [ [0,0] ]
+center-offset: [0,0]
+max-shots: 100
+max-rotation-per-tick: 100
+target-range: 100
 cooldown: 1500
