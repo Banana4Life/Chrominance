@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.engine.reflect.Reflector;
 import de.cubeisland.engine.reflect.codec.YamlCodec;
-import de.cubeisland.games.resourcemanager.MapManager;
-import de.cubeisland.games.resourcemanager.ShaderManager;
-import de.cubeisland.games.resourcemanager.TextureManager;
-import de.cubeisland.games.resourcemanager.TowerManager;
+import de.cubeisland.games.resourcemanager.*;
 import de.cubeisland.games.screen.MenuScreen;
 import de.cubeisland.games.util.BetterBatch;
 import de.cubeisland.games.util.Vector2Converter;
@@ -27,6 +24,7 @@ public class Chrominance extends Game {
     public ShaderManager shaderManager;
     public MapManager mapManager;
     public TowerManager towerManager;
+    public SoundManager soundManager;
 
     public Chrominance() {
         this.reflector = new Reflector();
@@ -46,6 +44,7 @@ public class Chrominance extends Game {
         this.shaderManager = new ShaderManager(this);
         this.mapManager = new MapManager(this);
         this.towerManager = new TowerManager(this);
+        this.soundManager = new SoundManager(this);
         this.setScreen(new MenuScreen(this));
     }
 
