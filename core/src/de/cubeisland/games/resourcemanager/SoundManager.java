@@ -8,6 +8,8 @@ import java.lang.reflect.Field;
 
 public class SoundManager extends ResourceManager<Sound> {
 
+    public Sound pew;
+
     public SoundManager(Chrominance game) {
         super(game, "./sound");
     }

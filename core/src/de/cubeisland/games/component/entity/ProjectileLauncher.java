@@ -5,6 +5,7 @@ import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.type.Enemy;
 import de.cubeisland.games.entity.type.Projectile;
+import de.cubeisland.games.event.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,9 @@ public class ProjectileLauncher extends Component<Entity> {
             if (v != null) {
                 this.rotate(v.angle(), delta);
                 if (rotation == v.angle()) {
-                    getOwner().getLevel().spawn(this.projectile, loc).setVelocity(v).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
+                    Entity p = getOwner().getLevel().spawn(this.projectile, loc);
+                    p.setVelocity(v).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
+                    getOwner().trigger(this, new ProjectileLaunchEvent(p));
                     getOwner().get(ColorContainer.class).shoot();
                     this.lastFired = System.currentTimeMillis();
                 }
@@ -166,5 +169,17 @@ public class ProjectileLauncher extends Component<Entity> {
     public ProjectileLauncher setMuzzleOffset(List<Vector2> muzzleOffset) {
         this.muzzleOffset = muzzleOffset;
         return this;
+    }
+
+    public static class ProjectileLaunchEvent implements Event {
+        private final Entity projectile;
+
+        private ProjectileLaunchEvent(Entity projectile) {
+            this.projectile = projectile;
+        }
+
+        public Entity getProjectile() {
+            return this.projectile;
+        }
     }
 }
