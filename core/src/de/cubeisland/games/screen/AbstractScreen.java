@@ -22,7 +22,7 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
         return game;
     }
 
-    public RootWidget getRootWidget() {
+    public RootWidget<T> getRootWidget() {
         return rootWidget;
     }
 

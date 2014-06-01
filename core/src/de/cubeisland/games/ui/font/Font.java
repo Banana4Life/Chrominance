@@ -2,12 +2,11 @@ package de.cubeisland.games.ui.font;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import de.cubeisland.games.ui.Invalidatable;
 import de.cubeisland.games.ui.Widget;
 
 import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
-public class Font implements Invalidatable {
+public class Font {
     private final FreeTypeFontGenerator generator;
     private final SizeDefinition size;
     private BitmapFont bitmapFont;
@@ -47,11 +46,14 @@ public class Font implements Invalidatable {
         return this.bitmapFont;
     }
 
-    @Override
     public void invalidate() {
         if (this.bitmapFont != null) {
             this.bitmapFont.dispose();
             this.bitmapFont = null;
         }
+    }
+
+    public Font copy() {
+        return new Font(this.generator, this.size);
     }
 }

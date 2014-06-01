@@ -62,12 +62,12 @@ public class RootWidget<T extends Base2DGame> extends Container {
     }
 
     @Override
-    protected void recalculate() {
-        this.position = null;
+    public boolean isVisible() {
+        return true;
     }
 
     @Override
-    public boolean isVisible() {
+    public boolean isActive() {
         return true;
     }
 

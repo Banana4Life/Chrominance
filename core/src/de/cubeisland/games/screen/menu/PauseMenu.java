@@ -12,7 +12,7 @@ import de.cubeisland.games.ui.widgets.menu.MenuAction;
 public class PauseMenu extends Menu<Chrominance> {
 
     protected PauseMenu(Font font) {
-        super(font);
+        super("Pause", font);
     }
 
     @Entry(label = "Continue", order = 0)

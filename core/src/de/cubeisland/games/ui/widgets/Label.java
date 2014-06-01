@@ -16,7 +16,7 @@ public class Label extends Widget {
     }
 
     public Label setFont(Font font) {
-        this.font = font;
+        this.font = font.copy();
         this.invalidate();
         return this;
     }
@@ -27,7 +27,7 @@ public class Label extends Widget {
 
     public Label setText(String text) {
         this.text = text;
-        this.invalidate();
+        invalidate();
         return this;
     }
 
@@ -39,13 +39,14 @@ public class Label extends Widget {
     }
 
     @Override
-    protected void recalculate() {
-        if (this.text != null) {
-            return;
+    public void invalidate() {
+        super.invalidate();
+
+        Font f = getFont();
+        if (f != null) {
+            f.invalidate();
+            this.bounds = null;
         }
-        super.recalculate();
-        this.font.invalidate();
-        this.bounds = null;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class Label extends Widget {
         Batch b = context.getBatch();
 
         b.begin();
-        BitmapFont font = this.font.getBitmapFont();
+        BitmapFont font = getFont().getBitmapFont();
         font.setColor(getForegroundColor());
         font.draw(context.getBatch(), this.text, getAbsoluteX(), getAbsoluteY());
         b.end();

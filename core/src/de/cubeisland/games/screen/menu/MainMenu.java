@@ -9,7 +9,7 @@ import de.cubeisland.games.ui.widgets.menu.*;
 public class MainMenu extends Menu<Chrominance> {
 
     public MainMenu(Font font) {
-        super(font);
+        super("Main Menu", font);
     }
 
     @Entry(label = "Start", order = 0)

@@ -2,45 +2,55 @@ package de.cubeisland.games.ui.widgets.menu;
 
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
+import de.cubeisland.games.ui.Widget;
 import de.cubeisland.games.ui.font.Font;
 import de.cubeisland.games.ui.layout.ListLayout;
 import de.cubeisland.games.ui.widgets.Container;
+import de.cubeisland.games.ui.widgets.Label;
 import de.cubeisland.games.util.Pair;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
 import static de.cubeisland.games.ui.Sizing.FILL_PARENT;
-import static de.cubeisland.games.ui.Sizing.STATIC;
 
 public abstract class Menu<T extends Base2DGame> extends Container {
 
     private static final OrderComparator BY_ORDER = new OrderComparator();
 
+    private final String title;
     private Font font;
 
-    protected Menu(Font font) {
+    protected Menu(String title, Font font) {
+        this.title = title;
         this.font = font;
-        setHorizontalSizing(STATIC);
         setVerticalSizing(FILL_PARENT);
-        setHorizontalAlignment(CENTER);
         setBackgroundColor(Color.WHITE);
-        setMargin(30);
+        setMargin(30, 100);
         setLayout(new ListLayout());
-        parseEntries(this);
+
+        addChild(new Label().setFont(getFont()).setText(getTitle()).setMargin(40, 0));
+
+        Widget container = new Container().setLayout(new ListLayout());
+        parseEntries(container, this);
+
+        addChild(container);
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public Font getFont() {
-        return font;
+        return font.copy();
     }
 
     public void setFont(Font font) {
         this.font = font;
     }
 
-    private static void parseEntries(Menu menu) {
+    private static void parseEntries(Widget w, Menu menu) {
         List<Pair<Integer, MenuEntry>> entries = new ArrayList<>();
         for (Method m : menu.getClass().getDeclaredMethods()) {
             if (!Modifier.isPublic(m.getModifiers())) {
@@ -57,19 +67,13 @@ public abstract class Menu<T extends Base2DGame> extends Container {
         Collections.sort(entries, BY_ORDER);
 
         for (Pair<Integer, MenuEntry> entry : entries) {
-            menu.addChild(entry.getRight());
+            w.addChild(entry.getRight());
         }
     }
 
     @SuppressWarnings("unchecked")
     public T getGame() {
         return (T) getRoot().getScreen().getGame();
-    }
-
-    @Override
-    protected void recalculate() {
-        this.setContentWidth(getParent().getContentWidth() * .75f);
-        super.recalculate();
     }
 
     private static final class OrderComparator implements Comparator<Pair<Integer, MenuEntry>> {
