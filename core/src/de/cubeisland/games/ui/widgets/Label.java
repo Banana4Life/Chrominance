@@ -71,4 +71,9 @@ public class Label extends Widget {
         font.draw(context.getBatch(), this.text, getAbsoluteX(), getAbsoluteY());
         b.end();
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ":" + getText();
+    }
 }

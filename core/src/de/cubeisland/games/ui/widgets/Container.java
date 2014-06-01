@@ -39,7 +39,9 @@ public class Container extends Widget {
         Batch b = context.getBatch();
         b.begin();
 
-        if (getBackgroundMode() == BackgroundMode.STRETCH) {
+        if (getBackgroundMode() == BackgroundMode.STATIC) {
+            b.draw(this.backgroundTexture, getAbsoluteX(), getAbsoluteY(), this.backgroundTexture.getWidth(), this.backgroundTexture.getHeight());
+        } else if (getBackgroundMode() == BackgroundMode.STRETCH) {
             drawStretched(b, this.backgroundTexture);
         } else {
             drawTiled(b, this.backgroundTexture);
@@ -49,7 +51,7 @@ public class Container extends Widget {
     }
 
     protected void drawStretched(Batch b, Texture texture) {
-        b.draw(texture, getAbsoluteX(), getAbsoluteY() - getHeight(), getWidth(), getHeight());
+        b.draw(texture, getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
     }
 
     protected void drawTiled(Batch b, Texture texture) {

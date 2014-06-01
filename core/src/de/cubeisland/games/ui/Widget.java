@@ -513,7 +513,7 @@ public abstract class Widget implements Disposable {
         if (this.horizontalPositionValid) {
             return;
         }
-        if (getPositioning() == null && getParent().getLayout() == null) {
+        if (getParent().getLayout() == null) {
             this.x = calculateAlignedPositionX();
         }
     }

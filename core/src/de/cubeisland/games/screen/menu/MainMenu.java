@@ -31,5 +31,4 @@ public class MainMenu extends Menu<Chrominance> {
     public GameScreen end() {
         return new EndScreen(getGame());
     }
-
 }
