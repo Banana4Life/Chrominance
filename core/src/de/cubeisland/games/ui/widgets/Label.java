@@ -66,7 +66,7 @@ public class Label extends Widget {
         Batch b = context.getBatch();
 
         b.begin();
-        BitmapFont font = getFont().getBitmapFont();
+        BitmapFont font = getFont().getBitmapFont(context.getCamera());
         font.setColor(getForegroundColor());
         font.draw(context.getBatch(), this.text, getAbsoluteX(), getAbsoluteY());
         b.end();

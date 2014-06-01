@@ -14,9 +14,8 @@ public class ListLayout implements Layout {
             if (widget.getPositioning() != null) {
                 continue;
             }
-            y += widget.getMarginTop();
             widget.setY(y);
-            y += widget.getHeight() + widget.getMarginBottom();
+            y += widget.getMarginTop() + widget.getHeight() + widget.getMarginBottom();
         }
     }
 }

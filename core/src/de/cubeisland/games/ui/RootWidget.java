@@ -9,7 +9,6 @@ import de.cubeisland.games.ui.widgets.Container;
 
 public class RootWidget<T extends Base2DGame> extends Container {
 
-    private Vector2 position;
     private final AbstractScreen<T> screen;
 
     public RootWidget(AbstractScreen<T> screen) {
@@ -34,11 +33,13 @@ public class RootWidget<T extends Base2DGame> extends Container {
     }
 
     @Override
-    public final Vector2 getPosition() {
-        if (this.position == null) {
-            this.position = new Vector2(0, Gdx.graphics.getHeight());
-        }
-        return this.position;
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
     }
 
     @Override

@@ -2,6 +2,7 @@ package de.cubeisland.games.ui.widgets.menu;
 
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
+import de.cubeisland.games.ui.HorizontalAlignment;
 import de.cubeisland.games.ui.Widget;
 import de.cubeisland.games.ui.font.Font;
 import de.cubeisland.games.ui.layout.ListLayout;
@@ -13,6 +14,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
+import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
 import static de.cubeisland.games.ui.Sizing.FILL_PARENT;
 
 public abstract class Menu<T extends Base2DGame> extends Container {
@@ -30,7 +32,7 @@ public abstract class Menu<T extends Base2DGame> extends Container {
         setMargin(30, 100);
         setLayout(new ListLayout());
 
-        addChild(new Label().setFont(getFont()).setText(getTitle()).setMargin(40, 0));
+        addChild(new Label().setFont(getFont().setSize(getFont().getSize() * 2)).setText(getTitle()).setMargin(10, 20).setAlignment(CENTER));
 
         Widget container = new Container().setLayout(new ListLayout());
         parseEntries(container, this);

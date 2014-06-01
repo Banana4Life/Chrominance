@@ -1,5 +1,6 @@
 package de.cubeisland.games.ui.font;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import de.cubeisland.games.ui.Widget;
@@ -37,10 +38,20 @@ public class Font {
         return this.size.getSize();
     }
 
+    public BitmapFont getBitmapFont(Camera camera) {
+        return getBitmapFont(camera.up.y < 0);
+    }
+
     public BitmapFont getBitmapFont() {
-        if (this.bitmapFont == null) {
+        return getBitmapFont(false);
+    }
+
+    protected BitmapFont getBitmapFont(boolean flipped) {
+        if (this.bitmapFont == null || this.bitmapFont.isFlipped() != flipped) {
+            invalidate();
             FreeTypeFontParameter param = new FreeTypeFontParameter();
             param.size = this.getSize();
+            param.flip = flipped;
             this.bitmapFont = this.generator.generateFont(param);
         }
         return this.bitmapFont;

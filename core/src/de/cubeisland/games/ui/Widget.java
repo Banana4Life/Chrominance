@@ -568,7 +568,7 @@ public abstract class Widget implements Disposable {
             w = p;
         }
 
-        this.absY = getRoot().getHeight() - y;
+        this.absY = y;
         this.verticalPositionValid = true;
     }
 
@@ -694,19 +694,19 @@ public abstract class Widget implements Disposable {
             r.setColor(Color.BLACK);
             r.circle(pos.x, pos.y, 5);
             r.setColor(Color.MAGENTA);
-            r.circle(pos.x + getWidth(), pos.y - getHeight(), 5);
+            r.circle(pos.x + getWidth(), pos.y + getHeight(), 5);
             r.end();
 
             r.begin(Line);
             r.setColor(Color.ORANGE);
-            r.rect(pos.x, pos.y, getWidth(), -getHeight());
+            r.rect(pos.x, pos.y, getWidth(), getHeight());
             r.end();
         }
 
         if (this.backgroundColor.a > 0f) {
             r.begin(Filled);
             r.setColor(this.backgroundColor);
-            r.rect(pos.x, pos.y, getWidth(), -getHeight());
+            r.rect(pos.x, pos.y, getWidth(), getHeight());
             r.end();
         }
 
@@ -714,14 +714,14 @@ public abstract class Widget implements Disposable {
             if (getPaddingTop() + getPaddingBottom() + getPaddingLeft() + getPaddingRight() > 0) {
                 r.begin(Line);
                 r.setColor(Color.BLACK);
-                r.rect(pos.x + getPaddingLeft(), pos.y - getPaddingTop(), getContentWidth(), -getContentHeight());
+                r.rect(pos.x + getPaddingLeft(), pos.y + getPaddingTop(), getContentWidth(), getContentHeight());
                 r.end();
             }
 
             if (getMarginTop() + getMarginBottom() + getMarginLeft() + getMarginRight() > 0) {
                 r.begin(Line);
                 r.setColor(Color.PINK);
-                r.rect(pos.x - getMarginLeft(), pos.y + getMarginTop(), getOuterWidth(), -getOuterHeight());
+                r.rect(pos.x - getMarginLeft(), pos.y - getMarginTop(), getOuterWidth(), getOuterHeight());
                 r.end();
             }
         }
