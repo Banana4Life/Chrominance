@@ -3,6 +3,7 @@ package de.cubeisland.games.ui.widgets.menu;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
 import de.cubeisland.games.ui.HorizontalAlignment;
+import de.cubeisland.games.ui.VerticalAlignment;
 import de.cubeisland.games.ui.Widget;
 import de.cubeisland.games.ui.font.Font;
 import de.cubeisland.games.ui.layout.ListLayout;
@@ -16,6 +17,8 @@ import java.util.*;
 
 import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
 import static de.cubeisland.games.ui.Sizing.FILL_PARENT;
+import static de.cubeisland.games.ui.Sizing.FIT_CONTENT;
+import static de.cubeisland.games.ui.VerticalAlignment.MIDDLE;
 
 public abstract class Menu<T extends Base2DGame> extends Container {
 
@@ -27,7 +30,8 @@ public abstract class Menu<T extends Base2DGame> extends Container {
     protected Menu(String title, Font font) {
         this.title = title;
         this.font = font;
-        setVerticalSizing(FILL_PARENT);
+        setVerticalSizing(FIT_CONTENT);
+        //setAlignment(MIDDLE);
         setBackgroundColor(Color.WHITE);
         setMargin(30, 100);
         setLayout(new ListLayout());

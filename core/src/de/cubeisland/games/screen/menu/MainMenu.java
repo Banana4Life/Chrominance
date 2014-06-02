@@ -1,6 +1,7 @@
 package de.cubeisland.games.screen.menu;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.screen.*;
 import de.cubeisland.games.ui.font.Font;
@@ -10,6 +11,7 @@ public class MainMenu extends Menu<Chrominance> {
 
     public MainMenu(Font font) {
         super("Main Menu", font);
+        setForegroundColor(new Color(0.7f, 0.7f, 0.7f, 1));
     }
 
     @Entry(label = "Start", order = 0)
