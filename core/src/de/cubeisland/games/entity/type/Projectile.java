@@ -15,6 +15,6 @@ public abstract class Projectile extends EntityType {
         add(ColorContainer.class);
     }
 
-    public abstract float launchSpeed();
+    public abstract float getLaunchSpeed();
 
 }

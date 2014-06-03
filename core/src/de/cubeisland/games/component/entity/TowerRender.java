@@ -20,17 +20,12 @@ public class TowerRender extends Component<Entity> {
     public void update(float delta) {
         final Vector2 loc = getOwner().getLocation();
         final float scale = getOwner().getLevel().getMap().getScale();
-        final Chrominance game = getOwner().getLevel().getScreen().getGame();
-        final BetterBatch batch = game.getBatch();
-        final ProjectileLauncher projectileLauncher = getOwner().get(ProjectileLauncher.class);
-        final float rotation = projectileLauncher.getRotation() - 90;
-        final float sinRot = (float)Math.sin(Math.toRadians(rotation));
-        final float cosRot = (float)Math.cos(Math.toRadians(rotation));
-        final Vector2 centerOffset = projectileLauncher.getCenterOffset();
+        final BetterBatch batch = getOwner().getLevel().getScreen().getGame().getBatch();
+        final Rotator rotator = getOwner().get(Rotator.class);
+        final float rotation = rotator.getRotation();
 
-        final Vector2 basePos = new Vector2(loc.x - (scale / 2), loc.y - (scale / 2));
-        final float turretX = loc.x + centerOffset.x * cosRot + centerOffset.y * sinRot - (scale / 2 * (cosRot - sinRot));
-        final float turretY = loc.y - centerOffset.x * sinRot - centerOffset.y * cosRot - (scale / 2 * (cosRot + sinRot));
+        final Vector2 basePos = rotator.getPos();
+        final Vector2 turretPos = rotator.getCenterPos();
 
         this.sr.begin(Line);
         this.sr.setColor(Color.RED);
@@ -39,7 +34,7 @@ public class TowerRender extends Component<Entity> {
 
         batch.begin();
         batch.draw(baseTexture, basePos.x, basePos.y, scale, scale);
-        batch.draw(turretTexture, turretX, turretY, 0, 0, scale, scale, 1, 1, rotation, 0, 0, turretTexture.getWidth(), turretTexture.getHeight(), false, false);
+        batch.draw(turretTexture, turretPos.x, turretPos.y, 0, 0, scale, scale, 1, 1, rotation, 0, 0, turretTexture.getWidth(), turretTexture.getHeight(), false, false);
         batch.end();
     }
 

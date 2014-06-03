@@ -1,6 +1,7 @@
 package de.cubeisland.games.component.entity;
 
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.component.After;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.type.Enemy;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@After(Rotator.class)
 public class ProjectileLauncher extends Component<Entity> {
 
     private Projectile projectile;
@@ -18,48 +20,36 @@ public class ProjectileLauncher extends Component<Entity> {
     private float targetRangeSquared = this.targetRange * this.targetRange;
     private long cooldown = 0;
     private long lastFired = 0;
-    private float rotation = 0;
-    private float maxRotationPerTick = 300;
-    private Vector2 centerOffset = new Vector2(0, 0);
+    private Entity target;
     private List<Vector2> muzzleOffset = new ArrayList<>();
 
     @Override
     public void update(float delta) {
+        Rotator rotator = getOwner().get(Rotator.class);
+        if (rotator != null && rotator.isAimed()) {
+            shoot();
+        }
+
+        target = this.findNearestTarget(getOwner().getLocation().cpy());
+    }
+
+    protected void shoot() {
         if (cooldown > 0 && System.currentTimeMillis() - lastFired < cooldown) {
             return;
         }
 
-        if (!getOwner().has(ColorContainer.class)) {
-            return;
-        }
+        Entity p = getOwner().getLevel().spawn(this.projectile, getMuzzle());
+        p.setVelocity(new Vector2(projectile.getLaunchSpeed(), 0)).setAngle(getOwner().get(Rotator.class).getRotation()).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
 
-        Vector2 loc = getOwner().getLocation().cpy();
+        getOwner().trigger(this, new ProjectileLaunchEvent(p));
+        getOwner().get(ColorContainer.class).shoot();
 
-        Entity target = this.findNearestTarget(loc);
-        if (target != null) {
-            Vector2 v = this.calculateVelocity(loc, target.get(PathFollower.class).getIntersection(loc, this.projectile.launchSpeed()), this.projectile.launchSpeed());
-            if (v != null) {
-                this.rotate(v.angle(), delta);
-                if (rotation == v.angle()) {
-                    Entity p = getOwner().getLevel().spawn(this.projectile, loc);
-                    p.setVelocity(v).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
-                    getOwner().trigger(this, new ProjectileLaunchEvent(p));
-                    getOwner().get(ColorContainer.class).shoot();
-                    this.lastFired = System.currentTimeMillis();
-                }
-            }
-        }
+        this.lastFired = System.currentTimeMillis();
     }
 
-    protected Vector2 calculateVelocity(Vector2 loc, Entity target, float speed) {
-        return target.getLocation().cpy().sub(loc).nor().scl(speed);
-    }
-    protected Vector2 calculateVelocity(Vector2 loc, Vector2 target, float speed) {
-        if (target != null && loc != null) {
-            return target.cpy().sub(loc).nor().scl(speed);
-        } else {
-            return null;
-        }
+    protected Vector2 getMuzzle() {
+        Rotator rotator = getOwner().get(Rotator.class);
+        return rotator.getAbsolutePos(rotator.getCenterPos(), muzzleOffset.get(0));
     }
 
     protected Entity findNearestTarget(Vector2 loc) {
@@ -67,12 +57,9 @@ public class ProjectileLauncher extends Component<Entity> {
         Entity nearestEntity = null;
         for (Entity e : getOwner().getLevel().getEntities()) {
             if (e.getType() instanceof Enemy) {
-                // TODO Check wheater the enemy contains the color and not exactly the color
-                if ((e.get(ColorContainer.class).getColor().r > 0 && getOwner().get(ColorContainer.class).getColor().r > 0) ||
-                   (e.get(ColorContainer.class).getColor().g > 0 && getOwner().get(ColorContainer.class).getColor().g > 0) ||
-                   (e.get(ColorContainer.class).getColor().b > 0 && getOwner().get(ColorContainer.class).getColor().b > 0)) {
+                if (e.get(ColorContainer.class).getColor() == getOwner().get(ColorContainer.class).getColor()) {
                     float distanceSquared = loc.cpy().sub(e.getLocation()).len2();
-                    if (distanceSquared < this.targetRangeSquared && distanceSquared < smallestDistance) {
+                    if (distanceSquared < this.targetRangeSquared && e.get(PathFollower.class).getDistanceToPathTarget() < smallestDistance) {
                         smallestDistance = distanceSquared;
                         nearestEntity = e;
                     }
@@ -115,60 +102,13 @@ public class ProjectileLauncher extends Component<Entity> {
         return this;
     }
 
-    public ProjectileLauncher setRotation(float rotation) {
-        this.rotation = getAngleInLimits(rotation);
-        return this;
-    }
-    public ProjectileLauncher setMaxRotationPerTick(float maxRotationPerTick) {
-        this.maxRotationPerTick = maxRotationPerTick;
-        return this;
-    }
-    private void rotate(float newAngle, float delta) {
-        newAngle = getAngleInLimits(newAngle);
-        float leftRotation = getAngleInLimits(rotation - newAngle);
-        float rightRotation = getAngleInLimits(newAngle - rotation);
-
-        if (Math.abs(rotation - newAngle) <= maxRotationPerTick * delta) {
-            rotation = newAngle;
-        } else if(leftRotation < rightRotation) {
-            rotation = getAngleInLimits(rotation - (maxRotationPerTick * delta));
-        } else {
-            rotation = getAngleInLimits(rotation + (maxRotationPerTick * delta));
-        }
-    }
-
-    /**
-     * Calculates the given angle to the range of 0-360
-     * @param angle
-     */
-    private float getAngleInLimits(float angle) {
-        if (angle < 0) {
-            angle = 360 - (Math.abs(angle) % 360);
-        } else if(angle > 360) {
-            angle %= 360;
-        }
-        return angle;
-    }
-
-    public float getRotation() {
-        return rotation;
-    }
-
-    public ProjectileLauncher setCenterOffset(float offsetX, float offsetY) {
-        centerOffset = new Vector2(offsetX, offsetY);
-        return this;
-    }
-    public ProjectileLauncher setCenterOffset(Vector2 centerOffset) {
-        this.centerOffset = centerOffset.cpy();
-        return this;
-    }
-    public Vector2 getCenterOffset() {
-        return centerOffset.cpy();
-    }
-
     public ProjectileLauncher setMuzzleOffset(List<Vector2> muzzleOffset) {
         this.muzzleOffset = muzzleOffset;
         return this;
+    }
+
+    public Entity getTarget() {
+        return target;
     }
 
     public static class ProjectileLaunchEvent implements Event {
