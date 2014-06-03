@@ -19,13 +19,23 @@ public class DummyWaveGenerator implements WaveGenerator {
     public Wave generate(EntityFactory entityFactory, int waveNumber, Difficulty difficulty) {
         List<Entity> entities = new ArrayList<>(waveNumber);
         for (int i = 0; i < waveNumber; ++i) {
-            Entity e = entityFactory.createEntity(EntityTypes.RUNNER);
+            Entity e;
+            if (i % 3 == 0) {
+                e = entityFactory.createEntity(EntityTypes.RUNNER);
+            } else {
+                e = entityFactory.createEntity(EntityTypes.WALKER);
+            }
             e.get(ColorContainer.class).setAmount(100 * (1 + waveNumber / 10));
 
             entities.add(e);
         }
 
         return new Wave(waveNumber, entities);
+    }
+
+    @Override
+    public boolean hasFinished() {
+        return false;
     }
 
     public Difficulty getDifficulty() {

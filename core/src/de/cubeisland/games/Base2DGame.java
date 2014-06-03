@@ -5,10 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.cubeisland.games.util.BetterBatch;
 
 public abstract class Base2DGame extends Game {
 
-    private SpriteBatch batch;
+    private BetterBatch batch;
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
     private final boolean debug;
@@ -20,7 +21,7 @@ public abstract class Base2DGame extends Game {
     @Override
     public void create() {
         this.camera = new OrthographicCamera();
-        this.batch = new SpriteBatch();
+        this.batch = new BetterBatch();
         this.shapeRenderer = new ShapeRenderer();
 
         this.camera.setToOrtho(false);
@@ -43,7 +44,7 @@ public abstract class Base2DGame extends Game {
         this.camera.setToOrtho(false, width, height);
     }
 
-    public SpriteBatch getBatch() {
+    public BetterBatch getBatch() {
         return this.batch;
     }
 

@@ -11,7 +11,7 @@ public class Path {
     public Path(Map map, List<Node> nodes) {
         this.nodes = new ArrayList<>();
         for (Node node : nodes) {
-            this.nodes.add(new Node(map.scale(node.getLocation())));
+            this.nodes.add(new Node(map.offset(map.scale(node.getLocation()))));
         }
 
         this.spawn = this.nodes.get(0);

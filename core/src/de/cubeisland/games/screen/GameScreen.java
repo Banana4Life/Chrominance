@@ -1,48 +1,41 @@
 package de.cubeisland.games.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.Level;
-import de.cubeisland.games.ui.widgets.menu.Menu;
 import de.cubeisland.games.ui.widgets.menu.MenuAction;
 
 public class GameScreen extends AbstractGameScreen<Chrominance> {
 
     public static final MenuAction CLOSE = new CloseMenuAction();
 
-    private final ShaderProgram shader;
     private Level level;
-    private Menu pauseMenu;
-    private Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
 
     public GameScreen(final Chrominance game) {
         super(game);
 
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("shaders/saturation.vertex.glsl"), Gdx.files.internal("shaders/saturation.fragment.glsl"));
-        System.out.println(shader.isCompiled() ? "Shader compiled successfully." : shader.getLog());
 
-        game.getBatch().setShader(shader);
+        game.getBatch().setShader(game.shaderManager.saturation);
 
-        this.level = new Level(getGame(), Gdx.files.internal("map.bmp"));
+        this.level = new Level(this, game.mapManager.map1);
     }
 
     @Override
     public void renderScreen(Chrominance game, float delta) {
 
-        shader.begin();
-        shader.setUniformf("Saturation", level.getSaturation());
-
         game.getBatch().begin();
-        game.getBatch().draw(texture, 500, 100, 100, 100);
+        game.getBatch().pauseShader();
+        game.getBatch().draw(game.textureManager.badlogic, 400, 100, 100, 100);
+        game.getBatch().continueShader();
+        game.shaderManager.saturation.setUniformf("Saturation", level.getSaturation());
+        game.getBatch().draw(game.textureManager.badlogic, 500, 100, 100, 100);
         game.getBatch().end();
 
         this.level.update(delta);
 
-        shader.end();
+        game.shaderManager.saturation.end();
     }
 
 
@@ -51,5 +44,14 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         public void go(Screen screen) {
 
         }
+    }
+
+    public void won() {
+        //TODO: Implement things that happen when you win
+        System.out.println("You won!");
+    }
+    public void lost() {
+        //TODO: Implement things that happen when you lose
+        System.out.println("You lose!");
     }
 }

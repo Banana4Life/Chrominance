@@ -4,11 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
 
-/**
- * Created by jonas on 11.05.14.
- */
 public class ColorContainer extends Component<Entity> {
     private double amount = 0;
+    private double maxAmount = 10;
     private Color color = Color.BLUE;
 
     private Color colorStep;
@@ -52,5 +50,13 @@ public class ColorContainer extends Component<Entity> {
             return true;
         }
         return false;
+    }
+
+    public ColorContainer setMaxAmount(double maxAmount) {
+        this.maxAmount = maxAmount;
+        return this;
+    }
+    public void refill() {
+        this.setAmount(maxAmount);
     }
 }
