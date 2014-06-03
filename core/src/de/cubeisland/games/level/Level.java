@@ -1,6 +1,7 @@
 package de.cubeisland.games.level;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.collision.CollisionDetector;
 import de.cubeisland.games.component.ComponentHolder;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Level extends ComponentHolder<Level> {
+public class Level extends ComponentHolder<Level> implements Disposable {
     private final List<Entity> entities;
     private final List<Entity> spawnQueue;
 
@@ -148,5 +149,10 @@ public class Level extends ComponentHolder<Level> {
 
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    @Override
+    public void dispose() {
+        getScreen().getGame().getInput().clear();
     }
 }

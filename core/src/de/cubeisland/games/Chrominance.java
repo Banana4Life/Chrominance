@@ -5,7 +5,6 @@ import de.cubeisland.engine.reflect.Reflector;
 import de.cubeisland.engine.reflect.codec.YamlCodec;
 import de.cubeisland.games.resourcemanager.*;
 import de.cubeisland.games.screen.GameScreen;
-import de.cubeisland.games.screen.MainMenuScreen;
 import de.cubeisland.games.util.Vector2Converter;
 
 public class Chrominance extends Base2DGame {

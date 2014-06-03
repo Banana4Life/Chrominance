@@ -1,9 +1,6 @@
 package de.cubeisland.games.component;
 
-import de.cubeisland.games.event.Event;
-import de.cubeisland.games.event.EventHandler;
 import de.cubeisland.games.event.EventProcessor;
-import de.cubeisland.games.event.EventSender;
 
 import java.lang.reflect.Constructor;
 import java.util.*;

@@ -2,9 +2,12 @@ package de.cubeisland.games;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 import de.cubeisland.games.util.BetterBatch;
 
 public abstract class Base2DGame extends Game {
@@ -12,10 +15,12 @@ public abstract class Base2DGame extends Game {
     private BetterBatch batch;
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
+    private InputMultiplexer input;
     private final boolean debug;
 
     protected Base2DGame() {
         this.debug = System.getProperty("debug") != null;
+        this.input = new InputMultiplexer();
     }
 
     @Override
@@ -27,6 +32,12 @@ public abstract class Base2DGame extends Game {
         this.camera.setToOrtho(false);
         this.batch.setProjectionMatrix(this.camera.combined);
         this.shapeRenderer.setProjectionMatrix(this.camera.combined);
+
+        Gdx.input.setInputProcessor(this.input);
+    }
+
+    public InputMultiplexer getInput() {
+        return this.input;
     }
 
     @Override
@@ -34,6 +45,7 @@ public abstract class Base2DGame extends Game {
         super.dispose();
         this.batch.dispose();
 
+        this.input.clear();
         this.batch = null;
         this.camera = null;
     }

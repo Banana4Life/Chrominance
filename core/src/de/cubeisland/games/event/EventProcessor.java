@@ -9,6 +9,10 @@ public abstract class EventProcessor implements EventSender {
     private final Map<Class<? extends Event>, Set<EventHandler<Event, EventSender>>> eventHandlers = new HashMap<>();
 
     @Override
+    public void trigger(Event event) {
+        this.trigger(this, event);
+    }
+
     public void trigger(EventSender sender, Event event) {
         Set<EventHandler<Event, EventSender>> handlers = this.eventHandlers.get(event.getClass());
         if (handlers != null) {

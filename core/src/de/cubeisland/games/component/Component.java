@@ -114,7 +114,7 @@ public abstract class Component<T extends ComponentHolder<T>> implements EventSe
     }
 
     @Override
-    public void trigger(EventSender sender, Event event) {
-        this.owner.trigger(sender, event);
+    public void trigger(Event event) {
+        this.owner.trigger(event);
     }
 }
