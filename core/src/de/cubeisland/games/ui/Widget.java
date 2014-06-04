@@ -733,6 +733,15 @@ public abstract class Widget extends EventProcessor implements Disposable {
         }
     }
 
+    protected boolean containsPoint(float x, float y) {
+        final float minX = getAbsoluteX();
+        final float maxX = minX + getWidth();
+        final float minY = getAbsoluteY();
+        final float maxY = minY + getHeight();
+
+        return (x >= minX && x < maxX && y >= minY && y < maxY);
+    }
+
     //region Object overrides
     @Override
     public int hashCode() {
