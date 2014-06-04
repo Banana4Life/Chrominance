@@ -22,6 +22,7 @@ public class ProjectileLauncher extends Component<Entity> {
     private long lastFired = 0;
     private Entity target;
     private List<Vector2> muzzleOffset = new ArrayList<>();
+    private int muzzleCount = 0;
 
     @Override
     public void update(float delta) {
@@ -50,8 +51,11 @@ public class ProjectileLauncher extends Component<Entity> {
     }
 
     protected Vector2 getMuzzle() {
+        if (muzzleCount >= muzzleOffset.size()) {
+            muzzleCount = 0;
+        }
         Rotator rotator = getOwner().get(Rotator.class);
-        return rotator.getAbsolutePos(rotator.getCenterPos(), muzzleOffset.get(0));
+        return rotator.getAbsolutePos(rotator.getCenterPos(), muzzleOffset.get(muzzleCount++));
     }
 
     protected Entity findNearestTarget(Vector2 loc) {
