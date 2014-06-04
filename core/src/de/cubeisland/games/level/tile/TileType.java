@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum TileType {
-    TOWER_SLOT(-2004317953),
     BEGIN_PATH(721355007),
     PATH(255),
     END_PATH(-16776961),

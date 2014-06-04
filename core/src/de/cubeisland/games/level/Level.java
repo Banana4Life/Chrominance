@@ -1,7 +1,6 @@
 package de.cubeisland.games.level;
 
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.collision.CollisionDetector;
 import de.cubeisland.games.component.ComponentHolder;
 import de.cubeisland.games.component.TickPhase;
@@ -11,6 +10,7 @@ import de.cubeisland.games.component.level.WaveController;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
 import de.cubeisland.games.entity.EntityType;
+import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.screen.GameScreen;
 import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.DummyWaveGenerator;
@@ -18,12 +18,13 @@ import de.cubeisland.games.wave.DummyWaveGenerator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class Level extends ComponentHolder<Level> {
     private final List<Entity> entities;
     private final List<Entity> spawnQueue;
 
-    private final Map map;
+    private final TileMapWithPathsAndTowerLocations map;
     private final GameScreen screen;
 
     private final EntityFactory entityFactory;
@@ -32,7 +33,7 @@ public class Level extends ComponentHolder<Level> {
 
     private float saturation = 0f;
 
-    public Level(GameScreen screen, Map map) {
+    public Level(GameScreen screen, TileMapWithPathsAndTowerLocations map) {
         this.screen = screen;
         this.entityFactory = new EntityFactory(this);
         this.entities = new ArrayList<>();
@@ -71,8 +72,8 @@ public class Level extends ComponentHolder<Level> {
     }
 
     private void spawnTowers() {
-        for (Vector2 loc : this.map.getTowerLocations()) {
-            this.spawn(screen.getGame().towerManager.towerSlow, getMap().offset(getMap().scale(loc)));
+        for (Map.Entry<Vector2, Tower> entry : this.map.getTowerLocations().entrySet()) {
+            this.spawn(entry.getValue(), getMap().offset(getMap().scale(entry.getKey())));
         }
     }
 
@@ -132,7 +133,7 @@ public class Level extends ComponentHolder<Level> {
         }
     }
 
-    public Map getMap()
+    public TileMapWithPathsAndTowerLocations getMap()
     {
         return map;
     }

@@ -7,6 +7,7 @@ import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.entity.EntityTypes;
+import de.cubeisland.games.level.TileMapWithPathsAndTowerLocations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +87,11 @@ public class Tower extends EntityType {
     }
     public Tower setCooldown(long cooldown) {
         this.cooldown = cooldown;
+        return this;
+    }
+
+    public Tower addColorTowerMap(int color) {
+        TileMapWithPathsAndTowerLocations.addColorTowerMap(color, this);
         return this;
     }
 }

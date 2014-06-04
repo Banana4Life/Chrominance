@@ -2,6 +2,7 @@ package de.cubeisland.games;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +11,7 @@ import de.cubeisland.engine.reflect.codec.YamlCodec;
 import de.cubeisland.games.resourcemanager.*;
 import de.cubeisland.games.screen.MenuScreen;
 import de.cubeisland.games.util.BetterBatch;
+import de.cubeisland.games.util.ColorConverter;
 import de.cubeisland.games.util.Vector2Converter;
 
 public class Chrominance extends Game {
@@ -34,6 +36,7 @@ public class Chrominance extends Game {
     public void create() {
         reflector.getCodecManager().registerCodec(new YamlCodec());
         reflector.getDefaultConverterManager().registerConverter(Vector2.class, new Vector2Converter());
+        reflector.getDefaultConverterManager().registerConverter(Color.class, new ColorConverter());
 
         batch = new BetterBatch();
         //Use LibGDX's default Arial font.
@@ -42,8 +45,8 @@ public class Chrominance extends Game {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.textureManager = new TextureManager(this);
         this.shaderManager = new ShaderManager(this);
-        this.mapManager = new MapManager(this);
         this.towerManager = new TowerManager(this);
+        this.mapManager = new MapManager(this);
         this.soundManager = new SoundManager(this);
         this.setScreen(new MenuScreen(this));
     }
