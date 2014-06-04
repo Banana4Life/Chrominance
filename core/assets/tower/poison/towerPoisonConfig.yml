@@ -1,6 +1,6 @@
 muzzle-offset: [ [0,0] ]
 center-offset: [0,0]
-max-shots: 100
+max-shots: 10
 max-rotation-per-tick: 100
 target-range: 100
 cooldown: 1500

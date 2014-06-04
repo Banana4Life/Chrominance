@@ -38,6 +38,9 @@ public class ProjectileLauncher extends Component<Entity> {
         if (cooldown > 0 && System.currentTimeMillis() - lastFired < cooldown) {
             return;
         }
+        if (!getOwner().get(ColorContainer.class).hasShots()) {
+            return;
+        }
 
         Entity p = getOwner().getLevel().spawn(this.projectile, getMuzzle());
         p.setVelocity(new Vector2(projectile.getLaunchSpeed(), 0))
