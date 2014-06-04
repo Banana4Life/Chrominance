@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 
 public class MapManager extends ResourceManager<TileMapWithPathsAndTowerLocations> {
     public TileMapWithPathsAndTowerLocations map1;
+    public TileMapWithPathsAndTowerLocations map2;
 
     public MapManager(Chrominance game) {
         super(game, "./maps");
