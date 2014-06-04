@@ -427,6 +427,10 @@ public abstract class Widget implements Disposable {
         return this;
     }
 
+    public boolean isFocused() {
+        return getRoot().isFocused(this);
+    }
+
     public Widget addChild(Widget widget) {
         if (widget == this) {
             throw new IllegalArgumentException("You can't add the widget as a child of itself!");
@@ -479,6 +483,7 @@ public abstract class Widget implements Disposable {
             it.next().dispose();
             it.remove();
         }
+        getRoot().unfocus(this);
     }
 
     public void invalidate() {

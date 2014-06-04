@@ -14,11 +14,14 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
 
     private final AbstractScreen<T> screen;
 
+    private Widget focusedWidget;
+
     public RootWidget(AbstractScreen<T> screen) {
         this.screen = screen;
         setSizing(Sizing.STATIC);
         setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.TOP);
         setForegroundColor(Color.BLACK);
+        this.focusedWidget = this;
     }
 
     public AbstractScreen<T> getScreen() {
@@ -77,6 +80,28 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
 
     @Override
     protected final void draw(DrawContext context) {
+    }
+
+    public Widget getFocusedWidget() {
+        return this.focusedWidget;
+    }
+
+    public RootWidget<T> focus(Widget widget) {
+        if (!isFocused(widget)) {
+            this.focusedWidget = widget;
+        }
+        return this;
+    }
+
+    public boolean isFocused(Widget widget) {
+        return getFocusedWidget() == widget;
+    }
+
+    public RootWidget<T> unfocus(Widget w) {
+        if (isFocused(w)) {
+            focus(this);
+        }
+        return this;
     }
 
     @Override
