@@ -10,6 +10,7 @@ import de.cubeisland.games.screen.AbstractScreen;
 import de.cubeisland.games.ui.event.KeyDownEvent;
 import de.cubeisland.games.ui.event.KeyTypedEvent;
 import de.cubeisland.games.ui.event.KeyUpEvent;
+import de.cubeisland.games.ui.event.ScrollEvent;
 import de.cubeisland.games.ui.widgets.Container;
 
 public class RootWidget<T extends Base2DGame> extends Container implements EventSender {
@@ -125,44 +126,53 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
         @Override
         public boolean keyDown(int keycode) {
             System.out.println("keydown!");
-            return getFocusedWidget().trigger(RootWidget.this, new KeyDownEvent(keycode));
+            Widget target = getFocusedWidget();
+            return target.trigger(RootWidget.this, new KeyDownEvent(target, keycode));
         }
 
         @Override
         public boolean keyUp(int keycode) {
             System.out.println("keyup!");
-            return getFocusedWidget().trigger(RootWidget.this, new KeyUpEvent(keycode));
+            Widget target = getFocusedWidget();
+            return target.trigger(RootWidget.this, new KeyUpEvent(target, keycode));
         }
 
         @Override
         public boolean keyTyped(char character) {
             System.out.println("keytyped!");
-            return getFocusedWidget().trigger(RootWidget.this, new KeyTypedEvent(character));
+            Widget target = getFocusedWidget();
+            return target.trigger(RootWidget.this, new KeyTypedEvent(target, character));
         }
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            System.out.println("touch down at [" + screenX + ":" + screenY + "] !");
             return false; // TODO intersection
         }
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            System.out.println("touch up at [" + screenX + ":" + screenY + "] !");
             return false; // TODO intersection
         }
 
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
+            System.out.println("touch dragged to [" + screenX + ":" + screenY + "] !");
             return false; // TODO intersection
         }
 
         @Override
         public boolean mouseMoved(int screenX, int screenY) {
+            System.out.println("mouse moved to [" + screenX + ":" + screenY + "] !");
             return false; // TODO intersection
         }
 
         @Override
         public boolean scrolled(int amount) {
-            return false; // TODO intersection
+            System.out.println("scrolled for " + amount + " !");
+            Widget target = getFocusedWidget();
+            return target.trigger(RootWidget.this, new ScrollEvent(target, amount));
         }
     }
 }

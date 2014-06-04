@@ -1,7 +1,9 @@
 package de.cubeisland.games.ui.event;
 
+import de.cubeisland.games.ui.Widget;
+
 public class KeyUpEvent extends KeyEvent {
-    public KeyUpEvent(int keyCode) {
-        super(keyCode);
+    public KeyUpEvent(Widget target, int keyCode) {
+        super(target, keyCode);
     }
 }
