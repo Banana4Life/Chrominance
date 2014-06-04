@@ -39,7 +39,9 @@ public class ProjectileLauncher extends Component<Entity> {
         }
 
         Entity p = getOwner().getLevel().spawn(this.projectile, getMuzzle());
-        p.setVelocity(new Vector2(projectile.getLaunchSpeed(), 0)).setAngle(getOwner().get(Rotator.class).getRotation()).get(ColorContainer.class).setColor(getOwner().get(ColorContainer.class).getColor());
+        p.setVelocity(new Vector2(projectile.getLaunchSpeed(), 0))
+         .setAngle(getOwner().get(Rotator.class).getRotation()).get(ColorContainer.class)
+         .setColor(getOwner().get(ColorContainer.class).getColor());
 
         getOwner().trigger(this, new ProjectileLaunchEvent(p));
         getOwner().get(ColorContainer.class).shoot();

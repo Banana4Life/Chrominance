@@ -61,12 +61,15 @@ public class PathFollower extends Component<Entity> {
     }
 
     public float getDistanceToPathTarget() {
-        float distance = currentTarget.getLocation().cpy().sub(getOwner().getLocation().cpy()).len();
-        Node lastNode = currentTarget;
-        for (Node node : path.getNodes()) {
-            distance += node.getLocation().cpy().sub(lastNode.getLocation().cpy()).len();
+        if (currentTarget != null) {
+            float distance = currentTarget.getLocation().cpy().sub(getOwner().getLocation().cpy()).len();
+            Node lastNode = currentTarget;
+            for (Node node : path.getNodes()) {
+                distance += node.getLocation().cpy().sub(lastNode.getLocation().cpy()).len();
+            }
+            return distance;
         }
-        return distance;
+        return Float.MAX_VALUE;
     }
 
     private boolean withinTolerance(Vector2 distance, float delta) {
@@ -106,6 +109,10 @@ public class PathFollower extends Component<Entity> {
         this.speed = speed;
         this.setTolerance(this.getTolerance());
         return this;
+    }
+
+    public int getNodeNumber() {
+        return nodeNumber;
     }
 
     public static class PathCompleteEvent implements Event {

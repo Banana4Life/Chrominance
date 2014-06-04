@@ -3,7 +3,9 @@ package de.cubeisland.games.component.entity;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
+import de.cubeisland.games.entity.type.Projectile;
 import de.cubeisland.games.level.Node;
+import de.cubeisland.games.level.Path;
 
 import java.util.List;
 
@@ -16,7 +18,15 @@ public class Rotator extends Component<Entity> {
 
     @Override
     public void update(float delta) {
-        isAimed = rotate(getIntersection(getOwner().get(ProjectileLauncher.class).getTarget()).cpy().angle(), delta);
+        if (getOwner().has(ProjectileLauncher.class) && getOwner().get(ProjectileLauncher.class).getTarget() != null) {
+            try {
+                isAimed = rotate(getIntersection(getOwner().get(ProjectileLauncher.class).getTarget()).cpy().angle(), delta);
+            } catch (NoIntersectionException e) {
+                isAimed = false;
+            }
+        } else {
+            isAimed = false;
+        }
     }
 
     public boolean isAimed() {
@@ -24,10 +34,13 @@ public class Rotator extends Component<Entity> {
     }
 
     public Vector2 getAbsolutePos(Vector2 pos, Vector2 offset) {
+        return getAbsolutePos(pos, offset, rotation);
+    }
+    public Vector2 getAbsolutePos(Vector2 pos, Vector2 offset, float degrees) {
         pos = pos.cpy();
-        final float sinRot = (float)Math.sin(Math.toRadians(rotation));
-        final float cosRot = (float)Math.cos(Math.toRadians(rotation));
-        final float x = pos.x + offset.x * cosRot + offset.y * sinRot;
+        final float sinRot = (float)Math.sin(Math.toRadians(degrees));
+        final float cosRot = (float)Math.cos(Math.toRadians(degrees));
+        final float x = pos.x - offset.x * cosRot + offset.y * sinRot;
         final float y = pos.y - offset.x * sinRot - offset.y * cosRot;
         return new Vector2(x, y);
     }
@@ -36,8 +49,7 @@ public class Rotator extends Component<Entity> {
         return getOwner().getLocation().cpy().sub(scale / 2, scale / 2);
     }
     public Vector2 getCenterPos() {
-        final float scale = getOwner().getLevel().getMap().getScale();
-        return getAbsolutePos(getPos(), centerOffset).cpy();
+        return getAbsolutePos(getOwner().getLocation(), centerOffset).cpy();
     }
 
     public float getRotation() {
@@ -104,31 +116,45 @@ public class Rotator extends Component<Entity> {
         }
     }
     private Vector2 getIntersection(Entity target, int iteration, float i) {
-        Vector2 ownVelocity;
-        Vector2 ownPosition;
+        Vector2 ownPosition = getOwner().getLocation();
+        float bulletSpeed = getOwner().get(ProjectileLauncher.class).getProjectile().getLaunchSpeed();
+
+        Vector2 targetVelocity;
+        Vector2 targetPosition;
+
+        PathFollower pathFollower = target.get(PathFollower.class);
+        Path path = pathFollower.getPath();
+        int nodeNumber = pathFollower.getNodeNumber();
+
         if (iteration == 0) {
-            ownPosition = getOwner().getLocation().cpy();
-            ownVelocity = getOwner().getVelocity().cpy();
+            targetPosition = target.getLocation().cpy();
+            targetVelocity = target.getVelocity().cpy();
         } else {
             List<Node> nodes = path.getNodes();
             if (nodes.size() > nodeNumber + iteration) {
-                ownPosition = nodes.get(nodeNumber + iteration - 1).getLocation().cpy();
-                ownVelocity = nodes.get(nodeNumber + iteration).getLocation().cpy().sub(nodes.get(nodeNumber + iteration - 1).getLocation()).nor().scl(this.speed);
+                targetPosition = nodes.get(nodeNumber + iteration - 1).getLocation().cpy();
+                targetVelocity = nodes.get(nodeNumber + iteration).getLocation().cpy().sub(nodes.get(nodeNumber + iteration - 1).getLocation()).nor().scl(pathFollower.getSpeed());
             } else {
-                return null;
+                throw new NoIntersectionException();
             }
         }
 
-        float partOne = 2f * ((ownVelocity.x * ownVelocity.x) + (ownVelocity.y * ownVelocity.y) - (bulletSpeed * bulletSpeed));
-        float partTwo = 2f * ((ownPosition.x * ownVelocity.x) + (ownPosition.y * ownVelocity.y) - (towerPosition.x * ownVelocity.x) - (towerPosition.y * ownVelocity.y) - (i * bulletSpeed * bulletSpeed));
-        float partThree = (ownPosition.x * ownPosition.x) - (2f * ownPosition.x * towerPosition.x) + (ownPosition.y * ownPosition.y) - (2f * ownPosition.y * towerPosition.y) + (towerPosition.x * towerPosition.x) + (towerPosition.y * towerPosition.y) - (i * i * bulletSpeed * bulletSpeed);
+        float partOne = 2f * ((targetVelocity.x * targetVelocity.x) + (targetVelocity.y * targetVelocity.y) - (bulletSpeed * bulletSpeed));
+        float partTwo = 2f * ((targetPosition.x * targetVelocity.x) + (targetPosition.y * targetVelocity.y) - (ownPosition.x * targetVelocity.x) - (ownPosition.y * targetVelocity.y) - (i * bulletSpeed * bulletSpeed));
+        float partThree = (targetPosition.x * targetPosition.x) - (2f * targetPosition.x * ownPosition.x) + (targetPosition.y * targetPosition.y) - (2f * targetPosition.y * ownPosition.y) + (ownPosition.x * ownPosition.x) + (ownPosition.y * ownPosition.y) - (i * i * bulletSpeed * bulletSpeed);
         float x = (1f / partOne) * (-(float) Math.sqrt((partTwo * partTwo) - (2f * partOne * partThree)) - partTwo);
 
-        Vector2 intersectionPos = ownVelocity.scl(x).add(ownPosition);
-        if (intersectionPos.cpy().sub(ownPosition).len() / path.getNodes().get(nodeNumber + iteration).getLocation().cpy().sub(ownPosition).len() > 1) {
-            return getIntersection(towerPosition, bulletSpeed, 1, x + i);
+        Vector2 intersectionPos = targetVelocity.scl(x).add(targetPosition);
+        if (intersectionPos.cpy().sub(targetPosition).len() / path.getNodes().get(nodeNumber + iteration).getLocation().cpy().sub(targetPosition).len() > 1) {
+            return getIntersection(target, 1, x + i);
         } else {
             return intersectionPos;
+        }
+    }
+
+    private static class NoIntersectionException extends RuntimeException {
+        public NoIntersectionException() {
+            super("No intersection found for the target.");
         }
     }
 }

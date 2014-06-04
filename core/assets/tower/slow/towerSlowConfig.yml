@@ -1,4 +1,4 @@
-muzzle-offset: [ [0,0] ]
+muzzle-offset: [ [-25,0] ]
 center-offset: [0,0]
 max-shots: 100
 max-rotation-per-tick: 100
