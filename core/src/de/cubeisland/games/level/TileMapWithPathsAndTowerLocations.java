@@ -69,7 +69,7 @@ public class TileMapWithPathsAndTowerLocations
             return;
         }
 
-        if (map[x][y] == TileType.PATH && !currMove.hasSameDirection(lastMove)) {
+        if ((map[x][y] == TileType.PATH || map[x][y] == TileType.BEGIN_PATH) && !currMove.hasSameDirection(lastMove)) {
             nodeList.add(new Node(new Vector2(x + 0.5f + currMove.cpy().rotate(180f).x, getHeight() - (y + 0.5f) + currMove.y)));
         }
         if (map[x][y] == TileType.BEGIN_PATH) {
@@ -120,20 +120,16 @@ public class TileMapWithPathsAndTowerLocations
         return Math.min(Gdx.graphics.getWidth() / this.width, Gdx.graphics.getHeight() / this.height);
     }
 
-    public float getXOffset() {
-        float scaleWmH = (Gdx.graphics.getWidth() / this.width) - (Gdx.graphics.getHeight() / this.height);
-        if (scaleWmH > 0) {
-            return scaleWmH * this.width / 2;
+    public Vector2 getOffset() {
+        float widthScale = Gdx.graphics.getWidth() / this.width;
+        float heightScale = Gdx.graphics.getHeight() / this.height;
+
+        if (widthScale > heightScale) {
+            return new Vector2((widthScale - heightScale) * this.width / 2, 0);
+        } else if (widthScale < heightScale) {
+            return new Vector2(0, (heightScale - widthScale) * this.height / 2);
         } else {
-            return 0;
-        }
-    }
-    public float getYOffset() {
-        float scaleHmW = (Gdx.graphics.getHeight() / this.height) - (Gdx.graphics.getWidth() / this.width);
-        if (scaleHmW > 0) {
-            return scaleHmW * this.height / 2;
-        } else {
-            return 0;
+            return new Vector2(0, 0);
         }
     }
 
@@ -141,8 +137,7 @@ public class TileMapWithPathsAndTowerLocations
         return in.cpy().scl(getScale());
     }
     public Vector2 offset(Vector2 in) {
-        Vector2 offsetVec = new Vector2(getXOffset(), getYOffset());
-        return in.cpy().add(offsetVec);
+        return in.cpy().add(getOffset());
     }
 
     public Path getRandomPath() {

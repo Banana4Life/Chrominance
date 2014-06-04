@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.level.Level;
@@ -26,22 +27,20 @@ public class GridRenderer extends Component<Level>
     public void update(float delta)
     {
         final TileMapWithPathsAndTowerLocations map = getOwner().getMap();
-        final float cellWidth = map.getScale();
-        final float cellHeight = map.getScale();
-        final float xOffset = map.getXOffset();
-        final float yOffset = map.getYOffset();
+        final float scale = map.getScale();
+        final Vector2 offset = map.getOffset();
 
         // horizontal lines
         for (int i = 1; i < map.getHeight(); ++i)
         {
-            float y = Gdx.graphics.getHeight() - (i * cellHeight) - yOffset;
+            float y = Gdx.graphics.getHeight() - (i * scale) - offset.y;
             this.drawLine(0, y, Gdx.graphics.getWidth() - 1, y);
         }
 
         // vertical lines
         for (int i = 1; i < map.getWidth(); ++i)
         {
-            float x = Gdx.graphics.getWidth() - (i * cellWidth) - xOffset;
+            float x = Gdx.graphics.getWidth() - (i * scale) - offset.x;
             this.drawLine(x, Gdx.graphics.getHeight() - 1, x, 0);
         }
     }

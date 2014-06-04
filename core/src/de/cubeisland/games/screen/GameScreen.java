@@ -16,10 +16,37 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         super(game);
 
         ShaderProgram.pedantic = false;
+        shader = game.shaderManager.saturation;
 
-        game.getBatch().setShader(game.shaderManager.saturation);
+        game.getBatch().setShader(shader);
 
-        this.level = new Level(this, game.mapManager.map1);
+        paused = false;
+        pauseMenu =  new Menu.Builder().alignment(Element.Alignment.CENTER).padding(new Vector2(20, 10)).build();
+        pauseMenu.setTitle("Pause");
+        pauseMenu.add(pauseMenu.createItem("Continue", new OnClickListener() {
+            @Override
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
+                unpauseGame();
+            }
+        }));
+        pauseMenu.add(pauseMenu.createItem("Options", new OnClickListener() {
+            @Override
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
+                System.out.println("Something different happened...");
+            }
+        }));
+        pauseMenu.add(pauseMenu.createItem("Exit to main menu", new OnClickListener() {
+            @Override
+            public void onItemClicked(Clickable item, Vector2 touchPoint) {
+                game.setScreen(new MenuScreen(game));
+                dispose();
+            }
+        }));
+        // Center it
+        Vector2 centerPos = new Vector2((Gdx.graphics.getWidth() / 2f) - (pauseMenu.getMaxWidth() / 2f), (Gdx.graphics.getHeight() / 2f) - (pauseMenu.getHeight() / 2f));
+        pauseMenu.moveTo(centerPos);
+
+        this.level = new Level(this, this.game.mapManager.map2);
     }
 
     @Override
