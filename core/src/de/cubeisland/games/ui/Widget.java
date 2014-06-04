@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import de.cubeisland.games.event.EventProcessor;
 import de.cubeisland.games.ui.layout.Layout;
 
 import java.util.*;
@@ -12,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 
-public abstract class Widget implements Disposable {
+public abstract class Widget extends EventProcessor implements Disposable {
 
     private static final WidgetDepthComparator BY_DEPTH = new WidgetDepthComparator();
     private static final AtomicInteger WIDGET_COUNTER = new AtomicInteger(0);

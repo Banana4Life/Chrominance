@@ -3,21 +3,26 @@ package de.cubeisland.games.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.Base2DGame;
 import de.cubeisland.games.event.Event;
 import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.screen.AbstractScreen;
+import de.cubeisland.games.ui.event.KeyDownEvent;
+import de.cubeisland.games.ui.event.KeyTypedEvent;
+import de.cubeisland.games.ui.event.KeyUpEvent;
 import de.cubeisland.games.ui.widgets.Container;
 
 public class RootWidget<T extends Base2DGame> extends Container implements EventSender {
 
     private final AbstractScreen<T> screen;
+    private final UiInputProcessor inputProcessor;
 
     private Widget focusedWidget;
 
     public RootWidget(AbstractScreen<T> screen) {
         this.screen = screen;
+        inputProcessor = new UiInputProcessor();
+        this.screen.getGame().getInput().addProcessor(inputProcessor);
         setSizing(Sizing.STATIC);
         setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.TOP);
         setForegroundColor(Color.BLACK);
@@ -82,6 +87,12 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
     protected final void draw(DrawContext context) {
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        getScreen().getGame().getInput().removeProcessor(this.inputProcessor);
+    }
+
     public Widget getFocusedWidget() {
         return this.focusedWidget;
     }
@@ -105,26 +116,28 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
     }
 
     @Override
-    public void trigger(Event event) {
-
+    public boolean trigger(Event event) {
+        return getFocusedWidget().trigger(this, event);
     }
 
     private final class UiInputProcessor implements InputProcessor {
 
         @Override
         public boolean keyDown(int keycode) {
-
-            return false; // TODO focus
+            System.out.println("keydown!");
+            return getFocusedWidget().trigger(RootWidget.this, new KeyDownEvent(keycode));
         }
 
         @Override
         public boolean keyUp(int keycode) {
-            return false; // TODO focus
+            System.out.println("keyup!");
+            return getFocusedWidget().trigger(RootWidget.this, new KeyUpEvent(keycode));
         }
 
         @Override
         public boolean keyTyped(char character) {
-            return false; // TODO focus
+            System.out.println("keytyped!");
+            return getFocusedWidget().trigger(RootWidget.this, new KeyTypedEvent(character));
         }
 
         @Override

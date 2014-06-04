@@ -9,19 +9,29 @@ public abstract class EventProcessor implements EventSender {
     private final Map<Class<? extends Event>, Set<EventHandler<Event, EventSender>>> eventHandlers = new HashMap<>();
 
     @Override
-    public void trigger(Event event) {
-        this.trigger(this, event);
+    public boolean trigger(Event event) {
+        return this.trigger(this, event);
     }
 
-    public void trigger(EventSender sender, Event event) {
+    /**
+     * Triggers an event
+     *
+     * @param sender the server
+     * @param event the event
+     * @return true if there was an applicable handler, otherwise false
+     */
+    public boolean trigger(EventSender sender, Event event) {
+        boolean result = false;
         Set<EventHandler<Event, EventSender>> handlers = this.eventHandlers.get(event.getClass());
         if (handlers != null) {
             for (EventHandler<Event, EventSender> handler : handlers) {
                 if (handler.getApplicableSender().isAssignableFrom(sender.getClass())) {
                     handler.handle(sender, event);
+                    result = true;
                 }
             }
         }
+        return result;
     }
 
     public void registerEventHandler(EventHandler<Event, EventSender> handler) {
