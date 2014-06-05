@@ -87,13 +87,13 @@ final class UiInputProcessor implements InputProcessor {
         } else {
             for (Widget w : this.hoveredWidgets) {
                 if (!newState.contains(w)) {
-                    w.trigger(new MouseLeaveEvent(w));
+                    w.trigger(this.root, new MouseLeaveEvent(w));
                 }
             }
 
             for (Widget w : newState) {
                 if (!this.hoveredWidgets.contains(w)) {
-                    w.trigger(new MouseEnterEvent(w));
+                    w.trigger(this.root, new MouseEnterEvent(w));
                 }
             }
 
