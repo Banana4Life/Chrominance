@@ -45,7 +45,7 @@ public abstract class Component<T extends ComponentHolder<T>> implements EventSe
         this.owner = owner;
         this.onInit();
 
-        for (EventHandler<Event, EventSender> handler : MethodEventHandler.parseHandlers(this)) {
+        for (EventHandler<EventSender, Event> handler : MethodEventHandler.parseHandlers(this)) {
             this.owner.registerEventHandler(handler);
         }
     }

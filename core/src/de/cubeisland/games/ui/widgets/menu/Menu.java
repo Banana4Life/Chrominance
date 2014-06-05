@@ -3,7 +3,6 @@ package de.cubeisland.games.ui.widgets.menu;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
-import de.cubeisland.games.ReflectedEventHandler;
 import de.cubeisland.games.event.Event;
 import de.cubeisland.games.event.EventHandler;
 import de.cubeisland.games.event.EventSender;
@@ -79,7 +78,7 @@ public abstract class Menu<T extends Base2DGame> extends Container {
 
             MenuEntry menuEntry = new MenuEntry(entry.label(), menu.getFont());
 
-            for (EventHandler<Event, EventSender> handler : MethodEventHandler.parseHandlers(new EntryEventHandlers(menu, m))) {
+            for (EventHandler<EventSender, Event> handler : MethodEventHandler.parseHandlers(new EntryEventHandlers(menu, m))) {
                 menuEntry.registerEventHandler(handler);
             }
 

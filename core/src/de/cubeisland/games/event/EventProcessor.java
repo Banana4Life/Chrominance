@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class EventProcessor implements EventSender {
-    private final Map<Class<? extends Event>, Set<EventHandler<Event, EventSender>>> eventHandlers = new HashMap<>();
+    private final Map<Class<? extends Event>, Set<EventHandler<EventSender, Event>>> eventHandlers = new HashMap<>();
 
     @Override
     public boolean trigger(Event event) {
@@ -22,9 +22,9 @@ public abstract class EventProcessor implements EventSender {
      */
     public boolean trigger(EventSender sender, Event event) {
         boolean result = false;
-        Set<EventHandler<Event, EventSender>> handlers = this.eventHandlers.get(event.getClass());
+        Set<EventHandler<EventSender, Event>> handlers = this.eventHandlers.get(event.getClass());
         if (handlers != null) {
-            for (EventHandler<Event, EventSender> handler : handlers) {
+            for (EventHandler<EventSender, Event> handler : handlers) {
                 if (handler.getApplicableSender().isAssignableFrom(sender.getClass())) {
                     handler.handle(sender, event);
                     result = true;
@@ -35,17 +35,17 @@ public abstract class EventProcessor implements EventSender {
     }
 
     @SuppressWarnings("unchecked")
-    public void registerEventHandler(EventHandler<? extends Event, ? extends EventSender> handler) {
-        Set<EventHandler<Event, EventSender>> handlers = this.eventHandlers.get(handler.getApplicableEvent());
+    public void registerEventHandler(EventHandler<? extends EventSender, ? extends Event> handler) {
+        Set<EventHandler<EventSender, Event>> handlers = this.eventHandlers.get(handler.getApplicableEvent());
         if (handlers == null) {
             handlers = new HashSet<>(1);
             this.eventHandlers.put(handler.getApplicableEvent(), handlers);
         }
-        handlers.add((EventHandler<Event, EventSender>) handler);
+        handlers.add((EventHandler<EventSender, Event>) handler);
     }
 
-    public void unregisterEventHandler(EventHandler<Event, EventSender> handler) {
-        Set<EventHandler<Event, EventSender>> handlers = this.eventHandlers.get(handler.getApplicableEvent());
+    public void unregisterEventHandler(EventHandler<EventSender, Event> handler) {
+        Set<EventHandler<EventSender, Event>> handlers = this.eventHandlers.get(handler.getApplicableEvent());
         if (handlers != null) {
             handlers.remove(handler);
         }

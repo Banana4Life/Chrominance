@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MethodEventHandler implements EventHandler<Event, EventSender> {
+public class MethodEventHandler implements EventHandler<EventSender, Event> {
 
     private final Object holder;
     private final Method method;
@@ -38,8 +38,8 @@ public class MethodEventHandler implements EventHandler<Event, EventSender> {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<EventHandler<Event, EventSender>> parseHandlers(Object o) {
-        final List<EventHandler<Event, EventSender>> handlers = new ArrayList<>();
+    public static List<EventHandler<EventSender, Event>> parseHandlers(Object o) {
+        final List<EventHandler<EventSender, Event>> handlers = new ArrayList<>();
         for (Method method : o.getClass().getMethods()) {
             if ("handle".equals(method.getName()) && method.getReturnType() == void.class) {
                 Class<?>[] paramTypes = method.getParameterTypes();

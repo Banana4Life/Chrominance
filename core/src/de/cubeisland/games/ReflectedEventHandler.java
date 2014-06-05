@@ -7,7 +7,7 @@ import de.cubeisland.games.event.EventSender;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class ReflectedEventHandler<E extends Event, S extends EventSender> implements EventHandler<E, S> {
+public abstract class ReflectedEventHandler<E extends Event, S extends EventSender> implements EventHandler<S, E> {
 
     private final Class<E> applicableEvent;
     private final Class<S> applicableSender;
