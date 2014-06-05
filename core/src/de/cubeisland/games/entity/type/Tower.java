@@ -23,6 +23,7 @@ public class Tower extends EntityType {
     private float maxRotationPerTick = 300;
     private float targetRange = 100;
     private long cooldown = 1500;
+    private Projectile projectile = new Projectile();
 
     public Tower() {
         add(TowerRender.class);
@@ -44,7 +45,7 @@ public class Tower extends EntityType {
         e.get(ProjectileLauncher.class)
                 .setCooldown(cooldown, MILLISECONDS)
                 .setTargetRange(targetRange)
-                .setProjectile(EntityTypes.BULLET)
+                .setProjectile(projectile)
                 .setMuzzleOffset(muzzleOffset);
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)

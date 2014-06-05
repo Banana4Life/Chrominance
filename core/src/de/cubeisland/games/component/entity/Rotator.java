@@ -76,10 +76,7 @@ public class Rotator extends Component<Entity> {
             rotation = getAngleInLimits(rotation + (maxRotationPerTick * delta));
         }
 
-        if (rotation == newAngle) {
-            return true;
-        }
-        return false;
+        return rotation == newAngle;
     }
 
     /**
