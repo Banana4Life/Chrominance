@@ -112,7 +112,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
             e = it.next();
             if (!e.isAlive()) {
                 it.remove();
-                e.detachAll();
+                e.dispose();
             }
         }
     }

@@ -1,11 +1,12 @@
 package de.cubeisland.games.component;
 
+import com.badlogic.gdx.utils.Disposable;
 import de.cubeisland.games.event.EventProcessor;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
 
-public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcessor {
+public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcessor implements Disposable {
     private final List<Component<T>> components = new ArrayList<>();
     protected static final Map<Class<? extends Component<?>>, Constructor<? extends Component<?>>> CONSTRUCTOR_CACHE = new HashMap<>();
     private static final ComponentComparator COMPARATOR = new ComponentComparator();
@@ -80,6 +81,11 @@ public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcesso
 
     public <C extends Component<T>> boolean has(Class<C> componentClass) {
         return this.get(componentClass) != null;
+    }
+
+    @Override
+    public void dispose() {
+        this.detachAll();
     }
 
     private static final class ComponentComparator implements Comparator<Component<?>> {
