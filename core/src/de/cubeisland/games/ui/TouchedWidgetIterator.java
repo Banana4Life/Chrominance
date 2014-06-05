@@ -24,6 +24,7 @@ final class TouchedWidgetIterator implements Iterator<Widget> {
         }
         for (Widget child : this.current.getChildren()) {
             if (child.containsPoint(x, y)) {
+                this.current = child;
                 return child;
             }
         }
@@ -35,7 +36,7 @@ final class TouchedWidgetIterator implements Iterator<Widget> {
         if (this.next == null) {
             this.next = nextInnerWidget();
         }
-        return this.next == null;
+        return this.next != null;
     }
 
     @Override
@@ -47,6 +48,7 @@ final class TouchedWidgetIterator implements Iterator<Widget> {
         if (next == null) {
             throw new RuntimeException("No more touched widgets...");
         }
+        this.next = null;
         return next;
     }
 

@@ -1,24 +1,25 @@
 package de.cubeisland.games.ui.widgets.menu;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
-import de.cubeisland.games.ui.HorizontalAlignment;
-import de.cubeisland.games.ui.VerticalAlignment;
+import de.cubeisland.games.ReflectedEventHandler;
+import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.ui.Widget;
+import de.cubeisland.games.ui.event.TouchDownEvent;
 import de.cubeisland.games.ui.font.Font;
 import de.cubeisland.games.ui.layout.ListLayout;
 import de.cubeisland.games.ui.widgets.Container;
 import de.cubeisland.games.ui.widgets.Label;
 import de.cubeisland.games.util.Pair;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
 import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
-import static de.cubeisland.games.ui.Sizing.FILL_PARENT;
 import static de.cubeisland.games.ui.Sizing.FIT_CONTENT;
-import static de.cubeisland.games.ui.VerticalAlignment.MIDDLE;
 
 public abstract class Menu<T extends Base2DGame> extends Container {
 
@@ -69,7 +70,10 @@ public abstract class Menu<T extends Base2DGame> extends Container {
                 continue;
             }
 
-            entries.add(new Pair<>(entry.order(), new MenuEntry(entry.label(), menu.getFont())));
+            MenuEntry menuEntry = new MenuEntry(entry.label(), menu.getFont());
+            menuEntry.registerEventHandler(new ClickHandler(menu, m));
+
+            entries.add(new Pair<>(entry.order(), menuEntry));
         }
 
         Collections.sort(entries, BY_ORDER);
@@ -93,6 +97,31 @@ public abstract class Menu<T extends Base2DGame> extends Container {
                 return -1;
             }
             return 0;
+        }
+    }
+
+    private static final class ClickHandler extends ReflectedEventHandler<TouchDownEvent, EventSender> {
+        private final Menu menu;
+        private final Method method;
+
+        public ClickHandler(Menu menu, Method method) {
+            this.menu = menu;
+            this.method = method;
+        }
+
+        @Override
+        public void handle(EventSender sender, TouchDownEvent event) {
+            System.out.println("Clicked!");
+            try {
+                Object result = method.invoke(this.menu);
+                if (result instanceof Screen) {
+                    menu.getGame().setScreen((Screen) result);
+                } else if (result instanceof MenuAction) {
+                    ((MenuAction) result).go(menu.getGame().getScreen());
+                }
+            } catch (ReflectiveOperationException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
