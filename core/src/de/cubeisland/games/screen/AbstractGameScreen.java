@@ -15,8 +15,10 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
     public AbstractGameScreen(T game, Menu pauseMenu) {
         super(game);
         this.pauseMenu = pauseMenu;
-        this.getRootWidget().addChild(pauseMenu);
-        pauseMenu.setActive(false);
+        if (pauseMenu != null) {
+            this.getRootWidget().addChild(pauseMenu);
+            pauseMenu.setActive(false);
+        }
     }
 
     @Override
@@ -50,6 +52,9 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
     @Override
     public final void pause() {
         this.paused = true;
+        if (this.pauseMenu != null) {
+            this.pauseMenu.setActive(true);
+        }
         onPause();
     }
 
@@ -59,6 +64,9 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
     @Override
     public final void resume() {
         this.paused = false;
+        if (this.pauseMenu != null) {
+            this.pauseMenu.setActive(false);
+        }
         onResume();
     }
 

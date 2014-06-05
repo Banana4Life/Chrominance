@@ -433,6 +433,9 @@ public abstract class Widget extends EventProcessor implements Disposable {
     }
 
     public Widget addChild(Widget widget) {
+        if (widget == null) {
+            throw new IllegalArgumentException("The child widget may not be null!");
+        }
         if (widget == this) {
             throw new IllegalArgumentException("You can't add the widget as a child of itself!");
         }
