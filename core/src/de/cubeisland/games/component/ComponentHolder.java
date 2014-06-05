@@ -26,11 +26,18 @@ public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcesso
         return component;
     }
 
-    public void detach(Class<? extends Component<T>> componentClass) {
+    @SuppressWarnings("unchecked")
+    public void detach(Class<? extends Component> componentClass) {
         Component<T> removed = this.get(componentClass);
         if (removed != null) {
             this.components.remove(removed);
             removed.onDetach();
+        }
+    }
+
+    public void detachAll() {
+        for (Component<T> component : new ArrayList<>(this.components)) {
+            detach(component.getClass());
         }
     }
 

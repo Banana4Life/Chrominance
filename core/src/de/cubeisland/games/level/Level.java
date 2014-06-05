@@ -107,10 +107,12 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         }
 
         Iterator<Entity> it = this.entities.iterator();
+        Entity e;
         while (it.hasNext()) {
-            if (!it.next().isAlive()) {
+            e = it.next();
+            if (!e.isAlive()) {
                 it.remove();
-                //System.out.println("Entity removed!");
+                e.detachAll();
             }
         }
     }
