@@ -1,17 +1,16 @@
 package de.cubeisland.games.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
+import de.cubeisland.games.ReflectedEventHandler;
 import de.cubeisland.games.event.Event;
 import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.screen.AbstractScreen;
-import de.cubeisland.games.ui.event.KeyDownEvent;
-import de.cubeisland.games.ui.event.KeyTypedEvent;
-import de.cubeisland.games.ui.event.KeyUpEvent;
-import de.cubeisland.games.ui.event.ScrollEvent;
+import de.cubeisland.games.ui.event.*;
 import de.cubeisland.games.ui.widgets.Container;
+
+import java.util.Iterator;
 
 public class RootWidget<T extends Base2DGame> extends Container implements EventSender {
 
@@ -22,16 +21,23 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
 
     public RootWidget(AbstractScreen<T> screen) {
         this.screen = screen;
-        inputProcessor = new UiInputProcessor();
+        this.inputProcessor = new UiInputProcessor(this);
         this.screen.getGame().getInput().addProcessor(inputProcessor);
         setSizing(Sizing.STATIC);
         setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.TOP);
         setForegroundColor(Color.BLACK);
         this.focusedWidget = this;
+
+        this.registerEventHandler(new ReflectedEventHandler<MouseMovedEvent, RootWidget>() {
+            @Override
+            public void handle(RootWidget sender, MouseMovedEvent event) {
+                System.out.println("mouse moved to [" + event.getX() + ":" + event.getY() + "] !");
+            }
+        });
     }
 
     public AbstractScreen<T> getScreen() {
-        return screen;
+        return this.screen;
     }
 
     @Override
@@ -100,7 +106,11 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
 
     public RootWidget<T> focus(Widget widget) {
         if (!isFocused(widget)) {
+            Widget old = getFocusedWidget();
             this.focusedWidget = widget;
+            FocusChangedEvent event = new FocusChangedEvent(old, widget);
+            old.trigger(event);
+            widget.trigger(event);
         }
         return this;
     }
@@ -119,60 +129,5 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
     @Override
     public boolean trigger(Event event) {
         return getFocusedWidget().trigger(this, event);
-    }
-
-    private final class UiInputProcessor implements InputProcessor {
-
-        @Override
-        public boolean keyDown(int keycode) {
-            System.out.println("keydown!");
-            Widget target = getFocusedWidget();
-            return target.trigger(RootWidget.this, new KeyDownEvent(target, keycode));
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            System.out.println("keyup!");
-            Widget target = getFocusedWidget();
-            return target.trigger(RootWidget.this, new KeyUpEvent(target, keycode));
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            System.out.println("keytyped!");
-            Widget target = getFocusedWidget();
-            return target.trigger(RootWidget.this, new KeyTypedEvent(target, character));
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            System.out.println("touch down at [" + screenX + ":" + screenY + "] !");
-            return false; // TODO intersection
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            System.out.println("touch up at [" + screenX + ":" + screenY + "] !");
-            return false; // TODO intersection
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            System.out.println("touch dragged to [" + screenX + ":" + screenY + "] !");
-            return false; // TODO intersection
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            System.out.println("mouse moved to [" + screenX + ":" + screenY + "] !");
-            return false; // TODO intersection
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            System.out.println("scrolled for " + amount + " !");
-            Widget target = getFocusedWidget();
-            return target.trigger(RootWidget.this, new ScrollEvent(target, amount));
-        }
     }
 }

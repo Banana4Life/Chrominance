@@ -34,14 +34,16 @@ public abstract class EventProcessor implements EventSender {
         return result;
     }
 
-    public void registerEventHandler(EventHandler<Event, EventSender> handler) {
+    @SuppressWarnings("unchecked")
+    public void registerEventHandler(EventHandler<? extends Event, ? extends EventSender> handler) {
         Set<EventHandler<Event, EventSender>> handlers = this.eventHandlers.get(handler.getApplicableEvent());
         if (handlers == null) {
             handlers = new HashSet<>(1);
             this.eventHandlers.put(handler.getApplicableEvent(), handlers);
         }
-        handlers.add(handler);
+        handlers.add((EventHandler<Event, EventSender>) handler);
     }
+
     public void unregisterEventHandler(EventHandler<Event, EventSender> handler) {
         Set<EventHandler<Event, EventSender>> handlers = this.eventHandlers.get(handler.getApplicableEvent());
         if (handlers != null) {
