@@ -9,6 +9,8 @@ import de.cubeisland.games.event.Event;
 import de.cubeisland.games.level.Node;
 import de.cubeisland.games.level.Path;
 
+import java.util.List;
+
 import static de.cubeisland.games.component.TickPhase.MOVEMENT;
 import static de.cubeisland.games.util.VectorUtil.zero;
 
@@ -61,9 +63,9 @@ public class PathFollower extends Component<Entity> {
     public float getDistanceToPathTarget() {
         if (currentTarget != null) {
             float distance = currentTarget.getLocation().cpy().sub(getOwner().getLocation().cpy()).len();
-            Node lastNode = currentTarget;
-            for (Node node : path.getNodes()) {
-                distance += node.getLocation().cpy().sub(lastNode.getLocation().cpy()).len();
+            List<Node> nodes = path.getNodes();
+            for (int n = nodeNumber + 1; n < nodes.size(); n++) {
+                distance += nodes.get(n).getLocation().cpy().sub(nodes.get(n - 1).getLocation().cpy()).len();
             }
             return distance;
         }

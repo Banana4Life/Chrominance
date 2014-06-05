@@ -68,8 +68,9 @@ public class ProjectileLauncher extends Component<Entity> {
             if (e.getType() instanceof Enemy) {
                 if (e.get(ColorContainer.class).getColor() == getOwner().get(ColorContainer.class).getColor()) {
                     float distanceSquared = loc.cpy().sub(e.getLocation()).len2();
-                    if (distanceSquared < this.targetRangeSquared && e.get(PathFollower.class).getDistanceToPathTarget() < smallestDistance) {
-                        smallestDistance = distanceSquared;
+                    float distanceToPathEnd = e.get(PathFollower.class).getDistanceToPathTarget();
+                    if (distanceSquared < this.targetRangeSquared && distanceToPathEnd < smallestDistance) {
+                        smallestDistance = distanceToPathEnd;
                         nearestEntity = e;
                     }
                 }
