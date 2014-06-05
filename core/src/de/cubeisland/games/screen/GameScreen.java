@@ -42,7 +42,9 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
     private static class CloseMenuAction implements MenuAction {
         @Override
         public void go(Screen screen) {
-
+            if (screen instanceof GameScreen) {
+                
+            }
         }
     }
 

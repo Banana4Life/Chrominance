@@ -26,13 +26,6 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
         setAlignment(HorizontalAlignment.LEFT, VerticalAlignment.TOP);
         setForegroundColor(Color.BLACK);
         this.focusedWidget = this;
-
-        this.registerEventHandler(new ReflectedEventHandler<MouseMovedEvent, RootWidget>() {
-            @Override
-            public void handle(RootWidget sender, MouseMovedEvent event) {
-                System.out.println("mouse moved to [" + event.getX() + ":" + event.getY() + "] !");
-            }
-        });
     }
 
     public AbstractScreen<T> getScreen() {

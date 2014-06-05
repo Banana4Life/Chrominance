@@ -4,6 +4,8 @@ import com.badlogic.gdx.InputProcessor;
 import de.cubeisland.games.event.Event;
 import de.cubeisland.games.ui.event.*;
 
+import java.util.*;
+
 final class UiInputProcessor implements InputProcessor {
 
     private final RootWidget root;
@@ -70,8 +72,34 @@ final class UiInputProcessor implements InputProcessor {
         return this.root.trigger(new TouchDraggedEvent(screenX, screenY, pointer));
     }
 
+    private Set<Widget> hoveredWidgets = null;
+
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        Iterator<Widget> it = new TouchedWidgetIterator(this.root, screenX, screenY);
+        HashSet<Widget> newState = new HashSet<>();
+        while (it.hasNext()) {
+            newState.add(it.next());
+        }
+
+        if (this.hoveredWidgets == null) {
+            this.hoveredWidgets = newState;
+        } else {
+            for (Widget w : this.hoveredWidgets) {
+                if (!newState.contains(w)) {
+                    w.trigger(new MouseLeaveEvent(w));
+                }
+            }
+
+            for (Widget w : newState) {
+                if (!this.hoveredWidgets.contains(w)) {
+                    w.trigger(new MouseEnterEvent(w));
+                }
+            }
+
+            this.hoveredWidgets = newState;
+        }
+
         return this.root.trigger(new MouseMovedEvent(screenX, screenY));
     }
 

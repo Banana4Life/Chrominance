@@ -4,8 +4,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
 import de.cubeisland.games.ReflectedEventHandler;
+import de.cubeisland.games.event.Event;
+import de.cubeisland.games.event.EventHandler;
 import de.cubeisland.games.event.EventSender;
+import de.cubeisland.games.event.MethodEventHandler;
 import de.cubeisland.games.ui.Widget;
+import de.cubeisland.games.ui.event.MouseEnterEvent;
+import de.cubeisland.games.ui.event.MouseLeaveEvent;
 import de.cubeisland.games.ui.event.TouchDownEvent;
 import de.cubeisland.games.ui.font.Font;
 import de.cubeisland.games.ui.layout.ListLayout;
@@ -73,7 +78,10 @@ public abstract class Menu<T extends Base2DGame> extends Container {
             }
 
             MenuEntry menuEntry = new MenuEntry(entry.label(), menu.getFont());
-            menuEntry.registerEventHandler(new ClickHandler(menu, m));
+
+            for (EventHandler<Event, EventSender> handler : MethodEventHandler.parseHandlers(new EntryEventHandlers(menu, m))) {
+                menuEntry.registerEventHandler(handler);
+            }
 
             entries.add(new Pair<>(entry.order(), menuEntry));
         }
@@ -102,18 +110,17 @@ public abstract class Menu<T extends Base2DGame> extends Container {
         }
     }
 
-    private static final class ClickHandler extends ReflectedEventHandler<TouchDownEvent, EventSender> {
+    private static final class EntryEventHandlers {
         private final Menu menu;
         private final Method method;
+        private Color originalColor;
 
-        public ClickHandler(Menu menu, Method method) {
+        public EntryEventHandlers(Menu menu, Method method) {
             this.menu = menu;
             this.method = method;
         }
 
-        @Override
         public void handle(EventSender sender, TouchDownEvent event) {
-            System.out.println("Clicked!");
             try {
                 Object result = method.invoke(this.menu);
                 if (result instanceof Screen) {
@@ -123,6 +130,20 @@ public abstract class Menu<T extends Base2DGame> extends Container {
                 }
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();
+            }
+        }
+
+        public void handle(EventSender sender, MouseEnterEvent event) {
+            Widget w = event.getWidget();
+            this.originalColor = w.getForegroundColor();
+
+            event.getWidget().setForegroundColor(this.originalColor.cpy().mul(1.1f).clamp());
+        }
+
+        public void handle(EventSender sender, MouseLeaveEvent event) {
+            if (this.originalColor != null) {
+                event.getWidget().setForegroundColor(originalColor);
+                this.originalColor = null;
             }
         }
     }
