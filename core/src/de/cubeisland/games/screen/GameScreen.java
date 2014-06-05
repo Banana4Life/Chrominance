@@ -25,6 +25,10 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
     @Override
     public void renderScreen(Chrominance game, float delta) {
 
+        if (isPaused()) {
+            return;
+        }
+
         game.getBatch().begin();
         game.getBatch().pauseShader();
         game.getBatch().draw(game.textureManager.badlogic, 400, 100, 100, 100);

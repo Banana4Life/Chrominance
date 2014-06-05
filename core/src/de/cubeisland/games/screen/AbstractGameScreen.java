@@ -10,11 +10,6 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
     public void show() {
 
     }
@@ -24,13 +19,25 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
 
     }
 
-    @Override
-    public void pause() {
-        this.paused = true;
+    public boolean isPaused() {
+        return this.paused;
     }
 
     @Override
-    public void resume() {
+    public final void pause() {
+        this.paused = true;
+        onPause();
+    }
+
+    protected void onPause() {
+    }
+
+    @Override
+    public final void resume() {
         this.paused = false;
+        onResume();
+    }
+
+    protected void onResume() {
     }
 }

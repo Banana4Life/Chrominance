@@ -39,8 +39,12 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public final void resize(int width, int height) {
         this.uiCamera.setToOrtho(true, width, height);
+        onResize(width, height);
+    }
+
+    protected void onResize(int width, int height) {
     }
 
     @Override

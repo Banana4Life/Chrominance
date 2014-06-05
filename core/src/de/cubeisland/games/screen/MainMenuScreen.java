@@ -35,11 +35,6 @@ public class MainMenuScreen extends AbstractMenuScreen<Chrominance> {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
     public void show() {
 
     }
