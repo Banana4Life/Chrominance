@@ -1,6 +1,7 @@
-muzzle-offset: [ [0,0] ]
+muzzle-offset: [ [-25, -5], [-25, 5] ]
 center-offset: [0,0]
 max-shots: 300
-max-rotation-per-tick: 50
+max-rotation-per-tick: 200
 target-range: 75
-cooldown: 500
+cooldown: 50
+map-indicator-color: [180, 180, 180, 255]

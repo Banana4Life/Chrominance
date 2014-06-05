@@ -1,16 +1,11 @@
 package de.cubeisland.games.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import de.cubeisland.games.Chrominance;
-import de.cubeisland.games.ui.HorizontalAlignment;
-import de.cubeisland.games.ui.RootWidget;
-import de.cubeisland.games.ui.Sizing;
+import de.cubeisland.games.screen.menu.MainMenu;
 import de.cubeisland.games.ui.Widget;
 import de.cubeisland.games.ui.font.Font;
-import de.cubeisland.games.screen.menu.MainMenu;
-import de.cubeisland.games.ui.widgets.Container;
 
 public class MainMenuScreen extends AbstractMenuScreen<Chrominance> {
 

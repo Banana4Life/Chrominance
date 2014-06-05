@@ -54,6 +54,10 @@ public final class Entity extends ComponentHolder<Entity> {
         return this;
     }
 
+    public Entity setAngle(float degrees) {
+        this.velocity.setAngle(degrees);
+        return this;
+    }
 
     public boolean isAlive() {
         return alive;

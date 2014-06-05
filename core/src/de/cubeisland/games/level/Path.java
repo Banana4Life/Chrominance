@@ -8,7 +8,7 @@ public class Path {
     private final Node spawn;
     private final Node target;
 
-    public Path(Map map, List<Node> nodes) {
+    public Path(TileMapWithPathsAndTowerLocations map, List<Node> nodes) {
         this.nodes = new ArrayList<>();
         for (Node node : nodes) {
             this.nodes.add(new Node(map.offset(map.scale(node.getLocation()))));

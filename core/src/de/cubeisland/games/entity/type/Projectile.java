@@ -5,8 +5,6 @@ import de.cubeisland.games.component.entity.Move;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.EntityType;
 
-import java.awt.*;
-
 public abstract class Projectile extends EntityType {
 
     protected Projectile() {
@@ -15,6 +13,6 @@ public abstract class Projectile extends EntityType {
         add(ColorContainer.class);
     }
 
-    public abstract float launchSpeed();
+    public abstract float getLaunchSpeed();
 
 }

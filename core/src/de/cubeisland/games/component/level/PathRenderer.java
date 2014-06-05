@@ -11,7 +11,6 @@ import de.cubeisland.games.level.Path;
 
 import java.util.List;
 
-import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 

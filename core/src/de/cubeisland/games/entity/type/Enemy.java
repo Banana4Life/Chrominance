@@ -2,7 +2,10 @@ package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.collision.CollisionTarget;
-import de.cubeisland.games.component.entity.*;
+import de.cubeisland.games.component.entity.ColorContainer;
+import de.cubeisland.games.component.entity.Move;
+import de.cubeisland.games.component.entity.PathFollower;
+import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 

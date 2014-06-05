@@ -4,12 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Before;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
-import de.cubeisland.games.event.Event;
 import de.cubeisland.games.entity.Entity;
+import de.cubeisland.games.event.Event;
 import de.cubeisland.games.level.Node;
 import de.cubeisland.games.level.Path;
-
-import java.util.List;
 
 import static de.cubeisland.games.component.TickPhase.MOVEMENT;
 import static de.cubeisland.games.util.VectorUtil.zero;
@@ -60,6 +58,18 @@ public class PathFollower extends Component<Entity> {
         }
     }
 
+    public float getDistanceToPathTarget() {
+        if (currentTarget != null) {
+            float distance = currentTarget.getLocation().cpy().sub(getOwner().getLocation().cpy()).len();
+            Node lastNode = currentTarget;
+            for (Node node : path.getNodes()) {
+                distance += node.getLocation().cpy().sub(lastNode.getLocation().cpy()).len();
+            }
+            return distance;
+        }
+        return Float.MAX_VALUE;
+    }
+
     private boolean withinTolerance(Vector2 distance, float delta) {
         return distance.len2() <= this.scaledToleranceSquared * delta;
     }
@@ -99,40 +109,8 @@ public class PathFollower extends Component<Entity> {
         return this;
     }
 
-    public Vector2 getIntersection(Vector2 towerPosition, float bulletSpeed) {
-        if (this.speed < bulletSpeed) {
-            return getIntersection(towerPosition, bulletSpeed, 0, 0);
-        } else {
-            throw new IllegalStateException("BulletSpeed has to be bigger than the enemy velocity");
-        }
-    }
-    private Vector2 getIntersection(Vector2 towerPosition, float bulletSpeed, int iteration, float i) {
-        Vector2 ownVelocity;
-        Vector2 ownPosition;
-        if (iteration == 0) {
-            ownPosition = getOwner().getLocation().cpy();
-            ownVelocity = getOwner().getVelocity().cpy();
-        } else {
-            List<Node> nodes = path.getNodes();
-            if (nodes.size() > nodeNumber + iteration) {
-                ownPosition = nodes.get(nodeNumber + iteration - 1).getLocation().cpy();
-                ownVelocity = nodes.get(nodeNumber + iteration).getLocation().cpy().sub(nodes.get(nodeNumber + iteration - 1).getLocation()).nor().scl(this.speed);
-            } else {
-                return null;
-            }
-        }
-
-        float partOne = 2f * ((ownVelocity.x * ownVelocity.x) + (ownVelocity.y * ownVelocity.y) - (bulletSpeed * bulletSpeed));
-        float partTwo = 2f * ((ownPosition.x * ownVelocity.x) + (ownPosition.y * ownVelocity.y) - (towerPosition.x * ownVelocity.x) - (towerPosition.y * ownVelocity.y) - (i * bulletSpeed * bulletSpeed));
-        float partThree = (ownPosition.x * ownPosition.x) - (2f * ownPosition.x * towerPosition.x) + (ownPosition.y * ownPosition.y) - (2f * ownPosition.y * towerPosition.y) + (towerPosition.x * towerPosition.x) + (towerPosition.y * towerPosition.y) - (i * i * bulletSpeed * bulletSpeed);
-        float x = (1f / partOne) * (-(float) Math.sqrt((partTwo * partTwo) - (2f * partOne * partThree)) - partTwo);
-
-        Vector2 intersectionPos = ownVelocity.scl(x).add(ownPosition);
-        if (intersectionPos.cpy().sub(ownPosition).len() / path.getNodes().get(nodeNumber + iteration).getLocation().cpy().sub(ownPosition).len() > 1) {
-            return getIntersection(towerPosition, bulletSpeed, 1, x + i);
-        } else {
-            return intersectionPos;
-        }
+    public int getNodeNumber() {
+        return nodeNumber;
     }
 
     public static class PathCompleteEvent implements Event {

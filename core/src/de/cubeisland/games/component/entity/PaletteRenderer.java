@@ -1,6 +1,5 @@
 package de.cubeisland.games.component.entity;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;

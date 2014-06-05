@@ -3,13 +3,11 @@ package de.cubeisland.games.entity.type;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.component.entity.ColorContainer;
-import de.cubeisland.games.component.entity.ProjectileLauncher;
-import de.cubeisland.games.component.entity.SoundPlayer;
-import de.cubeisland.games.component.entity.TowerRender;
+import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.entity.EntityTypes;
+import de.cubeisland.games.level.TileMapWithPathsAndTowerLocations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +29,7 @@ public class Tower extends EntityType {
         add(ProjectileLauncher.class);
         add(ColorContainer.class);
         add(SoundPlayer.class);
+        add(Rotator.class);
 
         muzzleOffset.add(new Vector2(0, 0));
     }
@@ -46,15 +45,16 @@ public class Tower extends EntityType {
                 .setCooldown(cooldown, MILLISECONDS)
                 .setTargetRange(targetRange)
                 .setProjectile(EntityTypes.BULLET)
-                .setCenterOffset(centerOffset)
-                .setMuzzleOffset(muzzleOffset)
-                .setMaxRotationPerTick(maxRotationPerTick);
+                .setMuzzleOffset(muzzleOffset);
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)
                 .setMaxAmount(maxShots)
                 .refill();
         e.get(SoundPlayer.class)
                 .setSound(e.getLevel().getScreen().getGame().soundManager.pew);
+        e.get(Rotator.class)
+                .setCenterOffset(centerOffset)
+                .setMaxRotationPerTick(maxRotationPerTick);
     }
 
     public Tower setCenterOffset(Vector2 centerOffset) {
@@ -87,6 +87,11 @@ public class Tower extends EntityType {
     }
     public Tower setCooldown(long cooldown) {
         this.cooldown = cooldown;
+        return this;
+    }
+
+    public Tower addColorTowerMap(int color) {
+        TileMapWithPathsAndTowerLocations.addColorTowerMap(color, this);
         return this;
     }
 }

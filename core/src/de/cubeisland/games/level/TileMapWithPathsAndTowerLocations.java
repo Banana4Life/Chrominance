@@ -5,25 +5,24 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.level.tile.TileType;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-public class Map
+public class TileMapWithPathsAndTowerLocations
 {
     private final TileType[][] mapData;
     private final List<Path> paths;
-    private final List<Vector2> towerLocations;
+    private final Map<Vector2, Tower> towerLocations;
     private final float width;
     private final float height;
     private final Random random;
+    private static Map<Integer, Tower> ColorTowerMap = new HashMap<>();
 
-    public Map(FileHandle fileHandle) {
+    public TileMapWithPathsAndTowerLocations(FileHandle fileHandle) {
         paths = new ArrayList<>();
-        towerLocations = new ArrayList<>();
+        towerLocations = new HashMap<>();
 
         Pixmap rawMap = new Pixmap(fileHandle);
         this.width = rawMap.getWidth();
@@ -40,8 +39,8 @@ public class Map
             for (int y = 0; y < rawMap.getHeight(); y++) {
                 TileType tileType = TileType.getByColorValue(rawMap.getPixel(x, y));
                 tileMap[x][y] = tileType;
-                if (tileType == TileType.TOWER_SLOT) {
-                    this.towerLocations.add(new Vector2(x + 0.5f, rawMap.getHeight() - 0.5f - y));
+                if (tileType == TileType.NONE && ColorTowerMap.get(rawMap.getPixel(x, y)) != null) {
+                    this.towerLocations.put(new Vector2(x + 0.5f, rawMap.getHeight() - 0.5f - y), ColorTowerMap.get(rawMap.getPixel(x, y)));
                 }
             }
         }
@@ -105,7 +104,7 @@ public class Map
         return paths;
     }
 
-    public List<Vector2> getTowerLocations() {
+    public Map<Vector2, Tower> getTowerLocations() {
         return towerLocations;
     }
 
@@ -148,5 +147,12 @@ public class Map
 
     public Path getRandomPath() {
         return this.paths.get(this.random.nextInt(this.paths.size()));
+    }
+
+    public static void addColorTowerMap(int color, Tower tower) {
+        ColorTowerMap.put(color, tower);
+    }
+    public static void deleteColorTowerMap(int color) {
+        ColorTowerMap.remove(color);
     }
 }

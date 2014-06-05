@@ -13,10 +13,12 @@ import de.cubeisland.games.ui.widgets.Container;
 import de.cubeisland.games.ui.widgets.Label;
 import de.cubeisland.games.util.Pair;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
 import static de.cubeisland.games.ui.Sizing.FIT_CONTENT;

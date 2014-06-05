@@ -1,19 +1,20 @@
 package de.cubeisland.games.resourcemanager;
 
 import de.cubeisland.games.Chrominance;
-import de.cubeisland.games.level.Map;
+import de.cubeisland.games.level.TileMapWithPathsAndTowerLocations;
 
 import java.lang.reflect.Field;
 
-public class MapManager extends ResourceManager<Map> {
-    public Map map1;
+public class MapManager extends ResourceManager<TileMapWithPathsAndTowerLocations> {
+    public TileMapWithPathsAndTowerLocations map1;
+    public TileMapWithPathsAndTowerLocations map2;
 
     public MapManager(Chrominance game) {
         super(game, "./maps");
     }
 
     @Override
-    protected Map makeResource(Field field, FileHandles fileMap) {
-        return new Map(fileMap.get(field.getName()));
+    protected TileMapWithPathsAndTowerLocations makeResource(Field field, FileHandles fileMap) {
+        return new TileMapWithPathsAndTowerLocations(fileMap.get(field.getName()));
     }
 }
