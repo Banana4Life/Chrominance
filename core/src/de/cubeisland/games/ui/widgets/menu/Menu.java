@@ -7,6 +7,7 @@ import de.cubeisland.games.event.Event;
 import de.cubeisland.games.event.EventHandler;
 import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.event.MethodEventHandler;
+import de.cubeisland.games.screen.AbstractMenuScreen;
 import de.cubeisland.games.ui.Widget;
 import de.cubeisland.games.ui.event.MouseEnterEvent;
 import de.cubeisland.games.ui.event.MouseLeaveEvent;
@@ -119,6 +120,7 @@ public abstract class Menu<T extends Base2DGame> extends Container {
             this.method = method;
         }
 
+        @SuppressWarnings("unchecked")
         public void handle(EventSender sender, TouchDownEvent event) {
             try {
                 Object result = method.invoke(this.menu);
@@ -126,6 +128,11 @@ public abstract class Menu<T extends Base2DGame> extends Container {
                     menu.getGame().setScreen((Screen) result);
                 } else if (result instanceof MenuAction) {
                     ((MenuAction) result).go(menu.getGame().getScreen());
+                } else if (result instanceof Menu) {
+                    Screen screen = menu.getGame().getScreen();
+                    if (screen instanceof AbstractMenuScreen) {
+                        ((AbstractMenuScreen) screen).pushMenu((Menu) result);
+                    }
                 }
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();
