@@ -43,6 +43,22 @@ public abstract class AbstractMenuScreen<T extends Base2DGame> extends AbstractS
     }
 
     @Override
+    public final void show() {
+        onShow();
+    }
+
+    public void onShow() {
+    }
+
+    @Override
+    public final void hide() {
+        onHide();
+    }
+
+    public void onHide() {
+    }
+
+    @Override
     public final void pause() {
     }
 
