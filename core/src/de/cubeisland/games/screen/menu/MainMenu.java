@@ -1,5 +1,6 @@
 package de.cubeisland.games.screen.menu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Chrominance;
@@ -34,7 +35,7 @@ public class MainMenu extends Menu<Chrominance> {
     }
 
     @Entry(label = "Exit", order = 30)
-    public GameScreen end() {
-        return new EndScreen(getGame());
+    public void end() {
+        getGame().exit();
     }
 }

@@ -11,6 +11,17 @@ class GameScreenInputProcessor<T extends Base2DGame> implements InputProcessor {
         this.gameScreen = gameScreen;
     }
 
+    private Vector3 unproject(int x, int y) {
+        Vector3 pos = new Vector3(x, y, 0);
+        gameScreen.getGame().getCamera().unproject(pos);
+
+        // round to exact pixels
+        pos.x = (int)(pos.x + .5);
+        pos.y = (int)(pos.y + .5);
+
+        return pos;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         return false;
@@ -28,10 +39,8 @@ class GameScreenInputProcessor<T extends Base2DGame> implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector3 pos = new Vector3(screenX, screenY, 0);
-        System.out.println(pos);
-        gameScreen.getGame().getCamera().unproject(pos);
-        System.out.println(pos);
+        Vector3 pos = unproject(screenX, screenY);
+
         return false;
     }
 

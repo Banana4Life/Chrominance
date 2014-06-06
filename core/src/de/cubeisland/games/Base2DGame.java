@@ -73,4 +73,8 @@ public abstract class Base2DGame extends Game {
     public boolean isDebug() {
         return this.debug;
     }
+
+    public void exit() {
+        Gdx.app.exit();
+    }
 }
