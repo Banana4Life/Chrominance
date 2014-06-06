@@ -2,7 +2,7 @@ package de.cubeisland.games.ui.event;
 
 import de.cubeisland.games.event.Event;
 
-public class ScreenInputEvent implements Event {
+public class ScreenInputEvent extends Event {
     private final int x;
     private final int y;
 

@@ -28,8 +28,6 @@ public class Projectile extends EntityType implements CollisionSource {
 
         e.get(Render.class)
                 .setRadius(collisionVolume.getRadius());
-
-        System.out.println("Pew!");
     }
 
     public Projectile setLaunchSpeed(float launchSpeed) {
@@ -51,7 +49,6 @@ public class Projectile extends EntityType implements CollisionSource {
 
     @Override
     public void onCollide(Entity e, Collidable collidable, Vector2 minimumTranslationVector) {
-        System.out.println("Boom!");
         e.die();
     }
 

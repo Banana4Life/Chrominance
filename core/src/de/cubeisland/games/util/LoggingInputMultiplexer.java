@@ -3,9 +3,6 @@ package de.cubeisland.games.util;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
-/**
- * Created by phill_000 on 06.06.2014.
- */
 public class LoggingInputMultiplexer extends InputMultiplexer {
     @Override
     public void addProcessor(int index, InputProcessor processor) {

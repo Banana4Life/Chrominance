@@ -125,7 +125,7 @@ public class ProjectileLauncher extends Component<Entity> {
         return target;
     }
 
-    public static class ProjectileLaunchEvent implements Event {
+    public static class ProjectileLaunchEvent extends Event {
         private final Entity projectile;
 
         private ProjectileLaunchEvent(Entity projectile) {

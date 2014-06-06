@@ -115,7 +115,7 @@ public class PathFollower extends Component<Entity> {
         return nodeNumber;
     }
 
-    public static class PathCompleteEvent implements Event {
+    public static class PathCompleteEvent extends Event {
         private final Path path;
 
         public PathCompleteEvent(Path path) {

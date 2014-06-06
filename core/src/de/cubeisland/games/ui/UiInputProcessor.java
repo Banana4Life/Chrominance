@@ -47,12 +47,13 @@ final class UiInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Widget w = invokeTouchEvents(new TouchDownEvent(screenX, screenY, pointer, button), screenX, screenY);
+        TouchDownEvent event = new TouchDownEvent(screenX, screenY, pointer, button);
+        Widget w = invokeTouchEvents(event, screenX, screenY);
         if (w == null) {
             return false;
         }
         this.root.focus(w);
-        return true;
+        return event.wasHandled();
     }
 
     @Override

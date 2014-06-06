@@ -3,7 +3,7 @@ package de.cubeisland.games.ui.event;
 import de.cubeisland.games.event.Event;
 import de.cubeisland.games.ui.Widget;
 
-public class FocusChangedEvent implements Event {
+public class FocusChangedEvent extends Event {
     private final Widget oldWidget;
     private final Widget newWidget;
 

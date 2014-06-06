@@ -27,6 +27,7 @@ public abstract class EventProcessor implements EventSender {
             for (EventHandler<EventSender, Event> handler : handlers) {
                 if (handler.getApplicableSender().isAssignableFrom(sender.getClass())) {
                     handler.handle(sender, event);
+                    event.setHandled();
                     result = true;
                 }
             }
