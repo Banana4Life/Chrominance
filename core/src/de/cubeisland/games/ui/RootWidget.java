@@ -3,12 +3,10 @@ package de.cubeisland.games.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Base2DGame;
-import de.cubeisland.games.ReflectedEventHandler;
 import de.cubeisland.games.event.Event;
 import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.screen.AbstractScreen;
 import de.cubeisland.games.ui.event.FocusChangedEvent;
-import de.cubeisland.games.ui.event.MouseMovedEvent;
 import de.cubeisland.games.ui.widgets.Container;
 
 public class RootWidget<T extends Base2DGame> extends Container implements EventSender {

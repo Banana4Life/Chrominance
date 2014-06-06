@@ -1,11 +1,9 @@
 package de.cubeisland.games.screen.menu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.screen.CreditsScreen;
-import de.cubeisland.games.screen.EndScreen;
 import de.cubeisland.games.screen.GameScreen;
 import de.cubeisland.games.screen.OptionsScreen;
 import de.cubeisland.games.ui.font.Font;

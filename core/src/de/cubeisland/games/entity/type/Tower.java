@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
-import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.level.TileMapWithPathsAndTowerLocations;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class Tower extends EntityType {
                 .setMaxAmount(maxShots)
                 .refill();
         e.get(SoundPlayer.class)
-                .setSound(e.getLevel().getScreen().getGame().soundManager.pew);
+                .setSound(e.getLevel().getScreen().getGame().sounds.pew);
         e.get(Rotator.class)
                 .setCenterOffset(centerOffset)
                 .setMaxRotationPerTick(maxRotationPerTick);

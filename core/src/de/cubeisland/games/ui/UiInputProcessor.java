@@ -4,7 +4,9 @@ import com.badlogic.gdx.InputProcessor;
 import de.cubeisland.games.event.Event;
 import de.cubeisland.games.ui.event.*;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 final class UiInputProcessor implements InputProcessor {
 
