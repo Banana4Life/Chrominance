@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.cubeisland.games.util.BetterBatch;
+import de.cubeisland.games.util.LoggingInputMultiplexer;
 
 public abstract class Base2DGame extends Game {
 
@@ -17,7 +18,7 @@ public abstract class Base2DGame extends Game {
 
     protected Base2DGame() {
         this.debug = System.getProperty("debug") != null;
-        this.input = new InputMultiplexer();
+        this.input = new LoggingInputMultiplexer();
     }
 
     @Override

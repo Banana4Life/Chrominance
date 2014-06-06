@@ -35,22 +35,18 @@ final class UiInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        System.out.println("keyup!");
         final Widget target = this.root.getFocusedWidget();
         return target.trigger(this.root, new KeyUpEvent(target, keycode));
     }
 
     @Override
     public boolean keyTyped(char character) {
-        System.out.println("keytyped!");
         final Widget target = this.root.getFocusedWidget();
         return target.trigger(this.root, new KeyTypedEvent(target, character));
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touch down at [" + screenX + ":" + screenY + "] !");
-
         Widget w = invokeTouchEvents(new TouchDownEvent(screenX, screenY, pointer, button), screenX, screenY);
         if (w == null) {
             return false;
@@ -61,14 +57,11 @@ final class UiInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touch up at [" + screenX + ":" + screenY + "] !");
-
         return invokeTouchEvents(new TouchUpEvent(screenX, screenY, pointer, button), screenX, screenY) != null;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        System.out.println("touch dragged to [" + screenX + ":" + screenY + "] !");
         return this.root.trigger(new TouchDraggedEvent(screenX, screenY, pointer));
     }
 
@@ -105,7 +98,6 @@ final class UiInputProcessor implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-        System.out.println("scrolled for " + amount + " !");
         Widget target = this.root.getFocusedWidget();
         return target.trigger(this.root, new ScrollEvent(target, amount));
     }

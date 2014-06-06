@@ -1,6 +1,7 @@
 package de.cubeisland.games.screen;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
 import de.cubeisland.games.Base2DGame;
 
 class GameScreenInputProcessor<T extends Base2DGame> implements InputProcessor {
@@ -27,6 +28,10 @@ class GameScreenInputProcessor<T extends Base2DGame> implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector3 pos = new Vector3(screenX, screenY, 0);
+        System.out.println(pos);
+        gameScreen.getGame().getCamera().unproject(pos);
+        System.out.println(pos);
         return false;
     }
 
