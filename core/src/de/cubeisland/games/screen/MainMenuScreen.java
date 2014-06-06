@@ -11,7 +11,10 @@ public class MainMenuScreen extends AbstractMenuScreen<Chrominance> {
 
     public MainMenuScreen(Chrominance game) {
         super(game);
+    }
 
+    @Override
+    public void onShow() {
         final Font font = new Font(new FreeTypeFontGenerator(Gdx.files.internal("fonts/neou/Neou-Bold.ttf")), 30);
 
         pushMenu(new MainMenu(font));

@@ -12,12 +12,24 @@ import de.cubeisland.games.ui.RootWidget;
 
 public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     private final T game;
-    private final RootWidget<T> rootWidget;
-    private final OrthographicCamera uiCamera;
-    private final DrawContext context;
+    private RootWidget<T> rootWidget;
+    private OrthographicCamera uiCamera;
+    private DrawContext context;
 
     AbstractScreen(T game) {
         this.game = game;
+    }
+
+    public T getGame() {
+        return game;
+    }
+
+    public RootWidget<T> getRootWidget() {
+        return rootWidget;
+    }
+
+    @Override
+    public void show() {
         this.rootWidget = new RootWidget<>(this);
         this.uiCamera = new OrthographicCamera();
         this.uiCamera.setToOrtho(true);
@@ -30,12 +42,9 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
         this.context = new DrawContext(game, this.uiCamera, uiShapeRenderer, uiBatch);
     }
 
-    public T getGame() {
-        return game;
-    }
-
-    public RootWidget<T> getRootWidget() {
-        return rootWidget;
+    @Override
+    public void hide() {
+        this.dispose();
     }
 
     @Override
@@ -60,12 +69,11 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     public abstract void renderScreen(T game, float delta);
 
     @Override
-    public void hide() {
-        this.dispose();
-    }
-
-    @Override
     public void dispose() {
         this.rootWidget.dispose();
+        this.uiCamera = null;
+        this.context.getBatch().dispose();
+        this.context.getShapeRenderer().dispose();
+        this.context = null;
     }
 }

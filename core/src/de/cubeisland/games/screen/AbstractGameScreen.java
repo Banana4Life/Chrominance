@@ -23,6 +23,7 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
 
     @Override
     public final void show() {
+        super.show();
         this.inputProcessor = new GameScreenInputProcessor<>(this);
         getGame().getInput().addProcessor(this.inputProcessor);
 

@@ -44,6 +44,7 @@ public abstract class AbstractMenuScreen<T extends Base2DGame> extends AbstractS
 
     @Override
     public final void show() {
+        super.show();
         onShow();
     }
 
