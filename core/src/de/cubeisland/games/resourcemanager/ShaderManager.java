@@ -9,7 +9,7 @@ public class ShaderManager extends ResourceManager<ShaderProgram> {
     public ShaderProgram saturation;
 
     public ShaderManager(Chrominance game) {
-        super(game, "./shaders");
+        super(game, "shaders");
     }
 
     @Override

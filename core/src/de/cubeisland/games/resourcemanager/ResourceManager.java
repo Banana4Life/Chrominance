@@ -8,10 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public abstract class ResourceManager<T> {
     private String directory;
@@ -61,15 +58,26 @@ public abstract class ResourceManager<T> {
     protected abstract T makeResource(Field field, FileHandles fileMap);
 
     private FileHandles getFileMap(FileHandle file) {
-        FileHandles fileMap = new FileHandles();
+        if (!file.exists()) {
+            throw new MissingResourceException("The given resource directory is not available!");
+        }
+        FileHandles handles = new FileHandles();
+        readFileTree(file, handles);
+
+        for (Map.Entry<String, FileHandle> entry : handles.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue().file().getAbsolutePath());
+        }
+
+        return handles;
+    }
+
+    private static void readFileTree(FileHandle file, FileHandles handles) {
         if (file.isDirectory()) {
-            for (FileHandle childFile : file.list()) {
-                fileMap.putAll(getFileMap(childFile));
+            for (FileHandle handle : file.list()) {
+                readFileTree(handle, handles);
             }
-            return fileMap;
         } else {
-            fileMap.put(file.nameWithoutExtension(), file);
-            return fileMap;
+            handles.put(file.nameWithoutExtension(), file);
         }
     }
 

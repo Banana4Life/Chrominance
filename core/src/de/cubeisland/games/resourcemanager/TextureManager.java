@@ -9,7 +9,7 @@ public class TextureManager extends ResourceManager<Texture> {
     public Texture badlogic;
 
     public TextureManager(Chrominance game) {
-        super(game, "./textures");
+        super(game, "textures");
     }
 
     @Override

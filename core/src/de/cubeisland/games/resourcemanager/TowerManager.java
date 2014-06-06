@@ -18,7 +18,7 @@ public class TowerManager extends ResourceManager<Tower> {
     public Tower towerPoison;
 
     public TowerManager(Chrominance game) {
-        super(game, "./tower");
+        super(game, "tower");
     }
 
     @Override

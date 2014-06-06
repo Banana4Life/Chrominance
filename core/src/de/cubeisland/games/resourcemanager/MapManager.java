@@ -10,7 +10,7 @@ public class MapManager extends ResourceManager<TileMapWithPathsAndTowerLocation
     public TileMapWithPathsAndTowerLocations map2;
 
     public MapManager(Chrominance game) {
-        super(game, "./maps");
+        super(game, "maps");
     }
 
     @Override
