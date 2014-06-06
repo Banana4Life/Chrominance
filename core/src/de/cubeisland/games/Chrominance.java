@@ -31,18 +31,18 @@ public class Chrominance extends Base2DGame {
     public void create() {
         super.create();
 
-        this.textures = new TextureManager(this);
-        this.shaders = new ShaderManager(this);
-        this.towers = new TowerManager(this);
-        this.maps = new MapManager(this);
-        this.sounds = new SoundManager(this);
-        this.fonts = new FontManager(this);
+        this.textures = new TextureManager();
+        this.shaders = new ShaderManager();
+        this.towers = new TowerManager(getReflector());
+        this.maps = new MapManager();
+        this.sounds = new SoundManager();
+        this.fonts = new FontManager();
 
         this.setScreen(new MainMenuScreen(this));
     }
 
     public Reflector getReflector() {
-        return reflector;
+        return this.reflector;
     }
 
 }

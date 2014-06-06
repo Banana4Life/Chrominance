@@ -1,9 +1,11 @@
 package de.cubeisland.games.resourcemanager;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.engine.reflect.ReflectedYaml;
+import de.cubeisland.engine.reflect.Reflector;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.entity.type.Tower;
 
@@ -11,23 +13,27 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public class TowerManager extends ResourceManager<Tower> {
-    public Tower towerSlow;
-    public Tower towerPower;
-    public Tower towerHighFreq;
-    public Tower towerRange;
-    public Tower towerPoison;
+    public Tower slow;
+    public Tower power;
+    public Tower highfreq;
+    public Tower range;
+    public Tower poison;
 
-    public TowerManager(Chrominance game) {
-        super(game, "tower");
+    private final Reflector reflector;
+
+    public TowerManager(Reflector reflector) {
+        super("tower");
+        this.reflector = reflector;
     }
 
     @Override
-    protected Tower makeResource(Field field, FileHandles fileMap) {
-        final String fieldName = field.getName();
-        final Texture baseTexture = new Texture(fileMap.get(fieldName + "Base", "towerBase"));
-        final Texture turretTexture = new Texture(fileMap.get(fieldName + "Turret"));
+    protected Tower makeResource(FileHandle basedir, Field field) {
 
-        TowerConfig config = this.getGame().getReflector().load(TowerConfig.class, fileMap.get(fieldName + "Config").read());
+        FileHandle towerDir = fieldToFileHandle(field, basedir);
+        final Texture baseTexture = new Texture(basedir.child("base.png"));
+        final Texture turretTexture = new Texture(towerDir.child("turret.png"));
+
+        TowerConfig config = this.reflector.load(TowerConfig.class, towerDir.child("config.yml").read());
 
         return new Tower()
                     .setCenterOffset(config.centerOffset)

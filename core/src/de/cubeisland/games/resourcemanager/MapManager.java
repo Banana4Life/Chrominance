@@ -1,5 +1,6 @@
 package de.cubeisland.games.resourcemanager;
 
+import com.badlogic.gdx.files.FileHandle;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.TileMapWithPathsAndTowerLocations;
 
@@ -9,12 +10,12 @@ public class MapManager extends ResourceManager<TileMapWithPathsAndTowerLocation
     public TileMapWithPathsAndTowerLocations map1;
     public TileMapWithPathsAndTowerLocations map2;
 
-    public MapManager(Chrominance game) {
-        super(game, "maps");
+    public MapManager() {
+        super("maps");
     }
 
     @Override
-    protected TileMapWithPathsAndTowerLocations makeResource(Field field, FileHandles fileMap) {
-        return new TileMapWithPathsAndTowerLocations(fileMap.get(field.getName()));
+    protected TileMapWithPathsAndTowerLocations makeResource(FileHandle basedir, Field field) {
+        return new TileMapWithPathsAndTowerLocations(basedir.child(fieldToPath(field) + ".bmp"));
     }
 }

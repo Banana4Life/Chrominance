@@ -1,5 +1,6 @@
 package de.cubeisland.games.resourcemanager;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
 
@@ -8,13 +9,18 @@ import java.lang.reflect.Field;
 public class ShaderManager extends ResourceManager<ShaderProgram> {
     public ShaderProgram saturation;
 
-    public ShaderManager(Chrominance game) {
-        super(game, "shaders");
+    public ShaderManager() {
+        super("shaders");
     }
 
     @Override
-    protected ShaderProgram makeResource(Field field, FileHandles fileMap) {
-        ShaderProgram shader = new ShaderProgram(fileMap.get(field.getName() + ".vertex"), fileMap.get(field.getName() + ".fragment"));
+    protected ShaderProgram makeResource(FileHandle basedir, Field field) {
+
+        String path = fieldToPath(field);
+        final FileHandle vertex = basedir.child(path + ".vertex.glsl");
+        final FileHandle fragment = basedir.child(path + ".fragment.glsl");
+
+        ShaderProgram shader = new ShaderProgram(vertex, fragment);
         if (shader.isCompiled()) {
             return shader;
         } else {

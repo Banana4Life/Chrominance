@@ -2,25 +2,27 @@ package de.cubeisland.games.resourcemanager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import de.cubeisland.games.Chrominance;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.logging.FileHandler;
 
 public abstract class ResourceManager<T> {
-    private String directory;
-    private Chrominance game;
+    private final FileHandle basedir;
     private final Class<T> type;
     private final List<T> resources;
 
-    @SuppressWarnings("unchecked")
-    public ResourceManager(Chrominance game, String directory) {
-        this.game = game;
-        this.directory = directory;
+    protected ResourceManager(String basedir) {
+        this(fileHandle(basedir));
+    }
 
+    @SuppressWarnings("unchecked")
+    protected ResourceManager(FileHandle basedir) {
+        this.basedir = basedir;
         Type t = this.getClass().getGenericSuperclass();
         Type param = ((ParameterizedType) t).getActualTypeArguments()[0];
         if (!(param instanceof Class)) {
@@ -28,8 +30,6 @@ public abstract class ResourceManager<T> {
         }
         this.type = (Class<T>) param;
         this.resources = new ArrayList<>();
-
-        loadResources();
     }
 
     public List<T> getResources() {
@@ -37,15 +37,12 @@ public abstract class ResourceManager<T> {
     }
 
     private void loadResources() {
-        FileHandle baseDir = Gdx.files.internal(this.directory);
-
         Field[] fields = this.getClass().getFields();
-        FileHandles fileMap = getFileMap(baseDir);
 
         for (Field field : fields) {
             if (Modifier.isPublic(field.getModifiers()) && this.type.isAssignableFrom(field.getType())) {
                 try {
-                    T resource = makeResource(field, fileMap);
+                    T resource = makeResource(this.basedir, field);
                     field.set(this, resource);
                     this.resources.add(resource);
                 } catch (IllegalAccessException | RuntimeException e) {
@@ -55,56 +52,43 @@ public abstract class ResourceManager<T> {
         }
     }
 
-    protected abstract T makeResource(Field field, FileHandles fileMap);
+    protected abstract T makeResource(FileHandle basedir, Field field);
 
-    private FileHandles getFileMap(FileHandle file) {
-        if (!file.exists()) {
-            throw new MissingResourceException("The given resource directory is not available!");
-        }
-        FileHandles handles = new FileHandles();
-        readFileTree(file, handles);
-
-        for (Map.Entry<String, FileHandle> entry : handles.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue().file().getAbsolutePath());
-        }
-
-        return handles;
+    protected static FileHandle fileHandle(String path) {
+        return Gdx.files.internal(path);
     }
 
-    private static void readFileTree(FileHandle file, FileHandles handles) {
-        if (file.isDirectory()) {
-            for (FileHandle handle : file.list()) {
-                readFileTree(handle, handles);
-            }
-        } else {
-            handles.put(file.nameWithoutExtension(), file);
+    protected static FileHandle fieldToFileHandle(Field field, FileHandle basedir) {
+        String path = fieldToPath(field);
+        if (basedir == null) {
+            return fileHandle(path);
         }
+        return basedir.child(path);
     }
 
-    public Chrominance getGame() {
-        return game;
+    protected static String fieldToPath(Field field) {
+        return fieldNameToPath(field.getName());
     }
 
-    protected static final class FileHandles extends HashMap<String, FileHandle> {
-        @Override
-        public FileHandle get(Object key) {
-            FileHandle handle = super.get(key);
-            if (handle == null) {
-                throw new MissingResourceException(String.valueOf(key));
-            }
-            return handle;
+    protected static String fieldNameToPath(String fieldName) {
+        char[] chars = fieldName.toCharArray();
+        if (chars.length == 0) {
+            throw new IllegalArgumentException("Empty string is not a valid field name!");
         }
 
-        public FileHandle get(String mainKey, String fallbackKey) {
-            FileHandle handle = super.get(mainKey);
-            if (handle == null) {
-                handle = super.get(fallbackKey);
+        StringBuilder path = new StringBuilder().append(Character.toLowerCase(chars[0]));
+
+        char c;
+        for (int i = 1; i < chars.length; i++) {
+            c = chars[i];
+            if (Character.isUpperCase(c)) {
+                path.append(File.separatorChar);
+                c = Character.toLowerCase(c);
             }
-            if (handle == null) {
-                throw new MissingResourceException(mainKey + " and " + fallbackKey);
-            }
-            return handle;
+            path.append(c);
         }
+
+        return path.toString();
     }
 
     public static class MissingResourceException extends RuntimeException {
