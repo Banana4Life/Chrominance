@@ -10,7 +10,7 @@ import de.cubeisland.games.level.tile.TileType;
 
 import java.util.*;
 
-public class TileMapWithPathsAndTowerLocations
+public class MapStructure
 {
     private final TileType[][] mapData;
     private final List<Path> paths;
@@ -20,7 +20,7 @@ public class TileMapWithPathsAndTowerLocations
     private final Random random;
     private static Map<Integer, Tower> ColorTowerMap = new HashMap<>();
 
-    public TileMapWithPathsAndTowerLocations(FileHandle fileHandle) {
+    public MapStructure(FileHandle fileHandle) {
         paths = new ArrayList<>();
         towerLocations = new HashMap<>();
 

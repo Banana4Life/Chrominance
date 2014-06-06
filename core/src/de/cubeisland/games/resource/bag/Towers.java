@@ -1,4 +1,4 @@
-package de.cubeisland.games.resourcemanager;
+package de.cubeisland.games.resource.bag;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.engine.reflect.ReflectedYaml;
 import de.cubeisland.engine.reflect.Reflector;
-import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.entity.type.Tower;
+import de.cubeisland.games.resource.ResourceBag;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class TowerManager extends ResourceManager<Tower> {
+public class Towers extends ResourceBag<Tower> {
     public Tower slow;
     public Tower power;
     public Tower highfreq;
@@ -21,13 +21,12 @@ public class TowerManager extends ResourceManager<Tower> {
 
     private final Reflector reflector;
 
-    public TowerManager(Reflector reflector) {
-        super("tower");
+    public Towers(Reflector reflector) {
         this.reflector = reflector;
     }
 
     @Override
-    protected Tower makeResource(FileHandle basedir, Field field) {
+    protected Tower load(FileHandle basedir, Field field) {
 
         FileHandle towerDir = fieldToFileHandle(field, basedir);
         final Texture baseTexture = new Texture(basedir.child("base.png"));

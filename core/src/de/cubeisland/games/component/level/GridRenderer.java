@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.level.Level;
-import de.cubeisland.games.level.TileMapWithPathsAndTowerLocations;
+import de.cubeisland.games.level.MapStructure;
 
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
@@ -26,7 +26,7 @@ public class GridRenderer extends Component<Level>
     @Override
     public void update(float delta)
     {
-        final TileMapWithPathsAndTowerLocations map = getOwner().getMap();
+        final MapStructure map = getOwner().getMap();
         final float scale = map.getScale();
         final Vector2 offset = map.getOffset();
 

@@ -1,28 +1,24 @@
-package de.cubeisland.games.resourcemanager;
+package de.cubeisland.games.resource;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Disposable;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
-import java.util.logging.FileHandler;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public abstract class ResourceManager<T> {
-    private final FileHandle basedir;
+public abstract class ResourceBag<T> implements Disposable {
     private final Class<T> type;
     private final List<T> resources;
 
-    protected ResourceManager(String basedir) {
-        this(fileHandle(basedir));
-    }
-
     @SuppressWarnings("unchecked")
-    protected ResourceManager(FileHandle basedir) {
-        this.basedir = basedir;
+    protected ResourceBag() {
         Type t = this.getClass().getGenericSuperclass();
         Type param = ((ParameterizedType) t).getActualTypeArguments()[0];
         if (!(param instanceof Class)) {
@@ -36,13 +32,14 @@ public abstract class ResourceManager<T> {
         return Collections.unmodifiableList(this.resources);
     }
 
-    private void loadResources() {
+    void build() {
+        FileHandle basedir = fileHandle(getClass().getSimpleName().toLowerCase());
         Field[] fields = this.getClass().getFields();
 
         for (Field field : fields) {
             if (Modifier.isPublic(field.getModifiers()) && this.type.isAssignableFrom(field.getType())) {
                 try {
-                    T resource = makeResource(this.basedir, field);
+                    T resource = load(basedir, field);
                     field.set(this, resource);
                     this.resources.add(resource);
                 } catch (IllegalAccessException | RuntimeException e) {
@@ -52,7 +49,7 @@ public abstract class ResourceManager<T> {
         }
     }
 
-    protected abstract T makeResource(FileHandle basedir, Field field);
+    protected abstract T load(FileHandle basedir, Field field);
 
     protected static FileHandle fileHandle(String path) {
         return Gdx.files.internal(path);
@@ -94,6 +91,15 @@ public abstract class ResourceManager<T> {
     public static class MissingResourceException extends RuntimeException {
         public MissingResourceException(String message) {
             super(message);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        if (Disposable.class.isAssignableFrom(this.type)) {
+            for (T resource : this.resources) {
+                ((Disposable)resource).dispose();
+            }
         }
     }
 }

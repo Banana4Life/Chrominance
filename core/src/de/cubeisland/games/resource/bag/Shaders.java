@@ -1,20 +1,16 @@
-package de.cubeisland.games.resourcemanager;
+package de.cubeisland.games.resource.bag;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import de.cubeisland.games.Chrominance;
+import de.cubeisland.games.resource.ResourceBag;
 
 import java.lang.reflect.Field;
 
-public class ShaderManager extends ResourceManager<ShaderProgram> {
+public class Shaders extends ResourceBag<ShaderProgram> {
     public ShaderProgram saturation;
 
-    public ShaderManager() {
-        super("shaders");
-    }
-
     @Override
-    protected ShaderProgram makeResource(FileHandle basedir, Field field) {
+    protected ShaderProgram load(FileHandle basedir, Field field) {
 
         String path = fieldToPath(field);
         final FileHandle vertex = basedir.child(path + ".vertex.glsl");

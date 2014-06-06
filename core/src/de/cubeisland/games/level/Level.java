@@ -25,7 +25,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
     private final List<Entity> entities;
     private final List<Entity> spawnQueue;
 
-    private final TileMapWithPathsAndTowerLocations map;
+    private final MapStructure map;
     private final GameScreen screen;
 
     private final EntityFactory entityFactory;
@@ -34,7 +34,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
 
     private float saturation = 0f;
 
-    public Level(GameScreen screen, TileMapWithPathsAndTowerLocations map) {
+    public Level(GameScreen screen, MapStructure map) {
         this.screen = screen;
         this.entityFactory = new EntityFactory(this);
         this.entities = new ArrayList<>();
@@ -136,7 +136,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         }
     }
 
-    public TileMapWithPathsAndTowerLocations getMap()
+    public MapStructure getMap()
     {
         return map;
     }
