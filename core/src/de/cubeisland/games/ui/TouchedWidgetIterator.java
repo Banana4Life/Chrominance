@@ -23,7 +23,7 @@ final class TouchedWidgetIterator implements Iterator<Widget> {
             return this.current;
         }
         for (Widget child : this.current.getChildren()) {
-            if (child.containsPoint(x, y)) {
+            if (child.isActive() && child.containsPoint(x, y)) {
                 this.current = child;
                 return child;
             }

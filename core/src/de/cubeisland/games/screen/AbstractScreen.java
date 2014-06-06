@@ -16,7 +16,7 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     private final OrthographicCamera uiCamera;
     private final DrawContext context;
 
-    public AbstractScreen(T game) {
+    AbstractScreen(T game) {
         this.game = game;
         this.rootWidget = new RootWidget<>(this);
         this.uiCamera = new OrthographicCamera();
@@ -58,6 +58,11 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     }
 
     public abstract void renderScreen(T game, float delta);
+
+    @Override
+    public void hide() {
+        this.dispose();
+    }
 
     @Override
     public void dispose() {

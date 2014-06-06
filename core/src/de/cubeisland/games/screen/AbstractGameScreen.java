@@ -34,6 +34,7 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
 
     @Override
     public final void hide() {
+        super.hide();
         if (this.inputProcessor != null) {
             getGame().getInput().removeProcessor(this.inputProcessor);
             this.inputProcessor = null;
