@@ -17,6 +17,12 @@ public class Maps extends ResourceBag<MapStructure> {
     }
 
     @Override
+    public void build() {
+        this.towers.build();
+        super.build();
+    }
+
+    @Override
     protected MapStructure load(FileHandle basedir, Field field) {
         return new MapStructure(this.towers.getResources(), basedir.child(fieldToPath(field) + ".bmp"));
     }

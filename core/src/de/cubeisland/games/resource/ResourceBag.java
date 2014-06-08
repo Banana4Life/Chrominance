@@ -16,6 +16,7 @@ import java.util.List;
 public abstract class ResourceBag<T> implements Disposable {
     private final Class<T> type;
     private final List<T> resources;
+    private boolean built = false;
 
     @SuppressWarnings("unchecked")
     protected ResourceBag() {
@@ -32,7 +33,11 @@ public abstract class ResourceBag<T> implements Disposable {
         return Collections.unmodifiableList(this.resources);
     }
 
-    void build() {
+    public void build() {
+        if (built) {
+            return;
+        }
+        built = true;
         FileHandle basedir = fileHandle(getClass().getSimpleName().toLowerCase());
         Field[] fields = this.getClass().getFields();
 
