@@ -1,8 +1,4 @@
-package de.cubeisland.games;
-
-import de.cubeisland.games.event.Event;
-import de.cubeisland.games.event.EventHandler;
-import de.cubeisland.games.event.EventSender;
+package de.cubeisland.games.event;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
