@@ -396,7 +396,11 @@ public abstract class Widget extends EventProcessor implements Disposable {
     }
 
     public Widget setForegroundColor(Color foregroundColor) {
-        this.foregroundColor = foregroundColor.cpy();
+        if (foregroundColor == null) {
+            this.foregroundColor = null;
+        } else {
+            this.foregroundColor = foregroundColor.cpy();
+        }
         return this;
     }
 

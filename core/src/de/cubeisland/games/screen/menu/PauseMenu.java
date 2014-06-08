@@ -18,6 +18,7 @@ public class PauseMenu extends Menu<Chrominance> {
         setBackgroundColor(new Color(0, 0, 0, .5f));
         setMargin(0);
         setForegroundColor(Color.WHITE);
+        setHoverColor(Color.WHITE.cpy().mul(.8f));
     }
 
     @Entry(label = "Continue", order = 0)

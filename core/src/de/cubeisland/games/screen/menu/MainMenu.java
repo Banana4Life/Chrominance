@@ -15,6 +15,7 @@ public class MainMenu extends Menu<Chrominance> {
     public MainMenu(Font font) {
         super("Main Menu", font);
         setForegroundColor(new Color(0.7f, 0.7f, 0.7f, 1));
+        setHoverColor(getForegroundColor().sub(.1f, .1f, .1f, 0));
     }
 
     @Entry(label = "Start", order = 0)

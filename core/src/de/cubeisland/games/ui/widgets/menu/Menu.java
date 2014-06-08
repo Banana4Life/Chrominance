@@ -34,6 +34,7 @@ public abstract class Menu<T extends Base2DGame> extends Container {
 
     private final String title;
     private Font font;
+    private Color hoverColor;
 
     protected Menu(String title, Font font) {
         this.title = title;
@@ -51,6 +52,24 @@ public abstract class Menu<T extends Base2DGame> extends Container {
 
         addChild(titleContainer);
         addChild(entryContainer);
+
+    }
+
+    @Override
+    protected void onAdded() {
+        super.onAdded();
+        if (this.hoverColor == null) {
+            this.hoverColor = getForegroundColor();
+        }
+    }
+
+    public Color getHoverColor() {
+        return this.hoverColor.cpy();
+    }
+
+    public Menu<T> setHoverColor(Color hoverColor) {
+        this.hoverColor = hoverColor.cpy();
+        return this;
     }
 
     public String getTitle() {
@@ -78,7 +97,7 @@ public abstract class Menu<T extends Base2DGame> extends Container {
 
             MenuEntry menuEntry = new MenuEntry(entry.label(), menu.getFont());
 
-            for (EventHandler<EventSender, Event> handler : MethodEventHandler.parseHandlers(new EntryEventHandlers(menu, m))) {
+            for (EventHandler<EventSender, Event> handler : MethodEventHandler.parseHandlers(menu.new EntryEventHandlers(m))) {
                 menuEntry.registerEventHandler(handler);
             }
 
@@ -109,26 +128,23 @@ public abstract class Menu<T extends Base2DGame> extends Container {
         }
     }
 
-    private static final class EntryEventHandlers {
-        private final Menu menu;
+    private final class EntryEventHandlers {
         private final Method method;
-        private Color originalColor;
 
-        public EntryEventHandlers(Menu menu, Method method) {
-            this.menu = menu;
+        public EntryEventHandlers(Method method) {
             this.method = method;
         }
 
         @SuppressWarnings("unchecked")
         public void handle(EventSender sender, TouchDownEvent event) {
             try {
-                Object result = method.invoke(this.menu);
+                Object result = method.invoke(Menu.this);
                 if (result instanceof Screen) {
-                    menu.getGame().setScreen((Screen) result);
+                    Menu.this.getGame().setScreen((Screen) result);
                 } else if (result instanceof MenuAction) {
-                    ((MenuAction) result).go(menu.getGame().getScreen());
+                    ((MenuAction) result).go(Menu.this.getGame().getScreen());
                 } else if (result instanceof Menu) {
-                    Screen screen = menu.getGame().getScreen();
+                    Screen screen = Menu.this.getGame().getScreen();
                     if (screen instanceof AbstractMenuScreen) {
                         ((AbstractMenuScreen) screen).pushMenu((Menu) result);
                     }
@@ -140,16 +156,12 @@ public abstract class Menu<T extends Base2DGame> extends Container {
 
         public void handle(EventSender sender, MouseEnterEvent event) {
             Widget w = event.getWidget();
-            this.originalColor = w.getForegroundColor();
 
-            event.getWidget().setForegroundColor(this.originalColor.cpy().mul(1.1f).clamp());
+            event.getWidget().setForegroundColor(getHoverColor());
         }
 
         public void handle(EventSender sender, MouseLeaveEvent event) {
-            if (this.originalColor != null) {
-                event.getWidget().setForegroundColor(originalColor);
-                this.originalColor = null;
-            }
+            event.getWidget().setForegroundColor(null);
         }
     }
 }
