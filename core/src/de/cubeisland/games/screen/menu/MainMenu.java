@@ -23,12 +23,12 @@ public class MainMenu extends Menu<Chrominance> {
     }
 
     @Entry(label = "Options", order = 10)
-    public GameScreen options() {
+    public OptionsScreen options() {
         return new OptionsScreen(getGame());
     }
 
     @Entry(label = "Credits", order = 20)
-    public GameScreen credits() {
+    public CreditsScreen credits() {
         return new CreditsScreen(getGame());
     }
 

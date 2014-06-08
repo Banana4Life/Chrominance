@@ -30,6 +30,9 @@ public class Chrominance extends Base2DGame {
         super.create();
         this.resources.build();
 
+        this.resources.songs.main.setVolume(.05f);
+        this.resources.songs.main.play();
+
         this.setScreen(new MainMenuScreen(this));
     }
 

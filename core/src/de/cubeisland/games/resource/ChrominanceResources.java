@@ -10,6 +10,7 @@ public class ChrominanceResources extends Resources {
     public final Sounds sounds;
     public final Textures textures;
     public final Towers towers;
+    public final Songs songs;
 
     public ChrominanceResources(Reflector reflector) {
         this.fonts = new Fonts();
@@ -18,5 +19,6 @@ public class ChrominanceResources extends Resources {
         this.textures = new Textures();
         this.towers = new Towers(reflector);
         this.maps = new Maps(this.towers);
+        this.songs = new Songs();
     }
 }
