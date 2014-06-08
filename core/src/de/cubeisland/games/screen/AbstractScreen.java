@@ -63,6 +63,8 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
 
         this.renderScreen(getGame(), delta);
 
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
         this.rootWidget.render(this.context);
     }
 

@@ -1,6 +1,8 @@
 package de.cubeisland.games.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
@@ -713,10 +715,17 @@ public abstract class Widget extends EventProcessor implements Disposable {
         }
 
         if (this.backgroundColor.a > 0f) {
+            if (this.backgroundColor.a < 1) {
+                Gdx.gl.glEnable(GL20.GL_BLEND);
+                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            }
             r.begin(Filled);
             r.setColor(this.backgroundColor);
             r.rect(pos.x, pos.y, getWidth(), getHeight());
             r.end();
+            if (this.backgroundColor.a < 1) {
+                Gdx.gl.glDisable(GL20.GL_BLEND);
+            }
         }
 
         if (context.getGame().isDebug()) {

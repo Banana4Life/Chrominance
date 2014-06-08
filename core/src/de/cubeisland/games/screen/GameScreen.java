@@ -4,12 +4,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.Level;
+import de.cubeisland.games.screen.menu.PauseMenu;
+import de.cubeisland.games.ui.widgets.menu.Menu;
 import de.cubeisland.games.ui.widgets.menu.MenuAction;
 
 public class GameScreen extends AbstractGameScreen<Chrominance> {
 
     public static final MenuAction CLOSE = new CloseMenuAction();
 
+    private boolean paused = false;
+    private Menu pauseMenu;
+    private GameScreenInputProcessor inputProcessor;
     private Level level;
 
     public GameScreen(final Chrominance game) {
@@ -20,13 +25,30 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         game.getBatch().setShader(game.resources.shaders.saturation);
 
         this.level = new Level(this, game.resources.maps.map1);
+        this.pauseMenu = new PauseMenu(game.resources.fonts.menuFont);
+    }
+
+    @Override
+    public void onShow() {
+        this.inputProcessor = new GameScreenInputProcessor<>(this);
+        getGame().getInput().addProcessor(this.inputProcessor);
+        this.getRootWidget().addChild(pauseMenu);
+        pauseMenu.setActive(false);
+    }
+
+    @Override
+    public void onHide() {
+        if (this.inputProcessor != null) {
+            getGame().getInput().removeProcessor(this.inputProcessor);
+            this.inputProcessor = null;
+        }
     }
 
     @Override
     public void renderScreen(Chrominance game, float delta) {
 
         if (isPaused()) {
-            return;
+            delta = 0;
         }
 
         game.getBatch().begin();
@@ -42,12 +64,31 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         game.resources.shaders.saturation.end();
     }
 
+    @Override
+    public void pause() {
+        if (!getGame().isDebug()) {
+            setPaused(true);
+        }
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+        this.pauseMenu.setActive(paused);
+    }
+
+    public boolean isPaused() {
+        return this.paused;
+    }
+
+    @Override
+    public void resume() {
+    }
 
     private static class CloseMenuAction implements MenuAction {
         @Override
         public void go(Screen screen) {
             if (screen instanceof GameScreen) {
-                
+                ((GameScreen)screen).setPaused(false);
             }
         }
     }

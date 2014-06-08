@@ -40,7 +40,6 @@ public abstract class Menu<T extends Base2DGame> extends Container {
         this.font = font;
         setVerticalSizing(FIT_CONTENT);
         //setAlignment(MIDDLE);
-        setBackgroundColor(Color.WHITE);
         setMargin(30, 100);
         setLayout(new ListLayout());
 

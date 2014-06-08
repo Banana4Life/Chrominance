@@ -4,28 +4,14 @@ import de.cubeisland.games.Base2DGame;
 import de.cubeisland.games.ui.widgets.menu.Menu;
 
 public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractScreen<T> {
-    private boolean paused;
-    private Menu pauseMenu;
-    private GameScreenInputProcessor inputProcessor;
 
     public AbstractGameScreen(T game) {
-        this(game, null);
-    }
-
-    public AbstractGameScreen(T game, Menu pauseMenu) {
         super(game);
-        this.pauseMenu = pauseMenu;
-        if (pauseMenu != null) {
-            this.getRootWidget().addChild(pauseMenu);
-            pauseMenu.setActive(false);
-        }
     }
 
     @Override
     public final void show() {
         super.show();
-        this.inputProcessor = new GameScreenInputProcessor<>(this);
-        getGame().getInput().addProcessor(this.inputProcessor);
 
         onShow();
     }
@@ -36,10 +22,6 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
     @Override
     public final void hide() {
         super.hide();
-        if (this.inputProcessor != null) {
-            getGame().getInput().removeProcessor(this.inputProcessor);
-            this.inputProcessor = null;
-        }
 
         onHide();
     }
@@ -47,31 +29,11 @@ public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractS
     public void onHide() {
     }
 
-    public boolean isPaused() {
-        return this.paused;
+    @Override
+    public void pause() {
     }
 
     @Override
-    public final void pause() {
-        this.paused = true;
-        if (this.pauseMenu != null) {
-            this.pauseMenu.setActive(true);
-        }
-        onPause();
-    }
-
-    protected void onPause() {
-    }
-
-    @Override
-    public final void resume() {
-        this.paused = false;
-        if (this.pauseMenu != null) {
-            this.pauseMenu.setActive(false);
-        }
-        onResume();
-    }
-
-    protected void onResume() {
+    public void resume() {
     }
 }
