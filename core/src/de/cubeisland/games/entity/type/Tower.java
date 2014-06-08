@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
-import de.cubeisland.games.level.MapStructure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ import java.util.List;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class Tower extends EntityType {
+    private final Color idColor;
     private Vector2 centerOffset = new Vector2(0, 0);
     private List<Vector2> muzzleOffset = new ArrayList<>();
     private Texture turretTexture;
@@ -24,7 +24,8 @@ public class Tower extends EntityType {
     private long cooldown = 1500;
     private Projectile projectile = new Projectile();
 
-    public Tower() {
+    public Tower(Color idColor) {
+        this.idColor = idColor.cpy();
         add(TowerRender.class);
         add(ProjectileLauncher.class);
         add(ColorContainer.class);
@@ -32,6 +33,10 @@ public class Tower extends EntityType {
         add(Rotator.class);
 
         muzzleOffset.add(new Vector2(0, 0));
+    }
+
+    public Color getIdColor() {
+        return this.idColor.cpy();
     }
 
     @Override
@@ -61,37 +66,39 @@ public class Tower extends EntityType {
         this.centerOffset = centerOffset;
         return this;
     }
+
     public Tower setMuzzleOffset(List<Vector2> muzzleOffset) {
         this.muzzleOffset = muzzleOffset;
         return this;
     }
+
     public Tower setTurretTexture(Texture texture) {
         this.turretTexture = texture;
         return this;
     }
+
     public Tower setBaseTexture(Texture texture) {
         this.baseTexture = texture;
         return this;
     }
+
     public Tower setMaxShots(float maxShots) {
         this.maxShots = maxShots;
         return this;
     }
+
     public Tower setMaxRotationPerTick(float maxRotationPerTick) {
         this.maxRotationPerTick = maxRotationPerTick;
         return this;
     }
+
     public Tower setTargetRange(float targetRange) {
         this.targetRange = targetRange;
         return this;
     }
+
     public Tower setCooldown(long cooldown) {
         this.cooldown = cooldown;
-        return this;
-    }
-
-    public Tower addColorTowerMap(int color) {
-        MapStructure.addColorTowerMap(color, this);
         return this;
     }
 }

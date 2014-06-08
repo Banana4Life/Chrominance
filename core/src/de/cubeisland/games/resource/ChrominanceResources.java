@@ -13,10 +13,10 @@ public class ChrominanceResources extends Resources {
 
     public ChrominanceResources(Reflector reflector) {
         this.fonts = new Fonts();
-        this.maps = new Maps();
         this.shaders = new Shaders();
         this.sounds = new Sounds();
         this.textures = new Textures();
         this.towers = new Towers(reflector);
+        this.maps = new Maps(this.towers);
     }
 }

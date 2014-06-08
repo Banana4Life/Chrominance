@@ -2,6 +2,7 @@ package de.cubeisland.games.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -18,15 +19,21 @@ public class MapStructure
     private final float width;
     private final float height;
     private final Random random;
-    private static Map<Integer, Tower> ColorTowerMap = new HashMap<>();
+    private final Map<Integer, Tower> colorTowerLookup;
 
-    public MapStructure(FileHandle fileHandle) {
+    public MapStructure(List<Tower> towers, FileHandle fileHandle) {
         paths = new ArrayList<>();
         towerLocations = new HashMap<>();
 
         Pixmap rawMap = new Pixmap(fileHandle);
         this.width = rawMap.getWidth();
         this.height = rawMap.getHeight();
+
+        // build tower lookup table
+        this.colorTowerLookup = new HashMap<>();
+        for (Tower t : towers) {
+            this.colorTowerLookup.put(Color.rgba8888(t.getIdColor()), t);
+        }
 
         mapData = loadMap(rawMap);
         random = new Random();
@@ -37,10 +44,11 @@ public class MapStructure
 
         for (int x = 0; x < rawMap.getWidth(); x++) {
             for (int y = 0; y < rawMap.getHeight(); y++) {
-                TileType tileType = TileType.getByColorValue(rawMap.getPixel(x, y));
+                final int pixelColor = rawMap.getPixel(x, y);
+                TileType tileType = TileType.getByColorValue(pixelColor);
                 tileMap[x][y] = tileType;
-                if (tileType == TileType.NONE && ColorTowerMap.get(rawMap.getPixel(x, y)) != null) {
-                    this.towerLocations.put(new Vector2(x + 0.5f, rawMap.getHeight() - 0.5f - y), ColorTowerMap.get(rawMap.getPixel(x, y)));
+                if (tileType == TileType.NONE && colorTowerLookup.get(pixelColor) != null) {
+                    this.towerLocations.put(new Vector2(x + 0.5f, rawMap.getHeight() - 0.5f - y), colorTowerLookup.get(rawMap.getPixel(x, y)));
                 }
             }
         }
@@ -142,12 +150,5 @@ public class MapStructure
 
     public Path getRandomPath() {
         return this.paths.get(this.random.nextInt(this.paths.size()));
-    }
-
-    public static void addColorTowerMap(int color, Tower tower) {
-        ColorTowerMap.put(color, tower);
-    }
-    public static void deleteColorTowerMap(int color) {
-        ColorTowerMap.remove(color);
     }
 }

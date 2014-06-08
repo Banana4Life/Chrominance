@@ -55,15 +55,18 @@ public class Level extends ComponentHolder<Level> implements Disposable {
     public float getSaturation() {
         return saturation;
     }
+
     public void setSaturation(float saturation) {
         this.saturation = saturation;
-        if (this.saturation < 0f) this.saturation = 0;
-        if (this.saturation > 1f) this.saturation = 1;
+        if (this.saturation < 0f) {
+            this.saturation = 0;
+        }
+        if (this.saturation > 1f) {
+            this.saturation = 1;
+        }
     }
-    public void subSaturation(float amount) {
-        this.saturation += amount;
-        if (saturation < 0f) saturation = 0;
-        if (saturation > 1f) saturation = 1;
+    public void decreaseSaturation(float amount) {
+        setSaturation(getSaturation() + amount);
     }
 
     public List<Entity> getEntities() {

@@ -5,18 +5,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.cubeisland.engine.logging.Log;
 import de.cubeisland.games.util.BetterBatch;
 import de.cubeisland.games.util.LoggingInputMultiplexer;
 
 public abstract class Base2DGame extends Game {
 
+    private final Log log;
     private BetterBatch batch;
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
     private InputMultiplexer input;
     private final boolean debug;
 
-    protected Base2DGame() {
+    protected Base2DGame(Log log) {
+        this.log = log;
         this.debug = System.getProperty("debug") != null;
         this.input = new LoggingInputMultiplexer();
     }
@@ -32,6 +35,10 @@ public abstract class Base2DGame extends Game {
         this.shapeRenderer.setProjectionMatrix(this.camera.combined);
 
         Gdx.input.setInputProcessor(this.input);
+    }
+
+    public Log getLog() {
+        return log;
     }
 
     public InputMultiplexer getInput() {

@@ -34,7 +34,7 @@ public class Towers extends ResourceBag<Tower> {
 
         TowerConfig config = this.reflector.load(TowerConfig.class, towerDir.child("config.yml").read());
 
-        return new Tower()
+        return new Tower(config.mapIndicatorColor)
                     .setCenterOffset(config.centerOffset)
                     .setMuzzleOffset(config.muzzleOffset)
                     .setTurretTexture(turretTexture)
@@ -42,8 +42,7 @@ public class Towers extends ResourceBag<Tower> {
                     .setMaxShots(config.maxShots)
                     .setMaxRotationPerTick(config.maxRotationPerTick)
                     .setTargetRange(config.targetRange)
-                    .setCooldown(config.cooldown)
-                    .addColorTowerMap(Color.rgba8888(config.mapIndicatorColor));
+                    .setCooldown(config.cooldown);
     }
 
     public static class TowerConfig extends ReflectedYaml {

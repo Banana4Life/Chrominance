@@ -2,6 +2,7 @@ package de.cubeisland.games;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.engine.logging.Log;
 import de.cubeisland.engine.reflect.Reflector;
 import de.cubeisland.engine.reflect.codec.YamlCodec;
 import de.cubeisland.games.resource.ChrominanceResources;
@@ -14,7 +15,8 @@ public class Chrominance extends Base2DGame {
     private final Reflector reflector;
     public final ChrominanceResources resources;
 
-    public Chrominance() {
+    public Chrominance(Log logger) {
+        super(logger);
         this.reflector = new Reflector();
         reflector.getCodecManager().registerCodec(new YamlCodec());
         reflector.getDefaultConverterManager().registerConverter(Vector2.class, new Vector2Converter());
@@ -39,5 +41,6 @@ public class Chrominance extends Base2DGame {
     public void dispose() {
         super.dispose();
         this.resources.dispose();
+        getLog().shutdown();
     }
 }
