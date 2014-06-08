@@ -1,4 +1,4 @@
-package de.cubeisland.games.util;
+package de.cubeisland.games.util.converter;
 
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.engine.reflect.codec.ConverterManager;

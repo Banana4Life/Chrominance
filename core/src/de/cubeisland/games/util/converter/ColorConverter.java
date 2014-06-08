@@ -1,4 +1,4 @@
-package de.cubeisland.games.util;
+package de.cubeisland.games.util.converter;
 
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.engine.reflect.codec.ConverterManager;

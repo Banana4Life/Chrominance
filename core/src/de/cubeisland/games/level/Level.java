@@ -42,8 +42,10 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         this.collisionDetector = new CollisionDetector(this);
         this.difficulty = Difficulty.NORMAL;
 
+        if (screen.getGame().isDebug()) {
+            this.attach(GridRenderer.class);
+        }
         this.attach(PathRenderer.class);
-        this.attach(GridRenderer.class);
         this.attach(WaveController.class)
                 .setGenerator(new DummyWaveGenerator(this.difficulty))
                 .setDifficulty(Difficulty.EASY);

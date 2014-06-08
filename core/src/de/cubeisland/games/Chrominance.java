@@ -7,8 +7,8 @@ import de.cubeisland.engine.reflect.Reflector;
 import de.cubeisland.engine.reflect.codec.YamlCodec;
 import de.cubeisland.games.resource.ChrominanceResources;
 import de.cubeisland.games.screen.MainMenuScreen;
-import de.cubeisland.games.util.ColorConverter;
-import de.cubeisland.games.util.Vector2Converter;
+import de.cubeisland.games.util.converter.ColorConverter;
+import de.cubeisland.games.util.converter.Vector2Converter;
 
 public class Chrominance extends Base2DGame {
 
