@@ -22,7 +22,7 @@ public class WaveController extends Component<Level> {
     private WaveGenerator generator;
     private Wave currentWave;
     private long delay = 1000;
-    private long lastSpawned;
+    private long timeWaited = 0;
 
     public WaveGenerator getGenerator() {
         return generator;
@@ -49,10 +49,12 @@ public class WaveController extends Component<Level> {
             this.currentWave = this.generator.generate(getOwner().getEntityFactory(), num + 1, difficulty);
         }
 
-        final long now = System.currentTimeMillis();
-        if (now - this.lastSpawned >= this.delay && currentWave.hasMoreEntities()) {
-            this.spawnEnemy(currentWave.nextEntity());
-            this.lastSpawned = now;
+        timeWaited += (int) (delta * 1000 + .5f);
+        if (timeWaited > delay) {
+            if (currentWave.hasMoreEntities()) {
+                timeWaited = 0;
+                this.spawnEnemy(currentWave.nextEntity());
+            }
         }
     }
 

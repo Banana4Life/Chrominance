@@ -18,14 +18,15 @@ public class ProjectileLauncher extends Component<Entity> {
     private Projectile projectile;
     private float targetRange = 30;
     private float targetRangeSquared = this.targetRange * this.targetRange;
-    private long cooldown = 0;
-    private long lastFired = 0;
+    private long coolDown = 0;
+    private long timeWaited = 0;
     private Entity target;
     private List<Vector2> muzzleOffset = new ArrayList<>();
     private int muzzleCount = 0;
 
     @Override
     public void update(float delta) {
+        this.timeWaited += (int)(delta * 1000 + .5f);
         Rotator rotator = getOwner().get(Rotator.class);
         if (rotator != null && rotator.isAimed()) {
             shoot();
@@ -35,7 +36,7 @@ public class ProjectileLauncher extends Component<Entity> {
     }
 
     protected void shoot() {
-        if (cooldown > 0 && System.currentTimeMillis() - lastFired < cooldown) {
+        if (coolDown > 0 && timeWaited < coolDown) {
             return;
         }
         if (!getOwner().get(ColorContainer.class).hasShots()) {
@@ -54,7 +55,7 @@ public class ProjectileLauncher extends Component<Entity> {
         getOwner().trigger(this, new ProjectileLaunchEvent(p));
         getOwner().get(ColorContainer.class).shoot();
 
-        this.lastFired = System.currentTimeMillis();
+        timeWaited = 0;
     }
 
     protected Vector2 getMuzzle() {
@@ -103,16 +104,16 @@ public class ProjectileLauncher extends Component<Entity> {
         return this;
     }
 
-    public long getCooldown() {
-        return cooldown;
+    public long getCoolDown() {
+        return coolDown;
     }
 
-    public ProjectileLauncher setCooldown(long cooldown) {
-        return this.setCooldown(cooldown, TimeUnit.MILLISECONDS);
+    public ProjectileLauncher setCoolDown(long coolDown) {
+        return this.setCooldown(coolDown, TimeUnit.MILLISECONDS);
     }
 
     public ProjectileLauncher setCooldown(long cooldown, TimeUnit unit) {
-        this.cooldown = unit.toMillis(cooldown);
+        this.coolDown = unit.toMillis(cooldown);
         return this;
     }
 
