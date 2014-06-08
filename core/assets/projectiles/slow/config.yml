@@ -1,0 +1,4 @@
+launch-speed: 10
+damage: 5
+collision-radius: 10
+muzzle-flash-life-time: 10000

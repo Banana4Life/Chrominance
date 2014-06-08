@@ -1,5 +1,6 @@
 package de.cubeisland.games.entity.type;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.collision.Circle;
 import de.cubeisland.games.collision.CollisionSource;
@@ -15,8 +16,10 @@ public class Projectile extends EntityType implements CollisionSource {
     private float launchSpeed = 300;
     private Circle collisionVolume = new Circle(4);
     private MuzzleFlash muzzleFlash = new MuzzleFlash();
+    private Texture texture = null;
+    private int damage = 1;
 
-    protected Projectile() {
+    public Projectile() {
         add(Render.class);
         add(Move.class);
         add(ColorContainer.class);
@@ -28,12 +31,15 @@ public class Projectile extends EntityType implements CollisionSource {
 
         e.get(Render.class)
                 .setRadius(collisionVolume.getRadius());
+        e.get(ColorContainer.class)
+                .setAmount(damage);
     }
 
     public Projectile setLaunchSpeed(float launchSpeed) {
         this.launchSpeed = launchSpeed;
         return this;
     }
+
     public float getLaunchSpeed() {
         return launchSpeed;
     }
@@ -51,8 +57,22 @@ public class Projectile extends EntityType implements CollisionSource {
     public void onCollide(Entity e, Collidable collidable, Vector2 minimumTranslationVector) {
         e.die();
     }
-
     public MuzzleFlash getMuzzleFlash() {
         return muzzleFlash;
+    }
+
+    public Projectile setMuzzleFlash(MuzzleFlash muzzleFlash) {
+        this.muzzleFlash = muzzleFlash;
+        return this;
+    }
+
+    public Projectile setDamage(int damage) {
+        this.damage = damage;
+        return this;
+    }
+
+    public Projectile setTexture(Texture texture) {
+        this.texture = texture;
+        return this;
     }
 }

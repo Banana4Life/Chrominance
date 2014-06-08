@@ -1,6 +1,7 @@
 package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import de.cubeisland.games.component.entity.LifeTimer;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
@@ -8,8 +9,9 @@ import de.cubeisland.games.entity.EntityType;
 
 public class MuzzleFlash extends EntityType {
     private long lifeTime = 10;
+    private Texture texture = null;
 
-    protected MuzzleFlash() {
+    public MuzzleFlash() {
         add(Render.class);
         add(LifeTimer.class);
     }
@@ -27,6 +29,11 @@ public class MuzzleFlash extends EntityType {
 
     public MuzzleFlash setLifeTime(long timeInMillis) {
         lifeTime = timeInMillis;
+        return this;
+    }
+
+    public MuzzleFlash setTexture(Texture texture) {
+        this.texture = texture;
         return this;
     }
 }

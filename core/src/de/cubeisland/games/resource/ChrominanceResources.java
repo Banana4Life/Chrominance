@@ -9,6 +9,7 @@ public class ChrominanceResources extends Resources {
     public final Shaders shaders;
     public final Sounds sounds;
     public final Textures textures;
+    public final Projectiles projectiles;
     public final Towers towers;
     public final Songs songs;
 
@@ -17,7 +18,8 @@ public class ChrominanceResources extends Resources {
         this.shaders = new Shaders();
         this.sounds = new Sounds();
         this.textures = new Textures();
-        this.towers = new Towers(reflector);
+        this.projectiles = new Projectiles(reflector);
+        this.towers = new Towers(reflector, projectiles);
         this.maps = new Maps(this.towers);
         this.songs = new Songs();
     }

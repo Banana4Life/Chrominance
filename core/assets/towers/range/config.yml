@@ -5,3 +5,4 @@ max-rotation-per-tick: 80
 target-range: 500
 cooldown: 1500
 map-indicator-color: [100, 100, 100, 255]
+projectile-name: slow

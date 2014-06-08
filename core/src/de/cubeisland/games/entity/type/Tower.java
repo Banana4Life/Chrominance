@@ -22,6 +22,7 @@ public class Tower extends EntityType {
     private float maxRotationPerTick = 300;
     private float targetRange = 100;
     private long cooldown = 1500;
+
     private Projectile projectile = new Projectile();
 
     public Tower(Color idColor) {
@@ -105,6 +106,11 @@ public class Tower extends EntityType {
 
     public Tower setCooldown(long cooldown) {
         this.cooldown = cooldown;
+        return this;
+    }
+
+    public Tower setProjectile(Projectile projectile) {
+        this.projectile = projectile;
         return this;
     }
 }
