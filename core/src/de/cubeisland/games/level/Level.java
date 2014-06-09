@@ -7,6 +7,7 @@ import de.cubeisland.games.component.ComponentHolder;
 import de.cubeisland.games.component.TickPhase;
 import de.cubeisland.games.component.level.GridRenderer;
 import de.cubeisland.games.component.level.PathRenderer;
+import de.cubeisland.games.component.level.PauseMenuOpener;
 import de.cubeisland.games.component.level.WaveController;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
@@ -43,15 +44,16 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         this.difficulty = Difficulty.NORMAL;
 
         if (screen.getGame().isDebug()) {
-            this.attach(GridRenderer.class);
+            attach(GridRenderer.class);
         }
-        this.attach(PathRenderer.class);
-        this.attach(WaveController.class)
-                .setGenerator(new DummyWaveGenerator(this.difficulty))
-                .setDifficulty(Difficulty.EASY);
+        attach(PauseMenuOpener.class);
+        attach(PathRenderer.class);
+        attach(WaveController.class)
+            .setGenerator(new DummyWaveGenerator(this.difficulty))
+            .setDifficulty(Difficulty.EASY);
 
         this.map = map;
-        this.spawnTowers();
+        spawnTowers();
     }
 
     public float getSaturation() {

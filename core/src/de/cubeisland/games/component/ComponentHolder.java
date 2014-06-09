@@ -42,11 +42,19 @@ public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcesso
         }
     }
 
-    @SuppressWarnings("unchecked")
     public <C extends Component<T>> C get(Class<C> componentClass) {
         for (Component component : this.components) {
             if (component.getClass() == componentClass) {
-                return (C) component;
+                return componentClass.cast(component);
+            }
+        }
+        return null;
+    }
+
+    public <C> C findImpl(Class<C> componentInterface) {
+        for (Component component : this.components) {
+            if (componentInterface.isInstance(component)) {
+                return componentInterface.cast(component);
             }
         }
         return null;
@@ -54,6 +62,15 @@ public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcesso
 
     @SuppressWarnings("unchecked")
     protected <C extends Component<T>> C createComponent(Class<C> componentType) {
+
+        Require require = componentType.getAnnotation(Require.class);
+        if (require != null) {
+            Class<C> requirement = (Class<C>) require.value();
+            if (!has(requirement)) {
+                attach(requirement);
+            }
+        }
+
         Constructor<? extends Component<?>> constructor = CONSTRUCTOR_CACHE.get(componentType);
 
         if (constructor == null) {
@@ -79,8 +96,12 @@ public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcesso
         }
     }
 
-    public <C extends Component<T>> boolean has(Class<C> componentClass) {
+    public boolean has(Class<? extends Component<T>> componentClass) {
         return this.get(componentClass) != null;
+    }
+
+    public boolean hasImpl(Class<?> componentInterface) {
+        return this.findImpl(componentInterface) != null;
     }
 
     @Override

@@ -11,6 +11,7 @@ import java.util.Set;
 final class UiInputProcessor implements InputProcessor {
 
     private final RootWidget root;
+    private Set<Widget> hoveredWidgets = null;
 
     UiInputProcessor(RootWidget root) {
         this.root = root;
@@ -60,15 +61,17 @@ final class UiInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return invokeTouchEvents(new TouchUpEvent(screenX, screenY, pointer, button), screenX, screenY) != null;
+        TouchUpEvent event = new TouchUpEvent(screenX, screenY, pointer, button);
+        invokeTouchEvents(event, screenX, screenY);
+        return event.wasHandled();
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return this.root.trigger(new TouchDraggedEvent(screenX, screenY, pointer));
+        TouchDraggedEvent event = new TouchDraggedEvent(screenX, screenY, pointer);
+        this.root.trigger(event);
+        return event.wasHandled();
     }
-
-    private Set<Widget> hoveredWidgets = null;
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {

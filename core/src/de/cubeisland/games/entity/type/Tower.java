@@ -31,6 +31,7 @@ public class Tower extends EntityType {
         add(ColorContainer.class);
         add(SoundPlayer.class);
         add(Rotator.class);
+        add(ClickKiller.class);
 
         muzzleOffset.add(new Vector2(0, 0));
     }
@@ -60,6 +61,8 @@ public class Tower extends EntityType {
         e.get(Rotator.class)
                 .setCenterOffset(centerOffset)
                 .setMaxRotationPerTick(maxRotationPerTick);
+        e.get(ClickBounds.class)
+                .setBoundShape(new ClickBounds.RectangularBound(turretTexture.getWidth(), turretTexture.getHeight()));
     }
 
     public Tower setCenterOffset(Vector2 centerOffset) {

@@ -30,7 +30,7 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
 
     @Override
     public void onShow() {
-        this.inputProcessor = new GameScreenInputProcessor<>(this);
+        this.inputProcessor = new GameScreenInputProcessor(this);
         getGame().getInput().addProcessor(this.inputProcessor);
         this.getRootWidget().addChild(pauseMenu);
         pauseMenu.setActive(false);
@@ -46,6 +46,11 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
 
     @Override
     public void renderScreen(Chrominance game, float delta) {
+
+        if (delta > .5) {
+            System.err.println("Long frame dropped: " + delta);
+            return;
+        }
 
         if (isPaused()) {
             delta = 0;
@@ -82,6 +87,10 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
 
     @Override
     public void resume() {
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     private static class CloseMenuAction implements MenuAction {
