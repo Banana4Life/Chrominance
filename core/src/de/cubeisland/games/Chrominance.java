@@ -1,6 +1,9 @@
 package de.cubeisland.games;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.engine.logging.Log;
 import de.cubeisland.engine.reflect.Reflector;
@@ -29,6 +32,9 @@ public class Chrominance extends Base2DGame {
     public void create() {
         super.create();
         this.resources.build();
+
+        Pixmap cursorImage = new Pixmap(Gdx.files.internal("textures/crosshair.png"));
+        Gdx.input.setCursorImage(cursorImage, Math.round(cursorImage.getWidth() / 2f), Math.round(cursorImage.getHeight() / 2f));
 
         this.resources.songs.main.setVolume(.05f);
         this.resources.songs.main.play();
