@@ -44,6 +44,8 @@ public class Tower extends EntityType {
     protected void onInitialize(Entity e) {
         super.onInitialize(e);
 
+        final float dimension = e.getLevel().getMap().getScale();
+
         e.get(TowerRender.class)
                 .setTurretTexture(turretTexture)
                 .setBaseTexture(baseTexture);
@@ -62,7 +64,8 @@ public class Tower extends EntityType {
                 .setCenterOffset(centerOffset)
                 .setMaxRotationPerTick(maxRotationPerTick);
         e.get(ClickBounds.class)
-                .setBoundShape(new ClickBounds.RectangularBound(turretTexture.getWidth(), turretTexture.getHeight()));
+                .setBoundShape(new ClickBounds.RectangularBound(dimension, dimension))
+                .setOffset(new Vector2(dimension / -2f, dimension / -2f));
     }
 
     public Tower setCenterOffset(Vector2 centerOffset) {
