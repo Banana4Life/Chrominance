@@ -39,7 +39,7 @@ public class ProjectileLauncher extends Component<Entity> {
         if (coolDown > 0 && timeWaited < coolDown) {
             return;
         }
-        if (!getOwner().get(ColorContainer.class).hasShots()) {
+        if (getOwner().get(ColorContainer.class).getAmount() <= 0) {
             return;
         }
 
@@ -53,7 +53,7 @@ public class ProjectileLauncher extends Component<Entity> {
         getOwner().getLevel().spawn(projectile.getMuzzleFlash(), muzzle);
 
         getOwner().trigger(this, new ProjectileLaunchEvent(p));
-        getOwner().get(ColorContainer.class).shoot();
+        getOwner().get(ColorContainer.class).subAmount(1);
 
         timeWaited = 0;
     }

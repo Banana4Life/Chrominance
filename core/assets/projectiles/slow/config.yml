@@ -1,4 +1,4 @@
-launch-speed: 10
+launch-speed: 100
 damage: 5
-collision-radius: 10
+collision-radius: 4
 muzzle-flash-life-time: 10000

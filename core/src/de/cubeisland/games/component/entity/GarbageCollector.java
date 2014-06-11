@@ -6,8 +6,10 @@ import de.cubeisland.games.component.After;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
+import de.cubeisland.games.entity.type.Enemy;
 
 import static de.cubeisland.games.component.TickPhase.MOVEMENT;
+import static de.cubeisland.games.component.entity.ColorContainer.ColorContainerEmptyEvent;
 import static de.cubeisland.games.component.entity.PathFollower.PathCompleteEvent;
 
 @After(Move.class)
@@ -29,5 +31,11 @@ public class GarbageCollector extends Component<Entity> {
     public void handle(Component sender, PathCompleteEvent event) {
         System.out.println("Path completed!");
         getOwner().die();
+    }
+    public void handle(Component sender, ColorContainerEmptyEvent event) {
+        if (Enemy.class.isAssignableFrom(getOwner().getClass())) {
+            System.out.println("Enemy died!");
+            getOwner().die();
+        }
     }
 }

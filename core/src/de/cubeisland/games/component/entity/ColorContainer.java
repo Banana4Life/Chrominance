@@ -3,6 +3,7 @@ package de.cubeisland.games.component.entity;
 import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
+import de.cubeisland.games.event.Event;
 
 public class ColorContainer extends Component<Entity> {
     private double amount = 0;
@@ -13,39 +14,43 @@ public class ColorContainer extends Component<Entity> {
     public void update(float delta) {
     }
 
-    public double getAmount() {
-        return amount;
-    }
     public Color getColor() {
         return color;
-    }
-
-    public ColorContainer setAmount(double amount) {
-        this.amount = amount;
-        return this;
     }
     public ColorContainer setColor(Color color) {
         this.color = color;
         return this;
     }
 
-    public void shoot() {
-        if (amount > 0) {
-            this.amount--;
-        }
+    public double getAmount() {
+        return amount;
     }
-    public boolean hasShots() {
-        if (amount > 0) {
-            return true;
+    public ColorContainer setAmount(double amount) {
+        if (amount < 0) {
+            this.amount = 0;
+            trigger(new ColorContainerEmptyEvent());
+        } else if (amount > maxAmount) {
+            this.amount = maxAmount;
+        } else {
+            this.amount = amount;
         }
-        return false;
+        return this;
+    }
+    public ColorContainer subAmount(double amount) {
+        return setAmount(this.amount - amount);
     }
 
     public ColorContainer setMaxAmount(double maxAmount) {
         this.maxAmount = maxAmount;
         return this;
     }
-    public void refill() {
-        this.setAmount(maxAmount);
+
+    public ColorContainer refill() {
+        return this.setAmount(maxAmount);
+    }
+
+    public static class ColorContainerEmptyEvent extends Event {
+        public ColorContainerEmptyEvent() {
+        }
     }
 }

@@ -30,6 +30,12 @@ public class Towers extends ResourceBag<Tower> {
     }
 
     @Override
+    public void build() {
+        this.projectiles.build();
+        super.build();
+    }
+
+    @Override
     protected Tower load(FileHandle basedir, Field field) {
 
         FileHandle towerDir = fieldToFileHandle(field, basedir);

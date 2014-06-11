@@ -18,8 +18,6 @@ public class Runner extends Enemy {
     protected void onInitialize(Entity e) {
         super.onInitialize(e);
 
-        e.get(ColorContainer.class)
-                .setColor(Color.BLUE);
         e.get(Render.class)
                 .setRadius(collisionVolume.getRadius());
         e.get(PathFollower.class)
@@ -33,6 +31,8 @@ public class Runner extends Enemy {
 
     @Override
     public void onCollide(Entity e, Collider collider, Vector2 minimumTranslationVector) {
-        e.die();
+        if (Projectile.class.isAssignableFrom(collider.getOwner().getClass())) {
+            e.get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
+        }
     }
 }
