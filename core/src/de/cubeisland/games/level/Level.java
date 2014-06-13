@@ -139,10 +139,10 @@ public class Level extends ComponentHolder<Level> implements Disposable {
 
     private void updateEntities(TickPhase tickPhase, float delta) {
         for (Entity unSpawned : new ArrayList<>(this.spawnQueue)) {
+            this.spawnQueue.remove(unSpawned);
             this.entities.add(unSpawned);
             unSpawned.spawned();
         }
-        this.spawnQueue.clear();
 
         for (Entity entity : this.entities) {
             entity.update(tickPhase, delta);
