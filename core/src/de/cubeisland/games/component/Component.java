@@ -113,8 +113,12 @@ public abstract class Component<T extends ComponentHolder<T>> implements EventSe
         return after;
     }
 
-    @Override
     public boolean trigger(Event event) {
-        return this.owner.trigger(event);
+        return this.owner.trigger(this, event);
+    }
+
+    @Override
+    public boolean trigger(EventSender sender, Event event) {
+        return this.owner.trigger(sender, event);
     }
 }

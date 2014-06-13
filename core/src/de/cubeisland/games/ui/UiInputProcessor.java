@@ -23,7 +23,7 @@ final class UiInputProcessor implements InputProcessor {
         Widget w = null;
         while (it.hasNext()) {
             w = it.next();
-            w.trigger(event);
+            w.trigger(this.root, event);
         }
 
         return w;
@@ -69,7 +69,7 @@ final class UiInputProcessor implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         TouchDraggedEvent event = new TouchDraggedEvent(screenX, screenY, pointer);
-        this.root.trigger(event);
+        this.root.trigger(this.root, event);
         return event.wasHandled();
     }
 
@@ -99,7 +99,7 @@ final class UiInputProcessor implements InputProcessor {
             this.hoveredWidgets = newState;
         }
 
-        return this.root.trigger(new MouseMovedEvent(screenX, screenY));
+        return this.root.trigger(this.root, new MouseMovedEvent(screenX, screenY));
     }
 
     @Override

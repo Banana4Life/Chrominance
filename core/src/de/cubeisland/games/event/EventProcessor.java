@@ -8,11 +8,6 @@ import java.util.Set;
 public abstract class EventProcessor implements EventSender {
     private final Map<Class<? extends Event>, Set<EventHandler<EventSender, Event>>> eventHandlers = new HashMap<>();
 
-    @Override
-    public boolean trigger(Event event) {
-        return this.trigger(this, event);
-    }
-
     /**
      * Triggers an event
      *
@@ -20,6 +15,7 @@ public abstract class EventProcessor implements EventSender {
      * @param event the event
      * @return true if there was an applicable handler, otherwise false
      */
+    @Override
     public boolean trigger(EventSender sender, Event event) {
         boolean result = false;
         Set<EventHandler<EventSender, Event>> handlers = this.eventHandlers.get(event.getClass());

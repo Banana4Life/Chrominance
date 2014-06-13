@@ -99,8 +99,8 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
             Widget old = getFocusedWidget();
             this.focusedWidget = widget;
             FocusChangedEvent event = new FocusChangedEvent(old, widget);
-            old.trigger(event);
-            widget.trigger(event);
+            old.trigger(this, event);
+            widget.trigger(this, event);
         }
         return this;
     }
@@ -117,7 +117,12 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
     }
 
     @Override
-    public boolean trigger(Event event) {
-        return getFocusedWidget().trigger(this, event);
+    public boolean trigger(EventSender sender, Event event) {
+        Widget focused = getFocusedWidget();
+        if (focused == this) {
+            return super.trigger(sender, event);
+        } else {
+            return focused.trigger(sender, event);
+        }
     }
 }
