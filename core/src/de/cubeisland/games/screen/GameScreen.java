@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.screen.menu.PauseMenu;
+import de.cubeisland.games.ui.widgets.Fps;
 import de.cubeisland.games.ui.widgets.menu.Menu;
 import de.cubeisland.games.ui.widgets.menu.MenuAction;
 
@@ -34,6 +35,8 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         getGame().getInput().addProcessor(this.inputProcessor);
         this.getRootWidget().addChild(pauseMenu);
         pauseMenu.setActive(false);
+
+        getRootWidget().addChild(new Fps(getGame().resources.fonts.menuFont));
     }
 
     @Override
