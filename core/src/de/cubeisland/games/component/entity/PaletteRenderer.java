@@ -11,8 +11,6 @@ import static de.cubeisland.games.component.TickPhase.RENDERING;
 @Phase(RENDERING)
 public class PaletteRenderer extends Component<Entity> {
     private final ShapeRenderer sr = new ShapeRenderer();
-    private float width = 10;
-    private float height = 10;
 
     @Override
     public void update(float delta) {

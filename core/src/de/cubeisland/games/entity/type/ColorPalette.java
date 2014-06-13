@@ -6,7 +6,7 @@ import de.cubeisland.games.entity.EntityType;
 
 public class ColorPalette extends EntityType {
     public ColorPalette() {
-        this.add(PlayerInput.class);
-        this.add(PaletteRenderer.class);
+        add(PlayerInput.class);
+        add(PaletteRenderer.class);
     }
 }
