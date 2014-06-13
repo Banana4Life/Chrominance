@@ -42,11 +42,7 @@ public class Label extends Widget {
     public void invalidate() {
         super.invalidate();
 
-        Font f = getFont();
-        if (f != null) {
-            f.invalidate();
-            this.bounds = null;
-        }
+        this.bounds = null;
     }
 
     @Override
