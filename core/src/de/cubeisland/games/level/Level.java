@@ -15,6 +15,7 @@ import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.screen.GameScreen;
+import de.cubeisland.games.util.Profiler;
 import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.DummyWaveGenerator;
 
@@ -56,7 +57,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         this.map = map;
         spawnTowers();
 
-        spawn(EntityTypes.COLOR_PALETTE, map.getPalettePosition().scl(map.getScale()));
+        //spawn(EntityTypes.COLOR_PALETTE, map.getPalettePosition().scl(map.getScale()));
     }
 
     public float getSaturation() {
@@ -101,6 +102,8 @@ public class Level extends ComponentHolder<Level> implements Disposable {
     }
 
     public void update(float delta) {
+        Profiler.begin("Level.update");
+
         if (this.get(WaveController.class).hasFinished()) {
             screen.won();
         }
@@ -125,12 +128,18 @@ public class Level extends ComponentHolder<Level> implements Disposable {
                 e.dispose();
             }
         }
+
+        Profiler.end();
     }
 
     @Override
     public void update(TickPhase tickPhase, float delta) {
+        Profiler.begin("Level.update[" + tickPhase + "]");
+
         this.updateLevel(tickPhase, delta);
         this.updateEntities(tickPhase, delta);
+
+        Profiler.end();
     }
 
     private void updateLevel(TickPhase tickPhase, float delta) {
@@ -138,15 +147,23 @@ public class Level extends ComponentHolder<Level> implements Disposable {
     }
 
     private void updateEntities(TickPhase tickPhase, float delta) {
-        for (Entity unSpawned : new ArrayList<>(this.spawnQueue)) {
-            this.spawnQueue.remove(unSpawned);
-            this.entities.add(unSpawned);
-            unSpawned.spawned();
+        Profiler.begin("Level.updateEntries");
+        Profiler.begin("Level.updateEntries[spawning]");
+        if (!this.spawnQueue.isEmpty()) {
+            for (Entity unSpawned : new ArrayList<>(this.spawnQueue)) {
+                this.spawnQueue.remove(unSpawned);
+                this.entities.add(unSpawned);
+                unSpawned.spawned();
+            }
         }
+        Profiler.end();
 
+        Profiler.begin("Level.updateEntries[updating]");
         for (Entity entity : this.entities) {
             entity.update(tickPhase, delta);
         }
+        Profiler.end();
+        Profiler.end();
     }
 
     public MapStructure getMap()

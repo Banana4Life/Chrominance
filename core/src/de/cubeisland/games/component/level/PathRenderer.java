@@ -34,9 +34,6 @@ public class PathRenderer extends Component<Level>
         Node currNode;
         List<Path> paths = getOwner().getMap().getPaths();
 
-        renderer.begin(Line);
-        renderer.setColor(Color.RED);
-
         for (Path path : paths) {
             nodes = path.getNodes();
             lastNode = nodes.get(0);
@@ -48,12 +45,13 @@ public class PathRenderer extends Component<Level>
                 renderer.rectLine(currNode.getLocation(), lastNode.getLocation(), 30);
                 renderer.end(); */ // Maybe paint the paths like that
 
+                renderer.begin(Line);
+                renderer.setColor(Color.RED);
                 renderer.line(currNode.getLocation(), lastNode.getLocation());
+                renderer.end();
 
                 lastNode = currNode;
             }
         }
-
-        renderer.end();
     }
 }

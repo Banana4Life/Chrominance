@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.cubeisland.games.Base2DGame;
 import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.RootWidget;
+import de.cubeisland.games.util.Profiler;
 
 public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
 
@@ -61,6 +62,7 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
 
     @Override
     public final void render(float delta) {
+        Profiler.begin("AbstractScreen.render");
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -70,14 +72,18 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
         }
 
         try {
+            Profiler.begin("AbstractScreen.render[game]");
             this.renderScreen(getGame(), delta);
+            Profiler.end();
 
+            Profiler.begin("AbstractScreen.render[UI]");
             this.rootWidget.render(this.context);
+            Profiler.end();
         } catch (RuntimeException e) {
             e.printStackTrace(System.err);
             Gdx.app.exit();
         }
-
+        Profiler.end();
     }
 
     public abstract void renderScreen(T game, float delta);

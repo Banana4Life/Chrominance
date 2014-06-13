@@ -2,6 +2,7 @@ package de.cubeisland.games.component;
 
 import com.badlogic.gdx.utils.Disposable;
 import de.cubeisland.games.event.EventProcessor;
+import de.cubeisland.games.util.Profiler;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
@@ -12,11 +13,13 @@ public class ComponentHolder<T extends ComponentHolder<T>> extends EventProcesso
     private static final ComponentComparator COMPARATOR = new ComponentComparator();
 
     public void update(TickPhase phase, float delta) {
+        Profiler.begin("ComponentHolder.update[" + phase + "]");
         for (Component<T> component : components) {
             if (component.shouldTick(phase)) {
                 component.update(delta);
             }
         }
+        Profiler.end();
     }
 
     public <C extends Component<T>> C attach(Class<C> componentClass) {

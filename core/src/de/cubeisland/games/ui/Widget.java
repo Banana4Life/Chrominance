@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.cubeisland.games.event.EventProcessor;
 import de.cubeisland.games.ui.layout.Layout;
+import de.cubeisland.games.util.Profiler;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -691,15 +692,22 @@ public abstract class Widget extends EventProcessor implements Disposable {
         if (!isVisible()) {
             return;
         }
+        Profiler.begin("Widget.draw[" + getId() + "]");
+        Profiler.begin("Widget.draw[" + getId() + ":self]");
         this.draw(context);
+        Profiler.end();
+        Profiler.begin("Widget.draw[" + getId() + ":children]");
         for (Widget child : this.childrenOrderedByDepth) {
             if (child.isActive()) {
                 child.render(context);
             }
         }
+        Profiler.end();
+        Profiler.end();
     }
 
     protected void draw(DrawContext context) {
+
         Vector2 pos = this.getAbsolutePosition();
 
         final ShapeRenderer r = context.getShapeRenderer();
