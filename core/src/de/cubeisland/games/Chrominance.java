@@ -18,8 +18,7 @@ public class Chrominance extends Base2DGame {
     private final Reflector reflector;
     public final ChrominanceResources resources;
 
-    public Chrominance(Log logger) {
-        super(logger);
+    public Chrominance() {
         this.reflector = new Reflector();
         reflector.getCodecManager().registerCodec(new YamlCodec());
         reflector.getDefaultConverterManager().registerConverter(Vector2.class, new Vector2Converter());
@@ -50,6 +49,5 @@ public class Chrominance extends Base2DGame {
     public void dispose() {
         super.dispose();
         this.resources.dispose();
-        getLog().shutdown();
     }
 }

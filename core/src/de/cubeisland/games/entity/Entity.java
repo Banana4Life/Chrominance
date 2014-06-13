@@ -11,10 +11,11 @@ import static de.cubeisland.games.util.VectorUtil.zero;
 public final class Entity extends ComponentHolder<Entity> {
     private final UUID id;
     private EntityType type;
-    private final Level level;
+    private Level level;
     private Vector2 location = zero();
     private Vector2 velocity = zero();
     private boolean alive = true;
+    private boolean spawned = false;
     private boolean initialized = false;
 
     public Entity(UUID id, EntityType type, Level level) {
@@ -28,6 +29,21 @@ public final class Entity extends ComponentHolder<Entity> {
             this.type.initialize(this);
             this.initialized = true;
         }
+    }
+
+    boolean isInitialized() {
+        return initialized;
+    }
+
+    public void spawned() {
+        if (!this.spawned) {
+            this.type.spawned(this);
+            this.spawned = true;
+        }
+    }
+
+    public boolean isSpawned() {
+        return spawned;
     }
 
     public EntityType getType() {
@@ -65,10 +81,6 @@ public final class Entity extends ComponentHolder<Entity> {
 
     public void die() {
         this.alive = false;
-    }
-
-    boolean isInitialized() {
-        return initialized;
     }
 
     public Level getLevel() {

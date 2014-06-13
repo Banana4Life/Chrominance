@@ -12,6 +12,7 @@ import de.cubeisland.games.component.level.WaveController;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityFactory;
 import de.cubeisland.games.entity.EntityType;
+import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.screen.GameScreen;
 import de.cubeisland.games.wave.Difficulty;
@@ -54,6 +55,8 @@ public class Level extends ComponentHolder<Level> implements Disposable {
 
         this.map = map;
         spawnTowers();
+
+        spawn(EntityTypes.COLOR_PALETTE, map.getPalettePosition().scl(map.getScale()));
     }
 
     public float getSaturation() {
@@ -86,7 +89,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
     }
 
     public Entity spawn(Entity e, Vector2 location) {
-        e.setLocation(location);
+        e.setLocation(location.cpy());
         e.initialize();
         this.spawnQueue.add(e);
         return e;
@@ -135,7 +138,10 @@ public class Level extends ComponentHolder<Level> implements Disposable {
     }
 
     private void updateEntities(TickPhase tickPhase, float delta) {
-        this.entities.addAll(this.spawnQueue);
+        for (Entity unSpawned : new ArrayList<>(this.spawnQueue)) {
+            this.entities.add(unSpawned);
+            unSpawned.spawned();
+        }
         this.spawnQueue.clear();
 
         for (Entity entity : this.entities) {

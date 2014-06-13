@@ -47,11 +47,6 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
     @Override
     public void renderScreen(Chrominance game, float delta) {
 
-        if (delta > .5) {
-            System.err.println("Long frame dropped: " + delta);
-            return;
-        }
-
         if (isPaused()) {
             delta = 0;
         }

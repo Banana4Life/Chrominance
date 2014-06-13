@@ -14,9 +14,15 @@ import static de.cubeisland.games.component.TickPhase.RENDERING;
 @Phase(RENDERING)
 public class Render extends Component<Entity>
 {
-    private final ShapeRenderer sr = new ShapeRenderer();
+    private ShapeRenderer renderer;
     private Color color = Color.WHITE;
     private float radius = 10;
+
+    @Override
+    protected void onInit() {
+        super.onInit();
+        renderer = getOwner().getLevel().getScreen().getGame().getShapeRenderer();
+    }
 
     @Override
     public void update(float delta) {
@@ -27,16 +33,16 @@ public class Render extends Component<Entity>
             this.color = getOwner().get(ColorContainer.class).getColor();
         }
 
-        this.sr.begin(Filled);
-        this.sr.setColor(this.color);
-        this.sr.circle(loc.x, loc.y, radius);
-        this.sr.end();
+        this.renderer.begin(Filled);
+        this.renderer.setColor(this.color);
+        this.renderer.circle(loc.x, loc.y, radius);
+        this.renderer.end();
 
         if (getOwner().has(ProjectileLauncher.class)) {
-            this.sr.begin(Line);
-            this.sr.setColor(Color.RED);
-            this.sr.circle(loc.x, loc.y, getOwner().get(ProjectileLauncher.class).getTargetRange());
-            this.sr.end();
+            this.renderer.begin(Line);
+            this.renderer.setColor(Color.RED);
+            this.renderer.circle(loc.x, loc.y, getOwner().get(ProjectileLauncher.class).getTargetRange());
+            this.renderer.end();
         }
     }
 

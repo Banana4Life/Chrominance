@@ -47,8 +47,8 @@ public abstract class ResourceBag<T> implements Disposable {
                     T resource = load(basedir, field);
                     field.set(this, resource);
                     this.resources.add(resource);
-                } catch (IllegalAccessException | RuntimeException e) {
-                    Gdx.app.error("resource", "Failed to load resource!", e);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("Unable to access a resource field!", e);
                 }
             }
         }

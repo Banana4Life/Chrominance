@@ -22,7 +22,7 @@ public class DesktopLauncher {
 
         LogFactory factory = new DefaultLogFactory();
 
-        Log log = factory.getLog(DesktopLauncher.class);
+        final Log log = factory.getLog(DesktopLauncher.class);
         log.addTarget(PrintTarget.STDOUT);
 
         try {
@@ -31,7 +31,7 @@ public class DesktopLauncher {
             AsyncFileTarget fileTarget = new AsyncFileTarget(path.toFile(), new LogFileFormat());
             log.addTarget(fileTarget);
 
-            log.info("Started logging to {}...", path);
+            log.info("Started logging to {} ...", path);
         } catch (IOException e) {
             log.error("Failed to start the file logging!", e);
         }
@@ -39,9 +39,17 @@ public class DesktopLauncher {
         LoggingOutputStream.hijackStandardOutput(log, LogLevel.INFO);
         LoggingOutputStream.hijackStandardError(log, LogLevel.ERROR);
 
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                log.shutdown();
+            }
+        }));
+
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.samples = 0;
         config.resizable = false;
-        new LwjglApplication(new Chrominance(log), config);
+        config.vSyncEnabled = false;
+        new LwjglApplication(new Chrominance(), config);
     }
 }

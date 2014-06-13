@@ -15,6 +15,7 @@ public class MapStructure
 {
     private final TileType[][] mapData;
     private final List<Path> paths;
+    private Vector2 palettePosition;
     private final Map<Vector2, Tower> towerLocations;
     private final float width;
     private final float height;
@@ -50,7 +51,17 @@ public class MapStructure
                 if (tileType == TileType.NONE && colorTowerLookup.get(pixelColor) != null) {
                     this.towerLocations.put(new Vector2(x + 0.5f, rawMap.getHeight() - 0.5f - y), colorTowerLookup.get(rawMap.getPixel(x, y)));
                 }
+                if (tileType == TileType.PALETTE_POSITION) {
+                    if (this.palettePosition != null) {
+                        throw new IllegalArgumentException("The map has multiple palette positions! First: " + this.palettePosition + ", second: " + new Vector2(x, y));
+                    }
+                    this.palettePosition = new Vector2(x, y);
+                }
             }
+        }
+
+        if (this.palettePosition == null) {
+            throw new IllegalArgumentException("The map has no palette position!");
         }
 
         for (int x = 0; x < tileMap.length; x++) {
@@ -110,6 +121,10 @@ public class MapStructure
 
     public List<Path> getPaths() {
         return paths;
+    }
+
+    public Vector2 getPalettePosition() {
+        return this.palettePosition.cpy();
     }
 
     public Map<Vector2, Tower> getTowerLocations() {

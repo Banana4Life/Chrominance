@@ -14,7 +14,13 @@ public class ClickBounds extends Component<Entity> {
 
     private BoundShape boundShape = NOOP;
     private Vector2 offset = new Vector2(0, 0);
-    private ShapeRenderer renderer = new ShapeRenderer();
+    private ShapeRenderer renderer;
+
+    @Override
+    protected void onInit() {
+        super.onInit();
+        renderer = getOwner().getLevel().getScreen().getGame().getShapeRenderer();
+    }
 
     public BoundShape getBoundShape() {
         return boundShape;
@@ -86,12 +92,16 @@ public class ClickBounds extends Component<Entity> {
         }
     }
 
-    public static class CirclarBound implements BoundShape {
+    public static class CircularBound implements BoundShape {
 
         private final float radius;
 
-        public CirclarBound(float radius) {
+        public CircularBound(float radius) {
             this.radius = radius * radius;
+        }
+
+        public float getRadius() {
+            return radius;
         }
 
         @Override
@@ -115,6 +125,14 @@ public class ClickBounds extends Component<Entity> {
         public RectangularBound(float width, float height) {
             this.width = width;
             this.height = height;
+        }
+
+        public float getWidth() {
+            return width;
+        }
+
+        public float getHeight() {
+            return height;
         }
 
         @Override

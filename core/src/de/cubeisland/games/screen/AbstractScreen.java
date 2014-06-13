@@ -11,6 +11,9 @@ import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.RootWidget;
 
 public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
+
+    private static final float MAX_DELTA = 1f / 30f;
+
     private final T game;
     private RootWidget<T> rootWidget;
     private OrthographicCamera uiCamera;
@@ -61,11 +64,20 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.renderScreen(getGame(), delta);
+        if (delta > MAX_DELTA) {
+            System.err.println("Long frame: " + delta);
+            delta = MAX_DELTA;
+        }
 
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        try {
+            this.renderScreen(getGame(), delta);
 
-        this.rootWidget.render(this.context);
+            this.rootWidget.render(this.context);
+        } catch (RuntimeException e) {
+            e.printStackTrace(System.err);
+            Gdx.app.exit();
+        }
+
     }
 
     public abstract void renderScreen(T game, float delta);

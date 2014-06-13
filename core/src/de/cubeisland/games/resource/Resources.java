@@ -28,8 +28,7 @@ public abstract class Resources implements Disposable {
                     ResourceBag.class.cast(value).build();
                 }
             } catch (IllegalAccessException e) {
-                System.err.println("Failed to access a resource bag!");
-                e.printStackTrace(System.err);
+                throw new RuntimeException("Failed to access a resource bag!", e);
             }
         }
     }

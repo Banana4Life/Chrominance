@@ -18,7 +18,13 @@ import static de.cubeisland.games.component.TickPhase.RENDERING;
 @Phase(RENDERING)
 public class PathRenderer extends Component<Level>
 {
-    private final ShapeRenderer sr = new ShapeRenderer();
+    private ShapeRenderer renderer;
+
+    @Override
+    protected void onInit() {
+        super.onInit();
+        renderer = getOwner().getScreen().getGame().getShapeRenderer();
+    }
 
     @Override
     public void update(float delta)
@@ -27,24 +33,27 @@ public class PathRenderer extends Component<Level>
         Node lastNode;
         Node currNode;
         List<Path> paths = getOwner().getMap().getPaths();
+
+        renderer.begin(Line);
+        renderer.setColor(Color.RED);
+
         for (Path path : paths) {
             nodes = path.getNodes();
             lastNode = nodes.get(0);
             for (int j = 1; j < nodes.size(); j++) {
                 currNode = nodes.get(j);
 
-                /* sr.setColor(Color.LIGHT_GRAY);
-                sr.begin(Filled);
-                sr.rectLine(currNode.getLocation(), lastNode.getLocation(), 30);
-                sr.end(); */ // Maybe paint the paths like that
+                /* renderer.setColor(Color.LIGHT_GRAY);
+                renderer.begin(Filled);
+                renderer.rectLine(currNode.getLocation(), lastNode.getLocation(), 30);
+                renderer.end(); */ // Maybe paint the paths like that
 
-                sr.setColor(Color.RED);
-                sr.begin(Line);
-                sr.line(currNode.getLocation(), lastNode.getLocation());
-                sr.end();
+                renderer.line(currNode.getLocation(), lastNode.getLocation());
 
                 lastNode = currNode;
             }
         }
+
+        renderer.end();
     }
 }

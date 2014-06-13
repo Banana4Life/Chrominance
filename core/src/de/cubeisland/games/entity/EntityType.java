@@ -43,4 +43,16 @@ public abstract class EntityType {
 
     protected void onInitialize(Entity e) {
     }
+
+    final void spawned(Entity e) {
+        if (e.getType() != this) {
+            throw new IllegalArgumentException(this.getClass().getSimpleName() + " can only initialize entities of that type!");
+        }
+        if (!e.isSpawned()) {
+            this.onSpawned(e);
+        }
+    }
+
+    protected void onSpawned(Entity e) {
+    }
 }

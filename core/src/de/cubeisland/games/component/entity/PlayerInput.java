@@ -11,6 +11,6 @@ public class PlayerInput extends Component<Entity>
 {
     @Override
     public void update(float delta) {
-        System.out.println("Input!");
+        //System.out.println("Input!");
     }
 }
