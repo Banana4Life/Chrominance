@@ -47,6 +47,8 @@ public class Tower extends EntityType {
 
         final float dimension = e.getLevel().getMap().getScale();
 
+        e.setVelocity(new Vector2(1, 0).setAngle(0));
+
         e.get(TowerRender.class)
                 .setTurretTexture(turretTexture)
                 .setBaseTexture(baseTexture);

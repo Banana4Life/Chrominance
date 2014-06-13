@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Rotator extends Component<Entity> {
 
-    private float rotation = 0;
     private float maxRotationPerTick = 300;
     private Vector2 centerOffset = new Vector2(0, 0);
     private boolean isAimed = false;
@@ -33,7 +32,7 @@ public class Rotator extends Component<Entity> {
     }
 
     public Vector2 getAbsolutePos(Vector2 pos, Vector2 offset) {
-        return getAbsolutePos(pos, offset, rotation);
+        return getAbsolutePos(pos, offset, getOwner().getVelocity().angle());
     }
     public Vector2 getAbsolutePos(Vector2 pos, Vector2 offset, float degrees) {
         pos = pos.cpy();
@@ -51,13 +50,6 @@ public class Rotator extends Component<Entity> {
         return getAbsolutePos(getOwner().getLocation(), centerOffset).cpy();
     }
 
-    public float getRotation() {
-        return rotation;
-    }
-    public Rotator setRotation(float rotation) {
-        this.rotation = getAngleInLimits(rotation);
-        return this;
-    }
     public Rotator setMaxRotationPerTick(float maxRotationPerTick) {
         this.maxRotationPerTick = maxRotationPerTick;
         return this;
@@ -65,18 +57,19 @@ public class Rotator extends Component<Entity> {
 
     private boolean rotate(float newAngle, float delta) {
         newAngle = getAngleInLimits(newAngle);
+        float rotation = getOwner().getVelocity().angle();
         float leftRotation = getAngleInLimits(rotation - newAngle);
         float rightRotation = getAngleInLimits(newAngle - rotation);
 
         if (Math.abs(rotation - newAngle) <= maxRotationPerTick * delta) {
-            rotation = newAngle;
+            getOwner().getVelocity().setAngle(newAngle);
         } else if(leftRotation < rightRotation) {
-            rotation = getAngleInLimits(rotation - (maxRotationPerTick * delta));
+            getOwner().getVelocity().setAngle(rotation - (maxRotationPerTick * delta));
         } else {
-            rotation = getAngleInLimits(rotation + (maxRotationPerTick * delta));
+            getOwner().getVelocity().setAngle(rotation + (maxRotationPerTick * delta));
         }
 
-        return rotation == newAngle;
+        return getOwner().getVelocity().angle() == newAngle;
     }
 
     /**

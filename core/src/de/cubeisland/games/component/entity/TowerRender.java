@@ -30,7 +30,7 @@ public class TowerRender extends Component<Entity> {
         final float scale = getOwner().getLevel().getMap().getScale();
         final BetterBatch batch = getOwner().getLevel().getScreen().getGame().getBatch();
         final Rotator rotator = getOwner().get(Rotator.class);
-        final float rotation = rotator.getRotation() - 90;
+        final float rotation = getOwner().getVelocity().angle() - 90;
 
         final Vector2 basePos = rotator.getPos();
         final Vector2 turretPos = rotator.getAbsolutePos(loc, rotator.getCenterOffset().cpy().add(scale / 2, scale / 2), rotation);
