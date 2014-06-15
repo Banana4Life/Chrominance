@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.level.Level;
+import de.cubeisland.games.level.MapStructure;
 import de.cubeisland.games.screen.menu.PauseMenu;
 import de.cubeisland.games.ui.widgets.Fps;
 import de.cubeisland.games.ui.widgets.menu.Menu;
@@ -18,14 +19,14 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
     private GameScreenInputProcessor inputProcessor;
     private Level level;
 
-    public GameScreen(final Chrominance game) {
+    public GameScreen(final Chrominance game, MapStructure map) {
         super(game);
+        getRootWidget().setFont(game.resources.fonts.menuFont);
 
         ShaderProgram.pedantic = false;
-
         game.getBatch().setShader(game.resources.shaders.saturation);
 
-        this.level = new Level(this, game.resources.maps.map1);
+        this.level = new Level(this, map);
         this.pauseMenu = new PauseMenu(game.resources.fonts.menuFont);
     }
 
@@ -36,7 +37,7 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         this.getRootWidget().addChild(pauseMenu);
         pauseMenu.setActive(false);
 
-        getRootWidget().addChild(new Fps(getGame().resources.fonts.menuFont));
+        getRootWidget().addChild(new Fps());
     }
 
     @Override
@@ -107,6 +108,6 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
     public void lost() {
         //TODO: Implement things that happen when you lose
         System.out.println("You lose!");
-        getGame().setScreen(new LoseScreen(getGame()));
+        getGame().setScreen(new LoseScreen(getGame(), getLevel().getMap()));
     }
 }

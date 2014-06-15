@@ -11,8 +11,8 @@ public class Fps extends Widget {
 
     private final Label label;
 
-    public Fps(Font font) {
-        this.label = new Label().setFont(font);
+    public Fps() {
+        this.label = new Label();
         addChild(this.label);
         setBackgroundColor(new Color(0, 0, 0, .5f));
         setHorizontalSizing(Sizing.FIT_CONTENT);

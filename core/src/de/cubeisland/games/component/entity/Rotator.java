@@ -71,7 +71,8 @@ public class Rotator extends Component<Entity> {
             getOwner().getVelocity().setAngle(rotation + (maxRotationPerTick * delta));
         }
 
-        return getOwner().getVelocity().angle() == newAngle;
+//        return getOwner().getVelocity().angle() == newAngle;
+        return false;
     }
 
     /**

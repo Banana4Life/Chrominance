@@ -8,18 +8,7 @@ import de.cubeisland.games.ui.font.Font;
 
 public class Label extends Widget {
     private String text;
-    private Font font;
     private BitmapFont.TextBounds bounds;
-
-    public Font getFont() {
-        return font;
-    }
-
-    public Label setFont(Font font) {
-        this.font = font.copy();
-        this.invalidate();
-        return this;
-    }
 
     public String getText() {
         return text;

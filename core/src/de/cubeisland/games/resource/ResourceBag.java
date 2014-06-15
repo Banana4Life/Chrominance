@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class ResourceBag<T> implements Disposable {
     private final Class<T> type;
-    private final List<T> resources;
+    protected final List<T> resources;
     private boolean built = false;
 
     @SuppressWarnings("unchecked")

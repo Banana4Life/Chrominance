@@ -20,7 +20,7 @@ public class MainMenu extends Menu<Chrominance> {
 
     @Entry(label = "Start", order = 0)
     public Screen start() {
-        return new GameScreen(getGame());
+        return new GameScreen(getGame(), getGame().resources.maps.getFirst());
     }
 
     @Entry(label = "Options", order = 10)

@@ -36,6 +36,10 @@ public class Font {
         return new Font(this.generator, this.flipped, container, percentage);
     }
 
+    public boolean isFlipped() {
+        return this.flipped;
+    }
+
     public Font flipped() {
         if (this.flippedVersion == null) {
             this.flippedVersion = new Font(this.generator, !this.flipped, this.size);
@@ -53,7 +57,7 @@ public class Font {
             invalidate();
             FreeTypeFontParameter param = new FreeTypeFontParameter();
             param.size = this.getSize();
-            param.flip = flipped;
+            param.flip = this.flipped;
             this.bitmapFont = this.generator.generateFont(param);
         }
         return this.bitmapFont;

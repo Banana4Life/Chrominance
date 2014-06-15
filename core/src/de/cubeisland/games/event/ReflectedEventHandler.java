@@ -6,8 +6,8 @@ import java.lang.reflect.WildcardType;
 
 public abstract class ReflectedEventHandler<S extends EventSender, E extends Event> implements EventHandler<S, E> {
 
-    private final Class<E> applicableEvent;
     private final Class<S> applicableSender;
+    private final Class<E> applicableEvent;
 
     protected ReflectedEventHandler() {
         Type t = getClass().getGenericSuperclass();
@@ -15,8 +15,8 @@ public abstract class ReflectedEventHandler<S extends EventSender, E extends Eve
             //throw new IllegalArgumentException("You have to directly extend " + ReflectedEventHandler.class.getName() + " !");
         }
         Type[] typeArgs = ((ParameterizedType) t).getActualTypeArguments();
-        this.applicableEvent = getClassFromType(typeArgs[0]);
-        this.applicableSender = getClassFromType(typeArgs[1]);
+        this.applicableSender = getClassFromType(typeArgs[0]);
+        this.applicableEvent = getClassFromType(typeArgs[1]);
     }
 
     @SuppressWarnings("unchecked")
@@ -31,12 +31,12 @@ public abstract class ReflectedEventHandler<S extends EventSender, E extends Eve
     }
 
     @Override
-    public Class<E> getApplicableEvent() {
-        return this.applicableEvent;
+    public Class<S> getApplicableSender() {
+        return this.applicableSender;
     }
 
     @Override
-    public Class<S> getApplicableSender() {
-        return this.applicableSender;
+    public Class<E> getApplicableEvent() {
+        return this.applicableEvent;
     }
 }

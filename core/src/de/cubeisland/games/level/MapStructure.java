@@ -13,6 +13,7 @@ import java.util.*;
 
 public class MapStructure
 {
+    private final int number;
     private final TileType[][] mapData;
     private final List<Path> paths;
     private Vector2 palettePosition;
@@ -38,6 +39,12 @@ public class MapStructure
 
         mapData = loadMap(rawMap);
         random = new Random();
+
+        this.number = Integer.parseInt(fileHandle.nameWithoutExtension().replaceAll("[^\\d]", "").replaceAll("^0*", ""));
+    }
+
+    public int getNumber() {
+        return this.number;
     }
 
     private TileType[][] loadMap(Pixmap rawMap) {

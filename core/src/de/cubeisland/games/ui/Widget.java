@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.cubeisland.games.event.EventProcessor;
+import de.cubeisland.games.ui.font.Font;
 import de.cubeisland.games.ui.layout.Layout;
 import de.cubeisland.games.util.Profiler;
 
@@ -64,6 +65,7 @@ public abstract class Widget extends EventProcessor implements Disposable {
     private boolean visible       = true;
     private Color foregroundColor = null;
     private Color backgroundColor = Color.CLEAR.cpy();
+    private Font font             = null;
     //endregion
 
     protected Widget() {
@@ -414,6 +416,23 @@ public abstract class Widget extends EventProcessor implements Disposable {
         return this;
     }
 
+    public Font getFont() {
+        if (this.font != null) {
+            return this.font;
+        }
+        Widget parent = getParent();
+        if (parent != null) {
+            return parent.getFont();
+        }
+        return null;
+    }
+
+    public Widget setFont(Font font) {
+        this.font = font.copy();
+        invalidate();
+        return this;
+    }
+
     public boolean isVisible() {
         return this.visible;
     }
@@ -619,7 +638,8 @@ public abstract class Widget extends EventProcessor implements Disposable {
         if (this.widthValid) {
             return;
         }
-        if (getParent().getHorizontalSizing() == Sizing.FIT_CONTENT && getHorizontalSizing() == Sizing.FILL_PARENT) {
+        if ((getParent().getHorizontalSizing() == Sizing.FIT_CONTENT && getHorizontalSizing() == Sizing.FILL_PARENT) ||
+            (getHorizontalSizing() == Sizing.FIT_CONTENT && getParent().getHorizontalSizing() == Sizing.FILL_PARENT)) {
             throw new IllegalStateException("Circular horizontal sizing dependency: parent has FIT_CONTENT and child has FILL_PARENT. Parent: " + getParent() + ", Child: " + this);
         }
         final float width;

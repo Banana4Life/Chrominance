@@ -7,8 +7,8 @@ import de.cubeisland.games.ui.widgets.Container;
 import de.cubeisland.games.ui.widgets.Label;
 
 public class MenuEntry extends Container {
-    public MenuEntry(String text, Font font) {
-        Widget label = new Label().setText(text).setFont(font);
+    public MenuEntry(String text) {
+        Widget label = new Label().setText(text);
         label.setHorizontalAlignment(HorizontalAlignment.CENTER);
         addChild(label);
 

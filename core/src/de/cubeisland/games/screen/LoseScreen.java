@@ -3,31 +3,50 @@ package de.cubeisland.games.screen;
 import de.cubeisland.games.Chrominance;
 import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.event.ReflectedEventHandler;
+import de.cubeisland.games.level.MapStructure;
 import de.cubeisland.games.ui.HorizontalAlignment;
 import de.cubeisland.games.ui.RootWidget;
+import de.cubeisland.games.ui.Sizing;
 import de.cubeisland.games.ui.VerticalAlignment;
 import de.cubeisland.games.ui.event.TouchUpEvent;
+import de.cubeisland.games.ui.layout.ListLayout;
+import de.cubeisland.games.ui.widgets.Container;
 import de.cubeisland.games.ui.widgets.Label;
+
+import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
 
 public class LoseScreen extends AbstractGameScreen<Chrominance> {
 
-    public LoseScreen(Chrominance game) {
+    private final MapStructure map;
+
+    public LoseScreen(Chrominance game, MapStructure map) {
         super(game);
+        this.map = map;
     }
 
     @Override
     public void onShow() {
         super.onShow();
 
-        Label l = new Label().setText("You lost!").setFont(getGame().resources.fonts.menuFont);
-        getRootWidget().registerEventHandler(new ReflectedEventHandler<RootWidget<Chrominance>, TouchUpEvent>() {
-            @Override
-            public void handle(RootWidget<Chrominance> sender, TouchUpEvent event) {
-                System.out.println("hi!");
-            }
-        });
+        Container c = new Container();
+        c.setLayout(new ListLayout())
+         .setFont(getGame().resources.fonts.menuFont)
+         .setPadding(100, 130);
 
-        getRootWidget().addChild(l.setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE));
+        Label loser = new Label().setText("You lost!");
+        Label click = new Label().setText("Click to restart");
+
+        c.addChild(loser.setMargin(10, 0));
+        c.addChild(click.setMargin(10, 0));
+
+        getRootWidget()
+                .addChild(c)
+                .registerEventHandler(new ReflectedEventHandler<RootWidget<Chrominance>, TouchUpEvent>() {
+                    @Override
+                    public void handle(RootWidget<Chrominance> sender, TouchUpEvent event) {
+                        getGame().setScreen(new GameScreen(getGame(), map));
+                    }
+                });
     }
 
     @Override

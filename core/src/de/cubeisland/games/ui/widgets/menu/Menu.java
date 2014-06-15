@@ -33,19 +33,19 @@ public abstract class Menu<T extends Base2DGame> extends Container {
     private static final OrderComparator BY_ORDER = new OrderComparator();
 
     private final String title;
-    private Font font;
     private Color hoverColor;
 
     protected Menu(String title, Font font) {
         this.title = title;
-        this.font = font;
+        setFont(font);
         setVerticalSizing(FIT_CONTENT);
         //setAlignment(MIDDLE);
         setMargin(30, 100);
         setLayout(new ListLayout());
+        ;
 
-        Widget titleContainer = new Container().setMargin(20, 0);
-        titleContainer.addChild(new Label().setFont(getFont().setSize(getFont().getSize() * 3)).setText(getTitle()).setAlignment(CENTER));
+        Widget titleContainer = new Container().setFont(getFont().setSize(getFont().getSize() * 3)).setMargin(20, 0);
+        titleContainer.addChild(new Label().setText(getTitle()).setAlignment(CENTER));
 
         Widget entryContainer = new Container().setLayout(new ListLayout());
         parseEntries(entryContainer, this);
@@ -76,14 +76,6 @@ public abstract class Menu<T extends Base2DGame> extends Container {
         return title;
     }
 
-    public Font getFont() {
-        return font.copy();
-    }
-
-    public void setFont(Font font) {
-        this.font = font;
-    }
-
     private static void parseEntries(Widget w, Menu menu) {
         List<Pair<Integer, MenuEntry>> entries = new ArrayList<>();
         for (Method m : menu.getClass().getDeclaredMethods()) {
@@ -95,7 +87,7 @@ public abstract class Menu<T extends Base2DGame> extends Container {
                 continue;
             }
 
-            MenuEntry menuEntry = new MenuEntry(entry.label(), menu.getFont());
+            MenuEntry menuEntry = new MenuEntry(entry.label());
 
             for (EventHandler<EventSender, Event> handler : MethodEventHandler.parseHandlers(menu.new EntryEventHandlers(m))) {
                 menuEntry.registerEventHandler(handler);
