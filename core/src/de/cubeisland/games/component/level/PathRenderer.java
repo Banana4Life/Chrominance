@@ -25,7 +25,7 @@ import static de.cubeisland.games.component.TickPhase.RENDERING;
 public class PathRenderer extends Component<Level>
 {
     private ShapeRenderer renderer;
-    private Color color = Color.BLACK;
+    private Color color = Color.LIGHT_GRAY;
     private float width = 30;
 
     @Override

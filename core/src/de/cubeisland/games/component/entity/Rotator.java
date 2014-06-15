@@ -18,7 +18,7 @@ public class Rotator extends Component<Entity> {
 
     @Override
     public void update(float delta) {
-        if (getOwner().has(ProjectileLauncher.class) && getOwner().get(ProjectileLauncher.class).getTarget() != null) {
+        if (getOwner().has(ProjectileLauncher.class) && getOwner().get(ProjectileLauncher.class).getTarget() != null && getOwner().get(ColorContainer.class).getAmount() > 0) {
             try {
                 isAimed = rotate(getIntersection(getOwner().get(ProjectileLauncher.class).getTarget()).cpy().sub(getOwner().getLocation()).angle(), delta);
             } catch (NoIntersectionException e) {

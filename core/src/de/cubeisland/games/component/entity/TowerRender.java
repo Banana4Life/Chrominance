@@ -52,7 +52,11 @@ public class TowerRender extends Component<Entity> {
             Gdx.gl.glDisable(GL20.GL_BLEND);
         }
 
+        ColorContainer cc = getOwner().get(ColorContainer.class);
+        Color ownColor = cc.getColor();
+        ownColor.a = (float) (1f / cc.getMaxAmount() * cc.getAmount());
         batch.begin();
+        getOwner().getLevel().getScreen().getGame().resources.shaders.saturation.setUniformf("tower_color", ownColor);
         batch.draw(baseTexture, basePos.x, basePos.y, scale, scale);
         batch.draw(turretTexture, turretPos.x, turretPos.y, 0, 0, scale, scale, 1, 1, rotation, 0, 0, turretTexture.getWidth(), turretTexture.getHeight(), false, false);
         batch.end();

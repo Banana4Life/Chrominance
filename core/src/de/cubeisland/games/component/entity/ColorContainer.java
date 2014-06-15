@@ -44,6 +44,9 @@ public class ColorContainer extends Component<Entity> {
         this.maxAmount = maxAmount;
         return this;
     }
+    public double getMaxAmount() {
+        return maxAmount;
+    }
 
     public ColorContainer refill() {
         return this.setAmount(maxAmount);
