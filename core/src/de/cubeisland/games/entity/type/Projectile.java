@@ -30,7 +30,8 @@ public class Projectile extends EntityType implements CollisionSource {
         super.onInitialize(e);
 
         e.get(Render.class)
-                .setRadius(collisionVolume.getRadius());
+                .setRadius(collisionVolume.getRadius())
+                .setTexture(texture);
         e.get(ColorContainer.class)
                 .setAmount(damage);
     }

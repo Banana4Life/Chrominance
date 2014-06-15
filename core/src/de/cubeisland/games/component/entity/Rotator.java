@@ -36,7 +36,7 @@ public class Rotator extends Component<Entity> {
     public Vector2 getAbsolutePos(Vector2 pos, Vector2 offset) {
         return getAbsolutePos(pos, offset, getOwner().getVelocity().angle());
     }
-    public Vector2 getAbsolutePos(Vector2 pos, Vector2 offset, float degrees) {
+    public static Vector2 getAbsolutePos(Vector2 pos, Vector2 offset, float degrees) {
         pos = pos.cpy();
         final float sinRot = (float)Math.sin(Math.toRadians(degrees));
         final float cosRot = (float)Math.cos(Math.toRadians(degrees));

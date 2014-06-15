@@ -2,6 +2,7 @@ package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.entity.LifeTimer;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
@@ -23,7 +24,7 @@ public class MuzzleFlash extends EntityType {
         e.get(LifeTimer.class)
                 .setLifetime(lifeTime);
         e.get(Render.class)
-                .setColor(Color.YELLOW)
+                .setTexture(texture)
                 .setRadius(6);
     }
 

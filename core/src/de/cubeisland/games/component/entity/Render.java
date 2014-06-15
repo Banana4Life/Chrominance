@@ -1,11 +1,13 @@
 package de.cubeisland.games.component.entity;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
+import de.cubeisland.games.util.BetterBatch;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static de.cubeisland.games.component.TickPhase.RENDERING;
@@ -16,6 +18,7 @@ public class Render extends Component<Entity>
     private ShapeRenderer renderer;
     private Color color = Color.WHITE;
     private float radius = 10;
+    private Texture texture = null;
 
     @Override
     protected void onInit() {
@@ -32,10 +35,20 @@ public class Render extends Component<Entity>
             this.color = getOwner().get(ColorContainer.class).getColor();
         }
 
-        this.renderer.begin(Filled);
-        this.renderer.setColor(this.color);
-        this.renderer.circle(loc.x, loc.y, radius);
-        this.renderer.end();
+        if (texture != null) {
+            final BetterBatch batch = getOwner().getLevel().getScreen().getGame().getBatch();
+            final float scale = radius * 2;
+            final Vector2 rotatedLoc = Rotator.getAbsolutePos(loc, new Vector2(radius, radius), getOwner().getVelocity().angle());
+
+            batch.begin();
+            batch.draw(texture, rotatedLoc.x, rotatedLoc.y, 0, 0, scale, scale, 1, 1, getOwner().getVelocity().angle(), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+            batch.end();
+        } else {
+            this.renderer.begin(Filled);
+            this.renderer.setColor(this.color);
+            this.renderer.circle(loc.x, loc.y, radius);
+            this.renderer.end();
+        }
     }
 
     public Color getColor() {
@@ -53,6 +66,11 @@ public class Render extends Component<Entity>
 
     public Render setRadius(float radius) {
         this.radius = radius;
+        return this;
+    }
+
+    public Render setTexture(Texture texture) {
+        this.texture = texture;
         return this;
     }
 }
