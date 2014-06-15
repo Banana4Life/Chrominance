@@ -1,6 +1,5 @@
 package de.cubeisland.games.entity.type;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.collision.Circle;
 import de.cubeisland.games.collision.CollisionVolume;

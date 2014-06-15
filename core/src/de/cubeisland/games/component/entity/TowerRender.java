@@ -8,14 +8,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
+import de.cubeisland.games.component.Require;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.util.BetterBatch;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
+@Require(Focus.class)
 @Phase(RENDERING)
 public class TowerRender extends Component<Entity> {
+    private Focus focus;
     private ShapeRenderer renderer;
     private Texture turretTexture;
     private Texture baseTexture;
@@ -24,6 +27,7 @@ public class TowerRender extends Component<Entity> {
     @Override
     protected void onInit() {
         super.onInit();
+        focus = getOwner().get(Focus.class);
         renderer = getOwner().getLevel().getScreen().getGame().getShapeRenderer();
     }
 
@@ -38,13 +42,15 @@ public class TowerRender extends Component<Entity> {
         final Vector2 basePos = rotator.getPos();
         final Vector2 turretPos = rotator.getAbsolutePos(loc, rotator.getCenterOffset().cpy().add(scale / 2, scale / 2), rotation);
 
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        this.renderer.begin(Filled);
-        this.renderer.setColor(this.rangeColor);
-        this.renderer.circle(loc.x, loc.y, getOwner().get(ProjectileLauncher.class).getTargetRange());
-        this.renderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        if (this.focus.isFocused()) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            this.renderer.begin(Filled);
+            this.renderer.setColor(this.rangeColor);
+            this.renderer.circle(loc.x, loc.y, getOwner().get(ProjectileLauncher.class).getTargetRange());
+            this.renderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
 
         batch.begin();
         batch.draw(baseTexture, basePos.x, basePos.y, scale, scale);

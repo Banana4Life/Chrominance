@@ -32,7 +32,6 @@ public class Tower extends EntityType {
         add(ColorContainer.class);
         add(SoundPlayer.class);
         add(Rotator.class);
-        add(ClickKiller.class);
 
         muzzleOffset.add(new Vector2(0, 0));
     }
