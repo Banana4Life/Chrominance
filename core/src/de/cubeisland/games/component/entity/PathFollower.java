@@ -51,8 +51,7 @@ public class PathFollower extends Component<Entity> {
                     this.path = null;
                     this.currentTarget = null;
                     getOwner().setVelocity(zero());
-                    getOwner().getLevel().decreaseSaturation(1f);
-//                    getOwner().getLevel().decreaseSaturation(0.1f);
+                    getOwner().getLevel().decreaseSaturation(0.1f);
                     trigger(new PathCompleteEvent(this.path));
                 } else {
                     this.changeTarget();

@@ -106,8 +106,6 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         System.out.println("You won!");
     }
     public void lost() {
-        //TODO: Implement things that happen when you lose
-        System.out.println("You lose!");
         getGame().setScreen(new LoseScreen(getGame(), getLevel().getMap()));
     }
 }

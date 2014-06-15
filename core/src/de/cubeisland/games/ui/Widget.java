@@ -66,6 +66,7 @@ public abstract class Widget extends EventProcessor implements Disposable {
     private Color foregroundColor = null;
     private Color backgroundColor = Color.CLEAR.cpy();
     private Font font             = null;
+    private Font cachedFont       = null;
     //endregion
 
     protected Widget() {
@@ -417,18 +418,26 @@ public abstract class Widget extends EventProcessor implements Disposable {
     }
 
     public Font getFont() {
+        if (this.cachedFont == null) {
+            this.cachedFont = getFont0();
+        }
+        return this.cachedFont;
+    }
+
+    private Font getFont0() {
         if (this.font != null) {
             return this.font;
         }
         Widget parent = getParent();
         if (parent != null) {
-            return parent.getFont();
+            return parent.getFont0().copy();
         }
         return null;
     }
 
     public Widget setFont(Font font) {
         this.font = font.copy();
+        this.cachedFont = null;
         invalidate();
         return this;
     }
