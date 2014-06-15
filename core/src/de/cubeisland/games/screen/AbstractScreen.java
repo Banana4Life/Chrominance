@@ -16,12 +16,22 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     private static final float MAX_DELTA = 1f / 30f;
 
     private final T game;
-    private RootWidget<T> rootWidget;
-    private OrthographicCamera uiCamera;
-    private DrawContext context;
+    private final RootWidget<T> rootWidget;
+    private final OrthographicCamera uiCamera;
+    private final DrawContext context;
 
     AbstractScreen(T game) {
         this.game = game;
+        this.rootWidget = new RootWidget<>(this);
+        this.uiCamera = new OrthographicCamera();
+        this.uiCamera.setToOrtho(true);
+
+        ShapeRenderer uiShapeRenderer = new ShapeRenderer();
+        uiShapeRenderer.setProjectionMatrix(this.uiCamera.combined);
+        SpriteBatch uiBatch = new SpriteBatch();
+        uiBatch.setProjectionMatrix(this.uiCamera.combined);
+
+        this.context = new DrawContext(game, this.uiCamera, uiShapeRenderer, uiBatch);
     }
 
     public T getGame() {
@@ -34,16 +44,6 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
 
     @Override
     public void show() {
-        this.rootWidget = new RootWidget<>(this);
-        this.uiCamera = new OrthographicCamera();
-        this.uiCamera.setToOrtho(true);
-
-        ShapeRenderer uiShapeRenderer = new ShapeRenderer();
-        uiShapeRenderer.setProjectionMatrix(this.uiCamera.combined);
-        SpriteBatch uiBatch = new SpriteBatch();
-        uiBatch.setProjectionMatrix(this.uiCamera.combined);
-
-        this.context = new DrawContext(game, this.uiCamera, uiShapeRenderer, uiBatch);
     }
 
     @Override
@@ -91,9 +91,7 @@ public abstract class AbstractScreen<T extends Base2DGame> implements Screen {
     @Override
     public void dispose() {
         this.rootWidget.dispose();
-        this.uiCamera = null;
         this.context.getBatch().dispose();
         this.context.getShapeRenderer().dispose();
-        this.context = null;
     }
 }

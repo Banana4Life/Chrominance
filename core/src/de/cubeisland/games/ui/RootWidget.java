@@ -7,6 +7,7 @@ import de.cubeisland.games.event.Event;
 import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.screen.AbstractScreen;
 import de.cubeisland.games.ui.event.FocusChangedEvent;
+import de.cubeisland.games.ui.event.KeyEvent;
 import de.cubeisland.games.ui.widgets.Container;
 
 public class RootWidget<T extends Base2DGame> extends Container implements EventSender {
@@ -118,11 +119,10 @@ public class RootWidget<T extends Base2DGame> extends Container implements Event
 
     @Override
     public boolean trigger(EventSender sender, Event event) {
-        Widget focused = getFocusedWidget();
-        if (focused == this) {
-            return super.trigger(sender, event);
+        if (event instanceof KeyEvent && getFocusedWidget() != this) {
+            return getFocusedWidget().trigger(sender, event);
         } else {
-            return focused.trigger(sender, event);
+            return super.trigger(sender, event);
         }
     }
 }

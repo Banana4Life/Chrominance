@@ -19,7 +19,7 @@ public abstract class Base2DGame extends Game {
 
     protected Base2DGame() {
         this.debug = System.getProperty("debug") != null;
-        Profiler.setEnabled(this.debug);
+        Profiler.setEnabled(this.debug && System.getProperty("profiling") != null);
         this.input = new LoggingInputMultiplexer();
     }
 

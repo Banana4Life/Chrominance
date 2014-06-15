@@ -50,6 +50,8 @@ public class DesktopLauncher {
         config.samples = 0;
         config.resizable = false;
         config.vSyncEnabled = false;
+        config.foregroundFPS = 0;
+        config.backgroundFPS = 0;
         new LwjglApplication(new Chrominance(), config);
     }
 }

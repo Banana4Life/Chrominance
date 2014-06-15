@@ -57,7 +57,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         this.map = map;
         spawnTowers();
 
-        //spawn(EntityTypes.COLOR_PALETTE, map.getPalettePosition().scl(map.getScale()));
+        spawn(EntityTypes.COLOR_PALETTE, map.getPalettePosition().scl(map.getScale()));
     }
 
     public float getSaturation() {

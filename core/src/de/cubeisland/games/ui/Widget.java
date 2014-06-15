@@ -494,6 +494,7 @@ public abstract class Widget extends EventProcessor implements Disposable {
             it.next().dispose();
             it.remove();
         }
+        this.childrenOrderedByDepth.clear();
         getRoot().unfocus(this);
     }
 
