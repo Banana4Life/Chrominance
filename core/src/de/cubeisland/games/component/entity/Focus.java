@@ -16,7 +16,7 @@ public class Focus extends Component<Entity> {
     public void update(float delta) {
     }
 
-    protected void handle(FingerInputDetector sender, EntityTouchedEvent event) {
+    public void handle(FingerInputDetector sender, EntityTouchedEvent event) {
         setFocused(!isFocused());
     }
 
