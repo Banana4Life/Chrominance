@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 
 public class Fonts extends ResourceBag<Font> {
 
-    @Def(font = "neou/bold", size = 30)
+    @Def(font = "neou/bold", size = 30, flipped = true)
     public Font menuFont;
 
     @Override
@@ -26,7 +26,7 @@ public class Fonts extends ResourceBag<Font> {
 
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(basedir.child(def.font().replace('/', File.separatorChar) + ".ttf"));
 
-        return new Font(gen, def.size());
+        return new Font(gen, def.flipped(), def.size());
     }
 
     @Target(ElementType.FIELD)
@@ -34,5 +34,6 @@ public class Fonts extends ResourceBag<Font> {
     private @interface Def {
         String font();
         int size();
+        boolean flipped() default false;
     }
 }
