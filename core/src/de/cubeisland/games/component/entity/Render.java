@@ -8,7 +8,6 @@ import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
-import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
 @Phase(RENDERING)
@@ -37,13 +36,6 @@ public class Render extends Component<Entity>
         this.renderer.setColor(this.color);
         this.renderer.circle(loc.x, loc.y, radius);
         this.renderer.end();
-
-        if (getOwner().has(ProjectileLauncher.class)) {
-            this.renderer.begin(Line);
-            this.renderer.setColor(Color.RED);
-            this.renderer.circle(loc.x, loc.y, getOwner().get(ProjectileLauncher.class).getTargetRange());
-            this.renderer.end();
-        }
     }
 
     public Color getColor() {

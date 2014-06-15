@@ -1,6 +1,8 @@
 package de.cubeisland.games.component.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -9,7 +11,7 @@ import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.util.BetterBatch;
 
-import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
+import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
 @Phase(RENDERING)
@@ -17,6 +19,7 @@ public class TowerRender extends Component<Entity> {
     private ShapeRenderer renderer;
     private Texture turretTexture;
     private Texture baseTexture;
+    private Color rangeColor = Color.RED.cpy().sub(0, 0, 0, .9f);
 
     @Override
     protected void onInit() {
@@ -35,10 +38,13 @@ public class TowerRender extends Component<Entity> {
         final Vector2 basePos = rotator.getPos();
         final Vector2 turretPos = rotator.getAbsolutePos(loc, rotator.getCenterOffset().cpy().add(scale / 2, scale / 2), rotation);
 
-        this.renderer.begin(Line);
-        this.renderer.setColor(Color.RED);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        this.renderer.begin(Filled);
+        this.renderer.setColor(this.rangeColor);
         this.renderer.circle(loc.x, loc.y, getOwner().get(ProjectileLauncher.class).getTargetRange());
         this.renderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         batch.begin();
         batch.draw(baseTexture, basePos.x, basePos.y, scale, scale);
@@ -50,8 +56,18 @@ public class TowerRender extends Component<Entity> {
         this.turretTexture = turretTexture;
         return this;
     }
+
     public TowerRender setBaseTexture(Texture baseTexture) {
         this.baseTexture = baseTexture;
+        return this;
+    }
+
+    public Color getRangeColor() {
+        return rangeColor;
+    }
+
+    public TowerRender setRangeColor(Color rangeColor) {
+        this.rangeColor = rangeColor;
         return this;
     }
 }
