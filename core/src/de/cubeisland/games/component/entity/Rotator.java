@@ -1,5 +1,7 @@
 package de.cubeisland.games.component.entity;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
@@ -133,9 +135,9 @@ public class Rotator extends Component<Entity> {
         float partThree = (targetPosition.x * targetPosition.x) - (2f * targetPosition.x * ownPosition.x) + (targetPosition.y * targetPosition.y) - (2f * targetPosition.y * ownPosition.y) + (ownPosition.x * ownPosition.x) + (ownPosition.y * ownPosition.y) - (i * i * bulletSpeed * bulletSpeed);
         float x = (1f / partOne) * (-(float) Math.sqrt((partTwo * partTwo) - (2f * partOne * partThree)) - partTwo);
 
-        Vector2 intersectionPos = targetVelocity.scl(x).add(targetPosition);
+        Vector2 intersectionPos = targetVelocity.scl(Math.abs(x)).add(targetPosition);
         if (intersectionPos.cpy().sub(targetPosition).len() / path.getNodes().get(nodeNumber + iteration).getLocation().cpy().sub(targetPosition).len() > 1) {
-            return getIntersection(target, 1, x + i);
+            return getIntersection(target, iteration + 1, x + i);
         } else {
             return intersectionPos;
         }
