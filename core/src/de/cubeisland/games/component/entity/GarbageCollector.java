@@ -33,7 +33,7 @@ public class GarbageCollector extends Component<Entity> {
         getOwner().die();
     }
     public void handle(Component sender, ColorContainerEmptyEvent event) {
-        if (Enemy.class.isAssignableFrom(getOwner().getClass())) {
+        if (Enemy.class.isAssignableFrom(getOwner().getType().getClass())) {
             System.out.println("Enemy died!");
             getOwner().die();
         }

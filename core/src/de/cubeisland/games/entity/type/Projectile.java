@@ -57,6 +57,7 @@ public class Projectile extends EntityType implements CollisionSource {
     public void onCollide(Entity e, Collidable collidable, Vector2 minimumTranslationVector) {
         e.die();
     }
+
     public MuzzleFlash getMuzzleFlash() {
         return muzzleFlash;
     }

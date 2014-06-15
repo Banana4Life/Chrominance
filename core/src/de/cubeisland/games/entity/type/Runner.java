@@ -30,7 +30,7 @@ public class Runner extends Enemy {
 
     @Override
     public void onCollide(Entity e, Collider collider, Vector2 minimumTranslationVector) {
-        if (Projectile.class.isAssignableFrom(collider.getOwner().getClass())) {
+        if (Projectile.class.isAssignableFrom(collider.getOwner().getType().getClass())) {
             e.get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
         }
     }

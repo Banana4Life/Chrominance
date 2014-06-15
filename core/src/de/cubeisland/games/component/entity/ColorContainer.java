@@ -26,7 +26,7 @@ public class ColorContainer extends Component<Entity> {
         return amount;
     }
     public ColorContainer setAmount(double amount) {
-        if (amount < 0) {
+        if (amount <= 0) {
             this.amount = 0;
             trigger(new ColorContainerEmptyEvent());
         } else if (amount > maxAmount) {
