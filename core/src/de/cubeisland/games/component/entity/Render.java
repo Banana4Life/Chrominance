@@ -40,7 +40,10 @@ public class Render extends Component<Entity>
             final float scale = radius * 2;
             final Vector2 rotatedLoc = Rotator.getAbsolutePos(loc, new Vector2(radius, radius), getOwner().getVelocity().angle());
 
+            ColorContainer cc = getOwner().get(ColorContainer.class);
+            Color ownColor = cc.getColor();
             batch.begin();
+            getOwner().getLevel().getScreen().getGame().resources.shaders.saturation.setUniformf("overlay_color", ownColor);
             batch.draw(texture, rotatedLoc.x, rotatedLoc.y, 0, 0, scale, scale, 1, 1, getOwner().getVelocity().angle(), 0, 0, texture.getWidth(), texture.getHeight(), false, false);
             batch.end();
         } else {
