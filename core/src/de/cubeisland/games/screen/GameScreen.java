@@ -3,9 +3,13 @@ package de.cubeisland.games.screen;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.cubeisland.games.Chrominance;
+import de.cubeisland.games.event.Event;
+import de.cubeisland.games.event.EventSender;
+import de.cubeisland.games.event.ReflectedEventHandler;
 import de.cubeisland.games.level.Level;
 import de.cubeisland.games.level.MapStructure;
 import de.cubeisland.games.screen.menu.PauseMenu;
+import de.cubeisland.games.ui.event.KeyDownEvent;
 import de.cubeisland.games.ui.widgets.Fps;
 import de.cubeisland.games.ui.widgets.menu.Menu;
 import de.cubeisland.games.ui.widgets.menu.MenuAction;
@@ -102,9 +106,9 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
     }
 
     public void won() {
-        //TODO: Implement things that happen when you win
-        System.out.println("You won!");
+        getGame().setScreen(new WinScreen(getGame(), getGame().resources.maps.getNext(getLevel().getMap())));
     }
+
     public void lost() {
         getGame().setScreen(new LoseScreen(getGame(), getLevel().getMap()));
     }

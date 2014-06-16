@@ -1,25 +1,18 @@
 package de.cubeisland.games.screen;
 
 import de.cubeisland.games.Chrominance;
-import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.event.ReflectedEventHandler;
 import de.cubeisland.games.level.MapStructure;
-import de.cubeisland.games.ui.HorizontalAlignment;
 import de.cubeisland.games.ui.RootWidget;
-import de.cubeisland.games.ui.Sizing;
-import de.cubeisland.games.ui.VerticalAlignment;
 import de.cubeisland.games.ui.event.TouchUpEvent;
 import de.cubeisland.games.ui.layout.ListLayout;
 import de.cubeisland.games.ui.widgets.Container;
 import de.cubeisland.games.ui.widgets.Label;
 
-import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
-
-public class LoseScreen extends AbstractGameScreen<Chrominance> {
-
+public class WinScreen extends AbstractGameScreen<Chrominance> {
     private final MapStructure map;
 
-    public LoseScreen(Chrominance game, MapStructure map) {
+    public WinScreen(Chrominance game, MapStructure map) {
         super(game);
         this.map = map;
     }
@@ -30,13 +23,21 @@ public class LoseScreen extends AbstractGameScreen<Chrominance> {
 
         Container c = new Container();
         c.setLayout(new ListLayout())
-         .setFont(getGame().resources.fonts.menuFont)
-         .setPadding(120, 130);
+                .setFont(getGame().resources.fonts.menuFont)
+                .setPadding(120, 130);
 
-        Label loser = new Label().setText("You lost!");
-        Label click = new Label().setText("Click to restart");
+        Label win = new Label();
+        Label click = new Label();
+        if (map == null) {
+            win  .setText("You have completed all levels!");
+            click.setText("Click to return the the main menu");
+            c.setPadding(120, 50);
+        } else {
+            win  .setText("You won!");
+            click.setText("Click to continue");
+        }
 
-        c.addChild(loser.setMargin(10, 0));
+        c.addChild(  win.setMargin(10, 0));
         c.addChild(click.setMargin(10, 0));
 
         getRootWidget()
@@ -44,13 +45,16 @@ public class LoseScreen extends AbstractGameScreen<Chrominance> {
                 .registerEventHandler(new ReflectedEventHandler<RootWidget<Chrominance>, TouchUpEvent>() {
                     @Override
                     public void handle(RootWidget<Chrominance> sender, TouchUpEvent event) {
-                        getGame().setScreen(new GameScreen(getGame(), map));
+                        if (map == null) {
+                            getGame().setScreen(new MainMenuScreen(getGame()));
+                        } else {
+                            getGame().setScreen(new GameScreen(getGame(), map));
+                        }
                     }
                 });
     }
 
     @Override
     public void renderScreen(Chrominance game, float delta) {
-
     }
 }
