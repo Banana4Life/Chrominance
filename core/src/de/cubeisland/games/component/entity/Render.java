@@ -10,6 +10,7 @@ import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.util.BetterBatch;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
+import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
 @Phase(RENDERING)
@@ -50,6 +51,12 @@ public class Render extends Component<Entity>
             this.renderer.begin(Filled);
             this.renderer.setColor(this.color);
             this.renderer.circle(loc.x, loc.y, radius);
+            this.renderer.end();
+        }
+        if (getOwner().has(Shield.class)) {
+            this.renderer.begin(Line);
+            this.renderer.setColor(Color.BLUE);
+            this.renderer.circle(loc.x, loc.y, radius + 4);
             this.renderer.end();
         }
     }

@@ -1,9 +1,11 @@
 package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.collision.Circle;
+import de.cubeisland.games.collision.Collidable;
+import de.cubeisland.games.collision.CollisionTargetHandler;
+import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.collision.CollisionVolume;
-import de.cubeisland.games.component.entity.Collider;
+import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.PathFollower;
 import de.cubeisland.games.component.entity.Render;
@@ -21,17 +23,7 @@ public class Runner extends Enemy {
                 .setRadius(collisionVolume.getRadius());
         e.get(PathFollower.class)
                 .setSpeed(80);
-    }
-
-    @Override
-    public CollisionVolume getCollisionVolume() {
-        return collisionVolume;
-    }
-
-    @Override
-    public void onCollide(Entity e, Collider collider, Vector2 minimumTranslationVector) {
-        if (Projectile.class.isAssignableFrom(collider.getOwner().getType().getClass())) {
-            e.get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
-        }
+        e.get(Collidable.class)
+                .setVolume(collisionVolume);
     }
 }

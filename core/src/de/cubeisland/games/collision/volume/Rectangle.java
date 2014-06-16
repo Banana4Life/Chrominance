@@ -1,6 +1,7 @@
-package de.cubeisland.games.collision;
+package de.cubeisland.games.collision.volume;
 
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.collision.CollisionVolume;
 
 public class Rectangle implements CollisionVolume {
     private final float upperX;

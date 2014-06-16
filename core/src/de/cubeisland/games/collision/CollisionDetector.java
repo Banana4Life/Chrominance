@@ -1,8 +1,7 @@
 package de.cubeisland.games.collision;
 
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.component.entity.Collidable;
-import de.cubeisland.games.component.entity.Collider;
+import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.level.Level;
 
@@ -27,12 +26,12 @@ public class CollisionDetector {
 
         for (Entity e : this.level.getEntities()) {
             Collider collider = e.get(Collider.class);
-            if (collider != null) {
+            if (collider != null && collider.hasVolume() && collider.hasHandler()) {
                 colliders.add(collider);
             }
 
             Collidable collidable = e.get(Collidable.class);
-            if (collidable != null) {
+            if (collidable != null && collidable.hasVolume() && collidable.hasHandler()) {
                 collidables.add(collidable);
             }
         }
@@ -62,8 +61,8 @@ public class CollisionDetector {
             return;
         }
 
-        CollisionVolume colliderVolume = collider.getHandler().getCollisionVolume();
-        CollisionVolume collidableVolume = collidable.getHandler().getCollisionVolume();
+        CollisionVolume colliderVolume = collider.getVolume();
+        CollisionVolume collidableVolume = collidable.getVolume();
 
         if (colliderVolume instanceof Circle && collidableVolume instanceof Circle) {
             this.resolveCircleCicleCollision(collider, (Circle) colliderVolume, collidable, (Circle) collidableVolume);

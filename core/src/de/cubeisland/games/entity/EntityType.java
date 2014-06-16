@@ -1,10 +1,10 @@
 package de.cubeisland.games.entity;
 
-import de.cubeisland.games.collision.CollisionSource;
-import de.cubeisland.games.collision.CollisionTarget;
+import de.cubeisland.games.collision.CollisionSourceHandler;
+import de.cubeisland.games.collision.CollisionTargetHandler;
 import de.cubeisland.games.component.Component;
-import de.cubeisland.games.component.entity.Collidable;
-import de.cubeisland.games.component.entity.Collider;
+import de.cubeisland.games.collision.Collidable;
+import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.component.entity.GarbageCollector;
 
 import java.util.List;
@@ -16,10 +16,10 @@ public abstract class EntityType {
     protected EntityType() {
         add(GarbageCollector.class);
 
-        if (this instanceof CollisionSource) {
+        if (this instanceof CollisionSourceHandler) {
             add(Collider.class);
         }
-        if (this instanceof CollisionTarget) {
+        if (this instanceof CollisionTargetHandler) {
             add(Collidable.class);
         }
     }

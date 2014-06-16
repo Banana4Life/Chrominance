@@ -1,7 +1,10 @@
 package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Color;
-import de.cubeisland.games.collision.CollisionTarget;
+import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.collision.Collidable;
+import de.cubeisland.games.collision.Collider;
+import de.cubeisland.games.collision.CollisionTargetHandler;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.Move;
 import de.cubeisland.games.component.entity.PathFollower;
@@ -9,7 +12,7 @@ import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 
-public abstract class Enemy extends EntityType implements CollisionTarget {
+public abstract class Enemy extends EntityType {
     private double life = 10;
 
     public Enemy() {
@@ -17,6 +20,7 @@ public abstract class Enemy extends EntityType implements CollisionTarget {
         add(Move.class);
         add(ColorContainer.class);
         add(Render.class);
+        add(Collidable.class);
     }
 
     @Override
@@ -28,6 +32,15 @@ public abstract class Enemy extends EntityType implements CollisionTarget {
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)
                 .setAmount(life);
+        e.get(Collidable.class)
+                .setHandler(new CollisionTargetHandler() {
+                    @Override
+                    public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
+                        if (Projectile.class.isAssignableFrom(collider.getOwner().getType().getClass())) {
+                            collidable.getOwner().get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
+                        }
+                    }
+                });
     }
 
     public void setLife(double life) {

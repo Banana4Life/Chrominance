@@ -2,17 +2,18 @@ package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.collision.Circle;
-import de.cubeisland.games.collision.CollisionSource;
+import de.cubeisland.games.collision.Collider;
+import de.cubeisland.games.collision.volume.Circle;
+import de.cubeisland.games.collision.CollisionSourceHandler;
 import de.cubeisland.games.collision.CollisionVolume;
-import de.cubeisland.games.component.entity.Collidable;
+import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.Move;
 import de.cubeisland.games.component.entity.Render;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 
-public class Projectile extends EntityType implements CollisionSource {
+public class Projectile extends EntityType {
     private float launchSpeed = 300;
     private Circle collisionVolume = new Circle(4);
     private MuzzleFlash muzzleFlash = new MuzzleFlash();
@@ -23,6 +24,7 @@ public class Projectile extends EntityType implements CollisionSource {
         add(Render.class);
         add(Move.class);
         add(ColorContainer.class);
+        add(Collider.class);
     }
 
     @Override
@@ -34,6 +36,14 @@ public class Projectile extends EntityType implements CollisionSource {
                 .setTexture(texture);
         e.get(ColorContainer.class)
                 .setAmount(damage);
+        e.get(Collider.class)
+                .setVolume(this.collisionVolume)
+                .setHandler(new CollisionSourceHandler() {
+                    @Override
+                    public void onCollide(Collider collider, Collidable collidable, Vector2 minimumTranslationVector) {
+                        collider.getOwner().die();
+                    }
+                });
     }
 
     public Projectile setLaunchSpeed(float launchSpeed) {
@@ -48,15 +58,6 @@ public class Projectile extends EntityType implements CollisionSource {
     public Projectile setCollisionVolume(float radius) {
         collisionVolume = new Circle(radius);
         return this;
-    }
-    @Override
-    public CollisionVolume getCollisionVolume() {
-        return collisionVolume;
-    }
-
-    @Override
-    public void onCollide(Entity e, Collidable collidable, Vector2 minimumTranslationVector) {
-        e.die();
     }
 
     public MuzzleFlash getMuzzleFlash() {

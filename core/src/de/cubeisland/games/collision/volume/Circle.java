@@ -1,4 +1,6 @@
-package de.cubeisland.games.collision;
+package de.cubeisland.games.collision.volume;
+
+import de.cubeisland.games.collision.CollisionVolume;
 
 public class Circle implements CollisionVolume {
     private final float radius;
