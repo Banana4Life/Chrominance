@@ -5,10 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionTargetHandler;
-import de.cubeisland.games.component.entity.ColorContainer;
-import de.cubeisland.games.component.entity.Move;
-import de.cubeisland.games.component.entity.PathFollower;
-import de.cubeisland.games.component.entity.Render;
+import de.cubeisland.games.collision.volume.Circle;
+import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 
@@ -37,7 +35,11 @@ public abstract class Enemy extends EntityType {
                     @Override
                     public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
                         if (Projectile.class.isAssignableFrom(collider.getOwner().getType().getClass())) {
-                            collidable.getOwner().get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
+                            if (!collidable.getOwner().has(Shield.class)) {
+                                collidable.getOwner().get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
+                            } else {
+                                collidable.getOwner().get(Shield.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
+                            }
                         }
                     }
                 });

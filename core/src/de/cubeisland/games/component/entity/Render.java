@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.collision.Collidable;
+import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
@@ -54,9 +56,10 @@ public class Render extends Component<Entity>
             this.renderer.end();
         }
         if (getOwner().has(Shield.class)) {
+            final Shield shield = getOwner().get(Shield.class);
             this.renderer.begin(Line);
-            this.renderer.setColor(Color.BLUE);
-            this.renderer.circle(loc.x, loc.y, radius + 4);
+            this.renderer.setColor(shield.getColor());
+            this.renderer.circle(loc.x, loc.y, radius + shield.getAdditionalRadius());
             this.renderer.end();
         }
     }
