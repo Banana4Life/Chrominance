@@ -11,6 +11,8 @@ import java.util.Comparator;
 public class Maps extends ResourceBag<MapStructure> {
     public MapStructure map01;
     public MapStructure map02;
+    public MapStructure map03;
+    public MapStructure map04;
 
     private final Towers towers;
 
