@@ -60,11 +60,7 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         }
 
         game.getBatch().begin();
-        game.getBatch().pauseShader();
-        game.getBatch().draw(game.resources.textures.badlogic, 400, 100, 100, 100);
-        game.getBatch().continueShader();
         game.resources.shaders.saturation.setUniformf("Saturation", level.getSaturation());
-        game.getBatch().draw(game.resources.textures.badlogic, 500, 100, 100, 100);
         game.getBatch().end();
 
         this.level.update(delta);
