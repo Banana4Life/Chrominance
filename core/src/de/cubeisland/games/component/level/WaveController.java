@@ -89,6 +89,6 @@ public class WaveController extends Component<Level> {
     }
 
     public boolean hasFinished() {
-        return generator.hasFinished();
+        return (remainingWaves > 0) ? false : true;
     }
 }

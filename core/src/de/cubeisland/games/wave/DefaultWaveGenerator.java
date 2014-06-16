@@ -1,5 +1,7 @@
 package de.cubeisland.games.wave;
 
+import com.badlogic.gdx.Gdx;
+import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.Shield;
 import de.cubeisland.games.entity.Entity;
@@ -19,17 +21,24 @@ public class DefaultWaveGenerator implements WaveGenerator {
     @Override
     public Wave generate(EntityFactory entityFactory, int waveNumber) {
         List<Entity> entities = new ArrayList<>(waveNumber);
-        for (int i = 0; i < waveNumber; ++i) {
+        for (int i = 0; i < waveNumber * 2; ++i) {
             Entity e;
-            if (i % 3 == 0) {
+            if (waveNumber % 3 == 0) {
                 e = entityFactory.createEntity(EntityTypes.WALKER);
-            } else {
+            } else if (waveNumber % 3 == 1) {
                 e = entityFactory.createEntity(EntityTypes.RUNNER);
+            } else {
+                if (i % 3 == 0) {
+                    e = entityFactory.createEntity(EntityTypes.WALKER);
+                } else {
+                    e = entityFactory.createEntity(EntityTypes.RUNNER);
+                }
             }
-            if (i % 4 == 0) {
+            // First shield at 4th wave
+            if (e != null && e.get(Collidable.class) != null && (waveNumber > 3 && i % 7 == 0)) {
                 e.attach(Shield.class);
             }
-            e.get(ColorContainer.class).setAmount(100 * (1 + waveNumber / 10));
+            e.get(ColorContainer.class).setAmount(100 * (1 + (waveNumber / 10)) * (1 + getDifficulty().getHealthMultiplier()));
 
             entities.add(e);
         }
