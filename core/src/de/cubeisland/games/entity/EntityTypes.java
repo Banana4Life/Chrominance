@@ -1,9 +1,6 @@
 package de.cubeisland.games.entity;
 
-import de.cubeisland.games.entity.type.ColorPalette;
-import de.cubeisland.games.entity.type.ColorRepo;
-import de.cubeisland.games.entity.type.Runner;
-import de.cubeisland.games.entity.type.Walker;
+import de.cubeisland.games.entity.type.*;
 
 
 public abstract class EntityTypes {
@@ -15,4 +12,5 @@ public abstract class EntityTypes {
     public static final EntityType WALKER = new Walker();
     public static final ColorPalette COLOR_PALETTE = new ColorPalette();
     public static final ColorRepo COLOR_REPO = new ColorRepo();
+    public static final ColorDrop COLOR_DROP = new ColorDrop();
 }

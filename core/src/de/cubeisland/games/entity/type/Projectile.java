@@ -41,7 +41,9 @@ public class Projectile extends EntityType {
                 .setHandler(new CollisionSourceHandler() {
                     @Override
                     public void onCollide(Collider collider, Collidable collidable, Vector2 minimumTranslationVector) {
-                        collider.getOwner().die();
+                        if (collidable.getOwner().getType() instanceof Enemy) {
+                            collider.getOwner().die();
+                        }
                     }
                 });
     }

@@ -1,6 +1,7 @@
 package de.cubeisland.games.screen;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 import de.cubeisland.games.component.FingerInput;
 import de.cubeisland.games.component.KeyboardInput;
@@ -8,22 +9,26 @@ import de.cubeisland.games.component.MouseInput;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.level.Level;
 
-class GameScreenInputProcessor implements InputProcessor {
+public class GameScreenInputProcessor implements InputProcessor {
     private final GameScreen gameScreen;
 
     GameScreenInputProcessor(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
     }
 
-    private Vector3 unproject(int x, int y) {
+    public static Vector3 unproject(Camera c, int x, int y) {
         Vector3 pos = new Vector3(x, y, 0);
-        gameScreen.getGame().getCamera().unproject(pos);
+        c.unproject(pos);
 
         // round to exact pixels
         pos.x = (int)(pos.x + .5);
         pos.y = (int)(pos.y + .5);
 
         return pos;
+    }
+
+    private Vector3 unproject(int x, int y) {
+        return unproject(gameScreen.getGame().getCamera(), x, y);
     }
 
     private Level getLevel() {

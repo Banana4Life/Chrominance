@@ -9,17 +9,24 @@ import de.cubeisland.games.event.Event;
 @Require(ClickBounds.class)
 public class FingerInputDetector extends Component<Entity> implements FingerInput {
 
-    private boolean touching = false;
+    private boolean touchDown = false;
+    private boolean touchingOwner = false;
 
     @Override
     public void update(float delta) {
 
     }
 
+    public boolean isTouchDown() {
+        return this.touchDown;
+    }
+
     @Override
     public boolean onTouchDown(float x, float y, int pointer, int button) {
+        this.touchDown = true;
         if (getOwner().get(ClickBounds.class).contains(x, y)) {
-            this.touching = true;
+            this.touchingOwner = true;
+            trigger(new EntityBeginTouchEvent(getOwner()));
             return true;
         }
         return false;
@@ -27,8 +34,9 @@ public class FingerInputDetector extends Component<Entity> implements FingerInpu
 
     @Override
     public boolean onTouchUp(float x, float y, int pointer, int button) {
-        if (this.touching) {
-            this.touching = false;
+        this.touchDown = false;
+        if (this.touchingOwner) {
+            this.touchingOwner = false;
             trigger(new EntityTouchedEvent(getOwner()));
             return true;
         }
@@ -40,15 +48,27 @@ public class FingerInputDetector extends Component<Entity> implements FingerInpu
         return false;
     }
 
-    public static class EntityTouchedEvent extends Event {
+    protected abstract static class EntityTouchEvent extends Event {
         private final Entity touchedEntity;
 
-        public EntityTouchedEvent(Entity touchedEntity) {
+        public EntityTouchEvent(Entity touchedEntity) {
             this.touchedEntity = touchedEntity;
         }
 
         public Entity getTouchedEntity() {
             return touchedEntity;
+        }
+    }
+
+    public static class EntityTouchedEvent extends EntityTouchEvent {
+        public EntityTouchedEvent(Entity touchedEntity) {
+            super(touchedEntity);
+        }
+    }
+
+    public static class EntityBeginTouchEvent extends EntityTouchEvent {
+        public EntityBeginTouchEvent(Entity touchedEntity) {
+            super(touchedEntity);
         }
     }
 }

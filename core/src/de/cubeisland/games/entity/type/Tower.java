@@ -3,6 +3,11 @@ package de.cubeisland.games.entity.type;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.collision.Collidable;
+import de.cubeisland.games.collision.Collider;
+import de.cubeisland.games.collision.CollisionTargetHandler;
+import de.cubeisland.games.collision.volume.Circle;
+import de.cubeisland.games.component.ColorRepoValue;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
@@ -32,6 +37,7 @@ public class Tower extends EntityType {
         add(ColorContainer.class);
         add(SoundPlayer.class);
         add(Rotator.class);
+        add(Collidable.class);
 
         muzzleOffset.add(new Vector2(0, 0));
     }
@@ -68,6 +74,17 @@ public class Tower extends EntityType {
         e.get(ClickBounds.class)
                 .setBoundShape(new ClickBounds.RectangularBound(dimension, dimension))
                 .setOffset(new Vector2(dimension / -2f, dimension / -2f));
+        e.get(Collidable.class)
+                .setVolume(new Circle(dimension))
+                .setHandler(new CollisionTargetHandler() {
+                    @Override
+                    public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
+                        ColorRepoValue repoValue = collider.getOwner().get(ColorRepoValue.class);
+                        if (repoValue != null) {
+                            repoValue.getComponent();
+                        }
+                    }
+                });
     }
 
     public Tower setCenterOffset(Vector2 centerOffset) {
