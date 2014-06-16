@@ -16,6 +16,7 @@ import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.screen.GameScreen;
 import de.cubeisland.games.util.Profiler;
+import de.cubeisland.games.wave.DefaultWaveGenerator;
 import de.cubeisland.games.wave.Difficulty;
 import de.cubeisland.games.wave.DummyWaveGenerator;
 
@@ -51,8 +52,9 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         attach(PauseMenuOpener.class);
         attach(PathRenderer.class);
         attach(WaveController.class)
-            .setGenerator(new DummyWaveGenerator(this.difficulty))
+            .setGenerator(new DefaultWaveGenerator(this.difficulty))
             .setDifficulty(Difficulty.EASY);
+        //attach();
 
         this.map = map;
         spawnTowers();

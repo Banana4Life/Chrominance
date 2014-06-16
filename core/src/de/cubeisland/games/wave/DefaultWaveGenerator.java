@@ -9,10 +9,10 @@ import de.cubeisland.games.entity.EntityTypes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DummyWaveGenerator implements WaveGenerator {
+public class DefaultWaveGenerator implements WaveGenerator {
     private final Difficulty difficulty;
 
-    public DummyWaveGenerator(Difficulty difficulty) {
+    public DefaultWaveGenerator(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 
