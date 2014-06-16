@@ -16,6 +16,8 @@ public class Fps extends Widget {
         addChild(this.label);
         setBackgroundColor(new Color(0, 0, 0, .5f));
         setHorizontalSizing(Sizing.FIT_CONTENT);
+        setPadding(3);
+        setMargin(2);
     }
 
     @Override
