@@ -61,7 +61,7 @@ public class WaveController extends Component<Level> {
         timeWaited += (int) (delta * 1000 + .5f);
         if (timeWaited >= delay) {
             if (currentWave.hasMoreEntities()) {
-                timeWaited -= delay;
+                timeWaited = 0;
                 this.spawnEnemy(currentWave.nextEntity());
             }
         }

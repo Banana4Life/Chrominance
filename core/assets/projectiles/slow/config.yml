@@ -1,4 +1,4 @@
 launch-speed: 400
 damage: 5
 collision-radius: 4
-muzzle-flash-life-time: 100
+muzzle-flash-life-time: 30

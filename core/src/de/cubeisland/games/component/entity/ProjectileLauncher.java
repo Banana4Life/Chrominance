@@ -56,7 +56,7 @@ public class ProjectileLauncher extends Component<Entity> {
         getOwner().trigger(this, new ProjectileLaunchEvent(p));
         getOwner().get(ColorContainer.class).subAmount(1);
 
-        timeWaited -= this.coolDown;
+        timeWaited = 0;
     }
 
     protected Vector2 getMuzzle() {
