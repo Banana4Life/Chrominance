@@ -1,0 +1,11 @@
+waves: [
+          [
+            [runner, walker, runner], [walker, runner, walker]
+          ],
+          [
+            [walker, runner, walker, runner], [runner, runner, runner]
+          ],
+          [
+            [walker, runner, walker, runner], [runner, runner, runner]
+          ]
+       ]

@@ -61,8 +61,9 @@ public class Maps extends ResourceBag<MapStructure> {
         FileHandle mapdir = basedir.child(fieldToPath(field));
 
         WaveConfig config = this.reflector.load(WaveConfig.class, mapdir.child("config.yml").read());
+        int number = Integer.parseInt(mapdir.nameWithoutExtension().replaceAll("[^\\d]", "").replaceAll("^0*", ""));
 
-        return new MapStructure(this.towers.getResources(), mapdir.child("map.bmp"), new WaveStructure(config.waves));
+        return new MapStructure(this.towers.getResources(), mapdir.child("map.bmp"), number, new WaveStructure(config.waves));
     }
 
     public static class WaveConfig extends ReflectedYaml {

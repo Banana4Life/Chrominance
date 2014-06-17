@@ -20,7 +20,7 @@ public class ChrominanceResources extends Resources {
         this.textures = new Textures();
         this.projectiles = new Projectiles(reflector);
         this.towers = new Towers(reflector, projectiles);
-        this.maps = new Maps(this.towers);
+        this.maps = new Maps(reflector, this.towers);
         this.songs = new Songs();
     }
 }

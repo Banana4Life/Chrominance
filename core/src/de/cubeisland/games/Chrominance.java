@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.engine.reflect.Reflector;
 import de.cubeisland.engine.reflect.codec.YamlCodec;
+import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.resource.ChrominanceResources;
 import de.cubeisland.games.screen.MainMenuScreen;
 import de.cubeisland.games.util.converter.ColorConverter;
+import de.cubeisland.games.util.converter.EntityTypeConverter;
 import de.cubeisland.games.util.converter.Vector2Converter;
 
 public class Chrominance extends Base2DGame {
@@ -21,6 +23,7 @@ public class Chrominance extends Base2DGame {
         reflector.getCodecManager().registerCodec(new YamlCodec());
         reflector.getDefaultConverterManager().registerConverter(Vector2.class, new Vector2Converter());
         reflector.getDefaultConverterManager().registerConverter(Color.class, new ColorConverter());
+        reflector.getDefaultConverterManager().registerConverter(EntityType.class, new EntityTypeConverter());
 
         this.resources = new ChrominanceResources(this.reflector);
     }

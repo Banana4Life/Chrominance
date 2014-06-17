@@ -1,0 +1,5 @@
+waves: [
+          [
+            [runner, walker, runner], [walker, runner, walker]
+          ]
+       ]

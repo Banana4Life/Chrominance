@@ -29,7 +29,7 @@ public class MapStructure
     private final Map<Integer, Tower> colorTowerLookup;
     private WaveGenerator generator;
 
-    public MapStructure(List<Tower> towers, FileHandle fileHandle, WaveStructure waveStructure) {
+    public MapStructure(List<Tower> towers, FileHandle fileHandle, int number, WaveStructure waveStructure) {
         paths = new ArrayList<>();
         towerLocations = new HashMap<>();
 
@@ -48,7 +48,7 @@ public class MapStructure
         mapData = loadMap(rawMap);
         random = new Random();
 
-        this.number = Integer.parseInt(fileHandle.nameWithoutExtension().replaceAll("[^\\d]", "").replaceAll("^0*", ""));
+        this.number = number;
     }
 
     public int getNumber() {
