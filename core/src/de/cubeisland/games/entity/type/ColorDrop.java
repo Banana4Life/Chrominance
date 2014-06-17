@@ -1,6 +1,10 @@
 package de.cubeisland.games.entity.type;
 
+import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.collision.Collider;
+import de.cubeisland.games.collision.CollisionSourceHandler;
+import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.ColorRepoValue;
 import de.cubeisland.games.component.entity.ColorDropRenderer;
 import de.cubeisland.games.component.entity.MouseFollower;
@@ -19,6 +23,15 @@ public class ColorDrop extends EntityType {
     protected void onInitialize(Entity e) {
         super.onInitialize(e);
 
-
+        e.get(Collider.class)
+                .setVolume(new Circle(e.get(ColorDropRenderer.class).getRadius()))
+                .setHandler(new CollisionSourceHandler() {
+                    @Override
+                    public void onCollide(Collider collider, Collidable collidable, Vector2 minimumTranslationVector) {
+                        if (collidable.getOwner().getType() instanceof Tower) {
+                            collider.getOwner().die();
+                        }
+                    }
+                });
     }
 }

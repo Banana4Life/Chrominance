@@ -19,7 +19,7 @@ public class ColorDropRenderer extends Component<Entity> {
 
     private ShapeRenderer renderer;
     private ColorRepoValue value;
-    private float radius = 10f;
+    private float radius = 5f;
 
     @Override
     protected void onInit() {

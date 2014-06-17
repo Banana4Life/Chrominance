@@ -75,7 +75,7 @@ public class Tower extends EntityType {
                 .setBoundShape(new ClickBounds.RectangularBound(dimension, dimension))
                 .setOffset(new Vector2(dimension / -2f, dimension / -2f));
         e.get(Collidable.class)
-                .setVolume(new Circle(dimension))
+                .setVolume(new Circle(dimension / 2f))
                 .setHandler(new CollisionTargetHandler() {
                     @Override
                     public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
