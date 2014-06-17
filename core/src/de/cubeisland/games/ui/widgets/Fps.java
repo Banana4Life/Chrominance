@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.Sizing;
 import de.cubeisland.games.ui.Widget;
-import de.cubeisland.games.ui.font.Font;
 
 public class Fps extends Widget {
 

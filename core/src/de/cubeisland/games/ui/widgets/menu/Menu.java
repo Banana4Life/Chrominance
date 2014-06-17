@@ -42,12 +42,12 @@ public abstract class Menu<T extends Base2DGame> extends Container {
         //setAlignment(MIDDLE);
         setMargin(30, 100);
         setLayout(new ListLayout());
-        ;
 
-        Widget titleContainer = new Container().setFont(getFont().setSize(getFont().getSize() * 3)).setMargin(20, 0);
+        Widget titleContainer = new Container().setFont(getFont().setSize((int)(getFont().getSize() * 2.5f + .5f))).setMargin(20, 0);
         titleContainer.addChild(new Label().setText(getTitle()).setAlignment(CENTER));
 
         Widget entryContainer = new Container().setLayout(new ListLayout());
+        entryContainer.setMarginTop(20);
         parseEntries(entryContainer, this);
 
         addChild(titleContainer);

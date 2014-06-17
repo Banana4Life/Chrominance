@@ -7,7 +7,6 @@ import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionTargetHandler;
 import de.cubeisland.games.collision.volume.Circle;
-import de.cubeisland.games.component.ColorRepoValue;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
@@ -75,13 +74,27 @@ public class Tower extends EntityType {
                 .setBoundShape(new ClickBounds.RectangularBound(dimension, dimension))
                 .setOffset(new Vector2(dimension / -2f, dimension / -2f));
         e.get(Collidable.class)
-                .setVolume(new Circle(dimension))
+                .setVolume(new Circle(dimension / 2f))
                 .setHandler(new CollisionTargetHandler() {
                     @Override
                     public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
-                        ColorRepoValue repoValue = collider.getOwner().get(ColorRepoValue.class);
-                        if (repoValue != null) {
-                            repoValue.getComponent();
+                        Entity entity = collider.getOwner();
+                        Entity tower  = collidable.getOwner();
+
+                        if (entity.getType() instanceof ColorDrop) {
+                            ColorContainer towerColorContainer = collidable.getOwner().get(ColorContainer.class);
+                            ColorContainer repo = entity.get(Spawner.class).get().get(ColorContainer.class);
+                            if (towerColorContainer.getColor().equals(repo.getColor()) || towerColorContainer.isEmpty()) {
+
+                                double diff = towerColorContainer.getMaxAmount() - towerColorContainer.getAmount();
+                                diff = Math.min(diff, repo.getAmount());
+
+                                System.out.println("Transferring: " + diff);
+
+                                repo.subAmount(diff);
+                                towerColorContainer.addAmount(diff);
+                                towerColorContainer.setColor(repo.getColor());
+                            }
                         }
                     }
                 });

@@ -1,17 +1,14 @@
 package de.cubeisland.games.entity.type;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.component.ColorRepoValue;
+import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.PaletteRenderer;
 import de.cubeisland.games.component.entity.PlayerInput;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
-import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.level.Level;
 
-import static de.cubeisland.games.component.ColorRepoValue.ColorComponent.BLUE;
-import static de.cubeisland.games.component.ColorRepoValue.ColorComponent.GREEN;
-import static de.cubeisland.games.component.ColorRepoValue.ColorComponent.RED;
 import static de.cubeisland.games.entity.EntityTypes.COLOR_REPO;
 
 public class ColorPalette extends EntityType {
@@ -32,8 +29,8 @@ public class ColorPalette extends EntityType {
         Entity green = level.spawn(COLOR_REPO, pos.cpy().add(scale, 0));
         Entity blue  = level.spawn(COLOR_REPO, pos.cpy().add(2 * scale, 0));
 
-        red  .get(ColorRepoValue.class).setComponent(  RED);
-        green.get(ColorRepoValue.class).setComponent(GREEN);
-        blue .get(ColorRepoValue.class).setComponent( BLUE);
+        red  .get(ColorContainer.class).setColor(Color.RED);
+        green.get(ColorContainer.class).setColor(Color.GREEN);
+        blue .get(ColorContainer.class).setColor(Color.BLUE);
     }
 }

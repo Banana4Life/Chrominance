@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionTargetHandler;
-import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;

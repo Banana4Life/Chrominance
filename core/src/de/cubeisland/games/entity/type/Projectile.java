@@ -2,11 +2,10 @@ package de.cubeisland.games.entity.type;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.collision.Collider;
-import de.cubeisland.games.collision.volume.Circle;
-import de.cubeisland.games.collision.CollisionSourceHandler;
-import de.cubeisland.games.collision.CollisionVolume;
 import de.cubeisland.games.collision.Collidable;
+import de.cubeisland.games.collision.Collider;
+import de.cubeisland.games.collision.CollisionSourceHandler;
+import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.Move;
 import de.cubeisland.games.component.entity.Render;

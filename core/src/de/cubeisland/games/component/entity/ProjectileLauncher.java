@@ -56,7 +56,7 @@ public class ProjectileLauncher extends Component<Entity> {
         getOwner().trigger(this, new ProjectileLaunchEvent(p));
         getOwner().get(ColorContainer.class).subAmount(1);
 
-        timeWaited -= this.coolDown;
+        timeWaited = 0;
     }
 
     protected Vector2 getMuzzle() {
@@ -72,7 +72,7 @@ public class ProjectileLauncher extends Component<Entity> {
         Entity nearestEntity = null;
         for (Entity e : getOwner().getLevel().getEntities()) {
             if (e.getType() instanceof Enemy) {
-                if (e.get(ColorContainer.class).getColor() == getOwner().get(ColorContainer.class).getColor()) {
+                if (e.get(ColorContainer.class).getColor().equals(getOwner().get(ColorContainer.class).getColor())) {
                     float distanceSquared = loc.cpy().sub(e.getLocation()).len2();
                     float distanceToPathEnd = e.get(PathFollower.class).getDistanceToPathTarget();
                     if (distanceSquared < this.targetRangeSquared && distanceToPathEnd < smallestDistance) {

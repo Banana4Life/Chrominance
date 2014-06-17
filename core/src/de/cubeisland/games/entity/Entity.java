@@ -2,7 +2,6 @@ package de.cubeisland.games.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.ComponentHolder;
-import de.cubeisland.games.component.TickPhase;
 import de.cubeisland.games.level.Level;
 
 import java.util.UUID;

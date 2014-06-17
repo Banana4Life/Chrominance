@@ -1,7 +1,5 @@
 package de.cubeisland.games.component.entity;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.entity.Entity;
@@ -18,7 +16,8 @@ public class Rotator extends Component<Entity> {
 
     @Override
     public void update(float delta) {
-        if (getOwner().has(ProjectileLauncher.class) && getOwner().get(ProjectileLauncher.class).getTarget() != null && getOwner().get(ColorContainer.class).getAmount() > 0) {
+        ProjectileLauncher launcher = getOwner().get(ProjectileLauncher.class);
+        if (launcher != null && launcher.getTarget() != null && !getOwner().get(ColorContainer.class).isEmpty()) {
             try {
                 isAimed = rotate(getIntersection(getOwner().get(ProjectileLauncher.class).getTarget()).cpy().sub(getOwner().getLocation()).angle(), delta);
             } catch (NoIntersectionException e) {

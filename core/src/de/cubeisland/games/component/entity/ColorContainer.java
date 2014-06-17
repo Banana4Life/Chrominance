@@ -15,41 +15,50 @@ public class ColorContainer extends Component<Entity> {
     }
 
     public Color getColor() {
-        return color;
+        return color.cpy();
     }
     public ColorContainer setColor(Color color) {
-        this.color = color;
+        this.color = color.cpy();
         return this;
     }
 
     public double getAmount() {
         return amount;
     }
+
     public ColorContainer setAmount(double amount) {
-        if (amount <= 0) {
-            this.amount = 0;
+
+        this.amount = Math.max(0, Math.min(this.maxAmount, amount));
+        if (amount == 0) {
             trigger(new ColorContainerEmptyEvent());
-        } else if (amount > maxAmount) {
-            this.amount = maxAmount;
-        } else {
-            this.amount = amount;
         }
+
         return this;
     }
+
     public ColorContainer subAmount(double amount) {
         return setAmount(this.amount - amount);
+    }
+
+    public ColorContainer addAmount(double amount) {
+        return setAmount(this.amount + amount);
     }
 
     public ColorContainer setMaxAmount(double maxAmount) {
         this.maxAmount = maxAmount;
         return this;
     }
+
     public double getMaxAmount() {
         return maxAmount;
     }
 
     public ColorContainer refill() {
         return this.setAmount(maxAmount);
+    }
+
+    public boolean isEmpty() {
+        return this.amount == 0;
     }
 
     public static class ColorContainerEmptyEvent extends Event {
