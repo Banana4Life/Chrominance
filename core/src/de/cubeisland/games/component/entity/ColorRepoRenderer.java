@@ -2,7 +2,6 @@ package de.cubeisland.games.component.entity;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.component.ColorRepoValue;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
@@ -17,7 +16,7 @@ public class ColorRepoRenderer extends Component<Entity> {
 
     private ShapeRenderer renderer;
     private ClickBounds clickBounds;
-    private ColorRepoValue repoValue;
+    private ColorContainer colorContainer;
 
     @Override
     protected void onInit() {
@@ -25,7 +24,7 @@ public class ColorRepoRenderer extends Component<Entity> {
 
         renderer = getOwner().getLevel().getScreen().getGame().getShapeRenderer();
         clickBounds = getOwner().get(ClickBounds.class);
-        repoValue = getOwner().get(ColorRepoValue.class);
+        colorContainer = getOwner().get(ColorContainer.class);
     }
 
     @Override
@@ -34,7 +33,7 @@ public class ColorRepoRenderer extends Component<Entity> {
         Vector2 pos = getOwner().getLocation();
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(repoValue.getComponent().getColor(255));
+        renderer.setColor(colorContainer.getColor());
         if (bound instanceof RectangularBound) {
             RectangularBound rect = (RectangularBound) bound;
             renderer.rect(pos.x, pos.y, rect.getWidth(), rect.getHeight());

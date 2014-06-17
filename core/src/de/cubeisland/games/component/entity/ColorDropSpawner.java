@@ -2,7 +2,6 @@ package de.cubeisland.games.component.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.component.ColorRepoValue;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
@@ -26,8 +25,8 @@ public class ColorDropSpawner extends Component<Entity> {
 
 
     public void handle(EventSender sender, EntityBeginTouchEvent event) {
-        System.out.println("Test!");
         this.spawnedDrop = getOwner().getLevel().spawn(EntityTypes.COLOR_DROP, new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-        this.spawnedDrop.get(ColorRepoValue.class).setComponent(getOwner().get(ColorRepoValue.class).getComponent());
+        this.spawnedDrop.get(Spawner.class).set(getOwner());
+        this.spawnedDrop.get(ColorDropRenderer.class).setColor(getOwner().get(ColorContainer.class).getColor());
     }
 }

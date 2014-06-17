@@ -7,10 +7,10 @@ import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionTargetHandler;
 import de.cubeisland.games.collision.volume.Circle;
-import de.cubeisland.games.component.ColorRepoValue;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
+import sun.corba.EncapsInputStreamFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +79,19 @@ public class Tower extends EntityType {
                 .setHandler(new CollisionTargetHandler() {
                     @Override
                     public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
-                        ColorRepoValue repoValue = collider.getOwner().get(ColorRepoValue.class);
-                        if (repoValue != null) {
-                            repoValue.getComponent();
+                        Entity entity = collider.getOwner();
+                        Entity tower  = collidable.getOwner();
+                        if (entity.getType() instanceof ColorDrop && entity.get(ColorContainer.class).getColor().equals(tower.get(ColorContainer.class).getColor())) {
+                            ColorContainer cc = collidable.getOwner().get(ColorContainer.class);
+                            ColorContainer repo = entity.get(Spawner.class).get().get(ColorContainer.class);
+
+                            double diff = cc.getMaxAmount() - cc.getAmount();
+                            diff = Math.min(diff, repo.getAmount());
+
+                            System.out.println("Transferring: " + diff);
+
+                            cc.addAmount(diff);
+                            repo.subAmount(diff);
                         }
                     }
                 });
