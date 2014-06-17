@@ -16,9 +16,6 @@ import de.cubeisland.games.entity.EntityTypes;
 import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.screen.GameScreen;
 import de.cubeisland.games.util.Profiler;
-import de.cubeisland.games.wave.DefaultWaveGenerator;
-import de.cubeisland.games.wave.Difficulty;
-import de.cubeisland.games.wave.DummyWaveGenerator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,7 +31,6 @@ public class Level extends ComponentHolder<Level> implements Disposable {
 
     private final EntityFactory entityFactory;
     private final CollisionDetector collisionDetector;
-    private final Difficulty difficulty;
 
     private float saturation = 0f;
 
@@ -44,19 +40,17 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         this.entities = new ArrayList<>();
         this.spawnQueue = new ArrayList<>();
         this.collisionDetector = new CollisionDetector(this);
-        this.difficulty = Difficulty.NORMAL;
+
+        this.map = map;
 
         if (screen.getGame().isDebug()) {
             attach(GridRenderer.class);
         }
         attach(PauseMenuOpener.class);
         attach(PathRenderer.class);
-        attach(WaveController.class)
-            .setGenerator(new DefaultWaveGenerator(this.difficulty))
-            .setDifficulty(Difficulty.EASY);
+        attach(WaveController.class);
         //attach();
 
-        this.map = map;
         spawnTowers();
 
         spawn(EntityTypes.COLOR_PALETTE, map.getPalettePosition().scl(map.getScale()));
@@ -180,10 +174,6 @@ public class Level extends ComponentHolder<Level> implements Disposable {
 
     public GameScreen getScreen() {
         return screen;
-    }
-
-    public Difficulty getDifficulty() {
-        return difficulty;
     }
 
     @Override

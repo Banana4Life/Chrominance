@@ -6,8 +6,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import de.cubeisland.games.entity.EntityFactory;
 import de.cubeisland.games.entity.type.Tower;
 import de.cubeisland.games.level.tile.TileType;
+import de.cubeisland.games.wave.PredefinedWaveGenerator;
+import de.cubeisland.games.wave.Wave;
+import de.cubeisland.games.wave.WaveGenerator;
+import de.cubeisland.games.wave.WaveStructure;
 
 import java.util.*;
 
@@ -22,14 +27,17 @@ public class MapStructure
     private final float height;
     private final Random random;
     private final Map<Integer, Tower> colorTowerLookup;
+    private WaveGenerator generator;
 
-    public MapStructure(List<Tower> towers, FileHandle fileHandle) {
+    public MapStructure(List<Tower> towers, FileHandle fileHandle, WaveStructure waveStructure) {
         paths = new ArrayList<>();
         towerLocations = new HashMap<>();
 
         Pixmap rawMap = new Pixmap(fileHandle);
         this.width = rawMap.getWidth();
         this.height = rawMap.getHeight();
+
+        this.generator = new PredefinedWaveGenerator(waveStructure);
 
         // build tower lookup table
         this.colorTowerLookup = new HashMap<>();
@@ -172,5 +180,9 @@ public class MapStructure
 
     public Path getRandomPath() {
         return this.paths.get(this.random.nextInt(this.paths.size()));
+    }
+
+    public WaveGenerator getGenerator() {
+        return generator;
     }
 }

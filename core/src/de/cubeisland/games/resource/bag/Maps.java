@@ -1,12 +1,17 @@
 package de.cubeisland.games.resource.bag;
 
 import com.badlogic.gdx.files.FileHandle;
+import de.cubeisland.engine.reflect.ReflectedYaml;
+import de.cubeisland.engine.reflect.Reflector;
+import de.cubeisland.games.entity.EntityType;
 import de.cubeisland.games.level.MapStructure;
 import de.cubeisland.games.resource.ResourceBag;
+import de.cubeisland.games.wave.WaveStructure;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Maps extends ResourceBag<MapStructure> {
     public MapStructure map01;
@@ -15,9 +20,11 @@ public class Maps extends ResourceBag<MapStructure> {
     public MapStructure map04;
 
     private final Towers towers;
+    private final Reflector reflector;
 
-    public Maps(Towers towers) {
+    public Maps(Reflector reflector, Towers towers) {
         this.towers = towers;
+        this.reflector = reflector;
     }
 
     @Override
@@ -46,6 +53,14 @@ public class Maps extends ResourceBag<MapStructure> {
 
     @Override
     protected MapStructure load(FileHandle basedir, Field field) {
-        return new MapStructure(this.towers.getResources(), basedir.child(fieldToPath(field) + ".bmp"));
+        FileHandle mapdir = basedir.child(fieldToPath(field));
+
+        WaveConfig config = this.reflector.load(WaveConfig.class, mapdir.child("config.yml").read());
+
+        return new MapStructure(this.towers.getResources(), mapdir.child("map.bmp"), new WaveStructure(config.waves));
+    }
+
+    public static class WaveConfig extends ReflectedYaml {
+        public List<List<List<EntityType>>> waves;
     }
 }
