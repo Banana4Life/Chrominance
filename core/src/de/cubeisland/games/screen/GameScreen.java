@@ -41,7 +41,9 @@ public class GameScreen extends AbstractGameScreen<Chrominance> {
         this.getRootWidget().addChild(pauseMenu);
         pauseMenu.setActive(false);
 
-        getRootWidget().addChild(new Fps());
+        if (getGame().isDebug()) {
+            getRootWidget().addChild(new Fps());
+        }
     }
 
     @Override
