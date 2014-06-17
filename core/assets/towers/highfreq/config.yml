@@ -1,5 +1,5 @@
-muzzle-offset: [ [-25, -5], [-25, 5] ]
-center-offset: [0,0]
+muzzle-offset: [ [-28, 2], [-28, 16] ]
+center-offset: [-1,-8]
 max-shots: 300
 max-rotation-per-tick: 200
 target-range: 75
