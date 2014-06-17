@@ -1,19 +1,13 @@
 package de.cubeisland.games.screen;
 
 import de.cubeisland.games.Chrominance;
-import de.cubeisland.games.event.EventSender;
 import de.cubeisland.games.event.ReflectedEventHandler;
 import de.cubeisland.games.level.MapStructure;
-import de.cubeisland.games.ui.HorizontalAlignment;
 import de.cubeisland.games.ui.RootWidget;
-import de.cubeisland.games.ui.Sizing;
-import de.cubeisland.games.ui.VerticalAlignment;
 import de.cubeisland.games.ui.event.TouchUpEvent;
 import de.cubeisland.games.ui.layout.ListLayout;
 import de.cubeisland.games.ui.widgets.Container;
 import de.cubeisland.games.ui.widgets.Label;
-
-import static de.cubeisland.games.ui.HorizontalAlignment.CENTER;
 
 public class LoseScreen extends AbstractGameScreen<Chrominance> {
 

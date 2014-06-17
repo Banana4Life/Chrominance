@@ -1,7 +1,6 @@
 package de.cubeisland.games.screen;
 
 import de.cubeisland.games.Base2DGame;
-import de.cubeisland.games.ui.widgets.menu.Menu;
 
 public abstract class AbstractGameScreen<T extends Base2DGame> extends AbstractScreen<T> {
 

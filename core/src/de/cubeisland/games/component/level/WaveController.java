@@ -1,6 +1,5 @@
 package de.cubeisland.games.component.level;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;

@@ -10,7 +10,6 @@ import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.entity.*;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
-import sun.corba.EncapsInputStreamFactory;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
 package de.cubeisland.games.component.entity;
 
 import de.cubeisland.games.component.Component;
-import de.cubeisland.games.component.FingerInput;
 import de.cubeisland.games.component.Require;
 import de.cubeisland.games.entity.Entity;
 

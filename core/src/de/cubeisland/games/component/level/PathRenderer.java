@@ -14,10 +14,8 @@ import de.cubeisland.games.util.Pair;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
-import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static de.cubeisland.games.component.TickPhase.RENDERING;
 
 @After(GridRenderer.class)

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import de.cubeisland.games.ui.DrawContext;
 import de.cubeisland.games.ui.Widget;
-import de.cubeisland.games.ui.font.Font;
 
 public class Label extends Widget {
     private String text;

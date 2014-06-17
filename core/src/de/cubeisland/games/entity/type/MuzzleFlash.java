@@ -1,8 +1,6 @@
 package de.cubeisland.games.entity.type;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.LifeTimer;
 import de.cubeisland.games.component.entity.Render;

@@ -2,7 +2,6 @@ package de.cubeisland.games.event;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
 
 public abstract class ReflectedEventHandler<S extends EventSender, E extends Event> implements EventHandler<S, E> {
 

@@ -7,9 +7,7 @@ import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;
 
 import static de.cubeisland.games.component.TickPhase.RENDERING;
-import static de.cubeisland.games.component.entity.ClickBounds.BoundShape;
-import static de.cubeisland.games.component.entity.ClickBounds.CircularBound;
-import static de.cubeisland.games.component.entity.ClickBounds.RectangularBound;
+import static de.cubeisland.games.component.entity.ClickBounds.*;
 
 @Phase(RENDERING)
 public class ColorRepoRenderer extends Component<Entity> {

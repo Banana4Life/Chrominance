@@ -1,6 +1,5 @@
 package de.cubeisland.games.wave;
 
-import com.badlogic.gdx.Gdx;
 import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.Shield;

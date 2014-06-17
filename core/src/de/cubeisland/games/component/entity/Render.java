@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import de.cubeisland.games.collision.Collidable;
-import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.Component;
 import de.cubeisland.games.component.Phase;
 import de.cubeisland.games.entity.Entity;

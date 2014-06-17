@@ -1,10 +1,10 @@
 package de.cubeisland.games.entity;
 
+import de.cubeisland.games.collision.Collidable;
+import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionSourceHandler;
 import de.cubeisland.games.collision.CollisionTargetHandler;
 import de.cubeisland.games.component.Component;
-import de.cubeisland.games.collision.Collidable;
-import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.component.entity.GarbageCollector;
 
 import java.util.List;

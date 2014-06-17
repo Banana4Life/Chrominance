@@ -18,7 +18,6 @@ import de.cubeisland.games.screen.GameScreen;
 import de.cubeisland.games.util.Profiler;
 import de.cubeisland.games.wave.DefaultWaveGenerator;
 import de.cubeisland.games.wave.Difficulty;
-import de.cubeisland.games.wave.DummyWaveGenerator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
