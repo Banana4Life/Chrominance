@@ -81,17 +81,20 @@ public class Tower extends EntityType {
                         Entity entity = collider.getOwner();
                         Entity tower  = collidable.getOwner();
 
-                        ColorContainer towerColorContainer = collidable.getOwner().get(ColorContainer.class);
-                        ColorContainer repo = entity.get(Spawner.class).get().get(ColorContainer.class);
-                        if (entity.getType() instanceof ColorDrop && (towerColorContainer.getColor().equals(repo.getColor()) || towerColorContainer.isEmpty())) {
+                        if (entity.getType() instanceof ColorDrop) {
+                            ColorContainer towerColorContainer = collidable.getOwner().get(ColorContainer.class);
+                            ColorContainer repo = entity.get(Spawner.class).get().get(ColorContainer.class);
+                            if (towerColorContainer.getColor().equals(repo.getColor()) || towerColorContainer.isEmpty()) {
 
-                            double diff = towerColorContainer.getMaxAmount() - towerColorContainer.getAmount();
-                            diff = Math.min(diff, repo.getAmount());
+                                double diff = towerColorContainer.getMaxAmount() - towerColorContainer.getAmount();
+                                diff = Math.min(diff, repo.getAmount());
 
-                            System.out.println("Transferring: " + diff);
+                                System.out.println("Transferring: " + diff);
 
-                            towerColorContainer.addAmount(diff);
-                            repo.subAmount(diff);
+                                repo.subAmount(diff);
+                                towerColorContainer.addAmount(diff);
+                                towerColorContainer.setColor(repo.getColor());
+                            }
                         }
                     }
                 });
