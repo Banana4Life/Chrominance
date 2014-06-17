@@ -6,6 +6,7 @@ import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionSourceHandler;
 import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.ColorRepoValue;
+import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.ColorDropRenderer;
 import de.cubeisland.games.component.entity.MouseFollower;
 import de.cubeisland.games.entity.Entity;
@@ -28,8 +29,10 @@ public class ColorDrop extends EntityType {
                 .setHandler(new CollisionSourceHandler() {
                     @Override
                     public void onCollide(Collider collider, Collidable collidable, Vector2 minimumTranslationVector) {
-                        if (collidable.getOwner().getType() instanceof Tower) {
+                        Entity entity = collidable.getOwner();
+                        if (entity.getType() instanceof Tower) {
                             collider.getOwner().die();
+                            entity.get(ColorContainer.class).refill();
                         }
                     }
                 });
