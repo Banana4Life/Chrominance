@@ -12,7 +12,12 @@ public class Maps extends ResourceBag<MapStructure> {
     public MapStructure map01;
     public MapStructure map02;
     public MapStructure map03;
-    public MapStructure map04;
+    public MapStructure map05;
+    public MapStructure map06;
+    public MapStructure map07;
+    public MapStructure map08;
+    public MapStructure map09;
+    public MapStructure map10;
 
     private final Towers towers;
 
