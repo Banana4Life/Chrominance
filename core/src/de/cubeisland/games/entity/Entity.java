@@ -2,6 +2,7 @@ package de.cubeisland.games.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.component.ComponentHolder;
+import de.cubeisland.games.event.Event;
 import de.cubeisland.games.level.Level;
 
 import java.util.UUID;
@@ -81,6 +82,7 @@ public final class Entity extends ComponentHolder<Entity> {
 
     public void die() {
         this.alive = false;
+        trigger(this, new EntityDeathEvent());
     }
 
     public Level getLevel() {
@@ -108,5 +110,8 @@ public final class Entity extends ComponentHolder<Entity> {
     @Override
     public int hashCode() {
         return this.id.hashCode();
+    }
+
+    public static class EntityDeathEvent extends Event {
     }
 }

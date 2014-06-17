@@ -9,7 +9,9 @@ import java.lang.reflect.Field;
 
 public class Sounds extends ResourceBag<Sound> {
 
-    public Sound pew;
+    public Sound shot;
+    public Sound hit;
+    public Sound kill;
 
     @Override
     protected Sound load(FileHandle basedir, Field field) {
