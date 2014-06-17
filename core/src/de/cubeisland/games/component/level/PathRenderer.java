@@ -24,6 +24,7 @@ public class PathRenderer extends Component<Level>
 {
     private ShapeRenderer renderer;
     private Color color = Color.LIGHT_GRAY;
+    private Color targetColor = Color.RED;
     private float width = 30;
 
     @Override
@@ -69,8 +70,16 @@ public class PathRenderer extends Component<Level>
         }
 
         Vector2 target = paths.get(0).getTarget().getLocation();
+        final float r = this.width / 2f;
+        final int segments = Math.round(r / 2);
+
         renderer.begin(Filled);
-        renderer.circle(target.x, target.y, this.width / 2f, (int) (this.width / 2f + .5));
+        renderer.setColor(Color.RED);
+        renderer.circle(target.x, target.y, r + 6, segments);
+        renderer.setColor(Color.GREEN);
+        renderer.circle(target.x, target.y, r + 3, segments);
+        renderer.setColor(Color.BLUE);
+        renderer.circle(target.x, target.y, r, segments);
         renderer.end();
     }
 
