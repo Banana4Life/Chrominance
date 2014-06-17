@@ -1,5 +1,6 @@
 package de.cubeisland.games.entity.type;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.collision.Collider;
@@ -31,8 +32,12 @@ public class ColorDrop extends EntityType {
                     public void onCollide(Collider collider, Collidable collidable, Vector2 minimumTranslationVector) {
                         Entity entity = collidable.getOwner();
                         Entity drop = collider.getOwner();
-                        if (entity.getType() instanceof Tower && entity.get(ColorContainer.class).getColor().equals(drop.get(ColorContainer.class).getColor())) {
-                            collider.getOwner().die();
+                        if (entity.getType() instanceof Tower) {
+                            Color dropColor = drop.get(Spawner.class).get().get(ColorContainer.class).getColor();
+                            ColorContainer towerColorContainer = entity.get(ColorContainer.class);
+                            if (towerColorContainer.getAmount() == 0 || dropColor.equals(towerColorContainer.getColor())) {
+                                collider.getOwner().die();
+                            }
                         }
                     }
                 });

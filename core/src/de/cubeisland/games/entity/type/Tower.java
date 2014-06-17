@@ -81,16 +81,17 @@ public class Tower extends EntityType {
                     public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
                         Entity entity = collider.getOwner();
                         Entity tower  = collidable.getOwner();
-                        if (entity.getType() instanceof ColorDrop && entity.get(ColorContainer.class).getColor().equals(tower.get(ColorContainer.class).getColor())) {
-                            ColorContainer cc = collidable.getOwner().get(ColorContainer.class);
-                            ColorContainer repo = entity.get(Spawner.class).get().get(ColorContainer.class);
 
-                            double diff = cc.getMaxAmount() - cc.getAmount();
+                        ColorContainer towerColorContainer = collidable.getOwner().get(ColorContainer.class);
+                        ColorContainer repo = entity.get(Spawner.class).get().get(ColorContainer.class);
+                        if (entity.getType() instanceof ColorDrop && (towerColorContainer.getColor().equals(repo.getColor()) || towerColorContainer.isEmpty())) {
+
+                            double diff = towerColorContainer.getMaxAmount() - towerColorContainer.getAmount();
                             diff = Math.min(diff, repo.getAmount());
 
                             System.out.println("Transferring: " + diff);
 
-                            cc.addAmount(diff);
+                            towerColorContainer.addAmount(diff);
                             repo.subAmount(diff);
                         }
                     }

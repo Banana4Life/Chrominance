@@ -25,6 +25,9 @@ public class ColorDropSpawner extends Component<Entity> {
 
 
     public void handle(EventSender sender, EntityBeginTouchEvent event) {
+        if (getOwner().get(ColorContainer.class).isEmpty()) {
+            return;
+        }
         this.spawnedDrop = getOwner().getLevel().spawn(EntityTypes.COLOR_DROP, new Vector2(Gdx.input.getX(), Gdx.input.getY()));
         this.spawnedDrop.get(Spawner.class).set(getOwner());
         this.spawnedDrop.get(ColorDropRenderer.class).setColor(getOwner().get(ColorContainer.class).getColor());
