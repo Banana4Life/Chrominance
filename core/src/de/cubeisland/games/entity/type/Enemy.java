@@ -42,9 +42,9 @@ public abstract class Enemy extends EntityType {
                     @Override
                     public void onCollide(Collidable collidable, Collider collider, Vector2 minimumTranslationVector) {
                         if (Projectile.class.isAssignableFrom(collider.getOwner().getType().getClass())) {
-                            if (!collidable.getOwner().has(Shield.class)) {
+                            if (!collidable.getOwner().has(Shield.class) && collidable.getOwner().get(ColorContainer.class).getColor().equals(collider.getOwner().get(ColorContainer.class).getColor())) {
                                 collidable.getOwner().get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
-                            } else {
+                            } else if (collidable.getOwner().get(Shield.class).getColor().equals(collider.getOwner().get(ColorContainer.class).getColor())) {
                                 collidable.getOwner().get(Shield.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
                             }
                         }

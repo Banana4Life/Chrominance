@@ -74,11 +74,11 @@ public class PathRenderer extends Component<Level>
         final int segments = Math.round(r / 2);
 
         renderer.begin(Filled);
-        renderer.setColor(Color.RED);
+        renderer.setColor(getSaturatedColor(Color.RED));
         renderer.circle(target.x, target.y, r + 6, segments);
-        renderer.setColor(Color.GREEN);
+        renderer.setColor(getSaturatedColor(Color.GREEN));
         renderer.circle(target.x, target.y, r + 3, segments);
-        renderer.setColor(Color.BLUE);
+        renderer.setColor(getSaturatedColor(Color.BLUE));
         renderer.circle(target.x, target.y, r, segments);
         renderer.end();
     }
@@ -99,5 +99,10 @@ public class PathRenderer extends Component<Level>
     public PathRenderer setWidth(float width) {
         this.width = width;
         return this;
+    }
+
+    public Color getSaturatedColor(Color color) {
+        float averageValue = (color.r + color.g + color.b) / 3;
+        return new Color(color.r - ((color.r - averageValue) * getOwner().getSaturation()), color.g - ((color.g - averageValue) * getOwner().getSaturation()), color.b - ((color.b - averageValue) * getOwner().getSaturation()), 1f);
     }
 }
