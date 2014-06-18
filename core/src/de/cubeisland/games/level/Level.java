@@ -156,7 +156,9 @@ public class Level extends ComponentHolder<Level> implements Disposable {
 
         Profiler.begin("Level.updateEntries[updating]");
         for (Entity entity : this.entities) {
-            entity.update(tickPhase, delta);
+            if (entity.isAlive()) {
+                entity.update(tickPhase, delta);
+            }
         }
         Profiler.end();
         Profiler.end();

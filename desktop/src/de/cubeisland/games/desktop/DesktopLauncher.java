@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static com.badlogic.gdx.Files.FileType.Internal;
+
 public class DesktopLauncher {
     public static void main (String[] arg) {
 
@@ -52,6 +54,7 @@ public class DesktopLauncher {
         config.vSyncEnabled = false;
         config.foregroundFPS = 300;
         config.backgroundFPS = 70;
+        config.addIcon("icon.png", Internal);
         new LwjglApplication(new Chrominance(), config);
     }
 }

@@ -6,8 +6,10 @@ import de.cubeisland.games.collision.Collidable;
 import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionTargetHandler;
 import de.cubeisland.games.component.entity.*;
+import de.cubeisland.games.component.entity.sound.DeathSoundPlayer;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
+import de.cubeisland.games.resource.ChrominanceResources;
 
 public abstract class Enemy extends EntityType {
     private double life = 10;
@@ -20,12 +22,16 @@ public abstract class Enemy extends EntityType {
         add(ColorContainer.class);
         add(Render.class);
         add(Collidable.class);
+        add(DeathSoundPlayer.class);
     }
 
     @Override
     protected void onInitialize(Entity e) {
         super.onInitialize(e);
 
+        e.get(DeathSoundPlayer.class)
+                .setSound(e.getLevel().getScreen().getGame().resources.sounds.kill)
+                .setVolume(.05f);
         e.get(Render.class)
                 .setRadius(10);
         e.get(ColorContainer.class)

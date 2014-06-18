@@ -9,8 +9,10 @@ import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.entity.ColorContainer;
 import de.cubeisland.games.component.entity.Move;
 import de.cubeisland.games.component.entity.Render;
+import de.cubeisland.games.component.entity.sound.DeathSoundPlayer;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
+import de.cubeisland.games.resource.ChrominanceResources;
 
 public class Projectile extends EntityType {
     private float launchSpeed = 300;
@@ -24,12 +26,16 @@ public class Projectile extends EntityType {
         add(Move.class);
         add(ColorContainer.class);
         add(Collider.class);
+        add(DeathSoundPlayer.class);
     }
 
     @Override
     protected void onInitialize(Entity e) {
         super.onInitialize(e);
 
+        e.get(DeathSoundPlayer.class)
+                .setSound(e.getLevel().getScreen().getGame().resources.sounds.hit)
+                .setVolume(.05f);
         e.get(Render.class)
                 .setRadius(collisionVolume.getRadius())
                 .setTexture(texture);

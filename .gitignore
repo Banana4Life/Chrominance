@@ -58,7 +58,6 @@ nb-configuration.xml
 ## Gradle
 
 .gradle
-build/
 
 
 ## Windows
@@ -66,3 +65,4 @@ Thumbs.db
 
 ## OSX
 .DS_Store
+*.exe

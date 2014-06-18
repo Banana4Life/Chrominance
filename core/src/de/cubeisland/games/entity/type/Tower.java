@@ -8,6 +8,7 @@ import de.cubeisland.games.collision.Collider;
 import de.cubeisland.games.collision.CollisionTargetHandler;
 import de.cubeisland.games.collision.volume.Circle;
 import de.cubeisland.games.component.entity.*;
+import de.cubeisland.games.component.entity.sound.ShotSoundPlayer;
 import de.cubeisland.games.entity.Entity;
 import de.cubeisland.games.entity.EntityType;
 
@@ -34,7 +35,7 @@ public class Tower extends EntityType {
         add(TowerRender.class);
         add(ProjectileLauncher.class);
         add(ColorContainer.class);
-        add(SoundPlayer.class);
+        add(ShotSoundPlayer.class);
         add(Rotator.class);
         add(Collidable.class);
 
@@ -65,8 +66,9 @@ public class Tower extends EntityType {
                 .setColor(Color.BLUE)
                 .setMaxAmount(maxShots)
                 .setAmount(0);
-        e.get(SoundPlayer.class)
-                .setSound(e.getLevel().getScreen().getGame().resources.sounds.pew);
+        e.get(ShotSoundPlayer.class)
+                .setSound(e.getLevel().getScreen().getGame().resources.sounds.shot)
+                .setVolume(.1f);
         e.get(Rotator.class)
                 .setCenterOffset(centerOffset)
                 .setMaxRotationPerTick(maxRotationPerTick);
