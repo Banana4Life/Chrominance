@@ -21,6 +21,6 @@ public class Walker extends Enemy {
         e.get(Collidable.class)
                 .setVolume(collisionVolume);
         e.get(PathFollower.class)
-                .setSpeed(10);
+                .setSpeed(40);
     }
 }

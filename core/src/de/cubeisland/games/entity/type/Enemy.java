@@ -44,7 +44,7 @@ public abstract class Enemy extends EntityType {
                         if (Projectile.class.isAssignableFrom(collider.getOwner().getType().getClass())) {
                             if (!collidable.getOwner().has(Shield.class) && collidable.getOwner().get(ColorContainer.class).getColor().equals(collider.getOwner().get(ColorContainer.class).getColor())) {
                                 collidable.getOwner().get(ColorContainer.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
-                            } else if (collidable.getOwner().get(Shield.class).getColor().equals(collider.getOwner().get(ColorContainer.class).getColor())) {
+                            } else if (collidable.getOwner().has(Shield.class) && collidable.getOwner().get(Shield.class).getColor().equals(collider.getOwner().get(ColorContainer.class).getColor())) {
                                 collidable.getOwner().get(Shield.class).subAmount(collider.getOwner().get(ColorContainer.class).getAmount());
                             }
                         }
