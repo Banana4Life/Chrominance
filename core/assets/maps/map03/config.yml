@@ -1,5 +1,8 @@
 waves: [
           [
-            [runner, walker, runner], [walker, runner, walker]
+            [runner blue, walker red shield, runner green], [walker blue, runner red, walker red]
+          ],
+          [
+            [runner blue, walker red, runner green], [runner blue, walker red, runner green]
           ]
        ]

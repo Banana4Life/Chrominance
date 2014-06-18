@@ -21,8 +21,8 @@ public class PredefinedWaveGenerator implements WaveGenerator {
     @Override
     public Wave generate(EntityFactory entityFactory, int waveNumber, MapStructure map) {
         List<Entity> entities = new ArrayList<>();
-        for (int i = 0; i < waveStructure.getPathCount(waveNumber); ++i) {
-            for (int n = 0; n < waveStructure.getEntityCount(waveNumber, i); ++n) {
+        for (int i = 0; i < waveStructure.getPathCount(waveNumber); i++) {
+            for (int n = 0; n < waveStructure.getEntityCount(waveNumber, i); n++) {
                 Entity e = entityFactory.createEntity(waveStructure.getEntityType(waveNumber, i, n));
                 e.get(PathFollower.class).setPath(map.getPaths().get(i));
                 entities.add(e);

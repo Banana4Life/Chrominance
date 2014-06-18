@@ -64,7 +64,7 @@ public class Tower extends EntityType {
         e.get(ColorContainer.class)
                 .setColor(Color.BLUE)
                 .setMaxAmount(maxShots)
-                .refill();
+                .setAmount(0);
         e.get(SoundPlayer.class)
                 .setSound(e.getLevel().getScreen().getGame().resources.sounds.pew);
         e.get(Rotator.class)

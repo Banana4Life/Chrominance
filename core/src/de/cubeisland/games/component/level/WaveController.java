@@ -29,7 +29,7 @@ public class WaveController extends Component<Level> {
         if (this.currentWave == null && !hasFinished()) {
             this.currentWave = map.getGenerator().generate(getOwner().getEntityFactory(), 0, map);
         }
-        else if (this.currentWave.isCompleted() && !hasFinished()) {
+        else if (this.currentWave.isCompleted() && !hasFinished() && ((PredefinedWaveGenerator)map.getGenerator()).getWaveStructure().hasWaveAfter(currentWave.getNumber())) {
             this.currentWave = map.getGenerator().generate(getOwner().getEntityFactory(), currentWave.getNumber() + 1, map);
         }
 
@@ -61,6 +61,13 @@ public class WaveController extends Component<Level> {
     }
 
     public boolean hasFinished() {
-        return ((PredefinedWaveGenerator)getOwner().getMap().getGenerator()).getWaveStructure().hasWaveAfter(currentWave.getNumber());
+        return getCurrentWave().isCompleted() && !((PredefinedWaveGenerator)getOwner().getMap().getGenerator()).getWaveStructure().hasWaveAfter(getCurrentWave().getNumber());
+    }
+
+    private Wave getCurrentWave() {
+        if (this.currentWave == null) {
+            this.currentWave = getOwner().getMap().getGenerator().generate(getOwner().getEntityFactory(), 0, getOwner().getMap());
+        }
+        return currentWave;
     }
 }

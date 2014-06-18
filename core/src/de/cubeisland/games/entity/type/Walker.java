@@ -16,8 +16,6 @@ public class Walker extends Enemy {
 
         final Circle collisionVolume = new Circle(10);
 
-        e.get(ColorContainer.class)
-                .setColor(Color.BLUE);
         e.get(Render.class)
                 .setRadius(collisionVolume.getRadius());
         e.get(Collidable.class)

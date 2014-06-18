@@ -11,6 +11,8 @@ import de.cubeisland.games.entity.EntityType;
 
 public abstract class Enemy extends EntityType {
     private double life = 10;
+    private Color color = null;
+    private boolean hasShield = false;
 
     public Enemy() {
         add(PathFollower.class);
@@ -27,7 +29,7 @@ public abstract class Enemy extends EntityType {
         e.get(Render.class)
                 .setRadius(10);
         e.get(ColorContainer.class)
-                .setColor(Color.BLUE)
+                .setColor(color)
                 .setAmount(life);
         e.get(Collidable.class)
                 .setHandler(new CollisionTargetHandler() {
@@ -42,9 +44,24 @@ public abstract class Enemy extends EntityType {
                         }
                     }
                 });
+
+        if (hasShield) {
+            e.attach(Shield.class);
+            e.get(Shield.class).setColor(color);
+        }
     }
 
     public void setLife(double life) {
         this.life = life;
+    }
+
+    public Enemy setColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public Enemy setShield(boolean hasShield) {
+        this.hasShield = hasShield;
+        return this;
     }
 }

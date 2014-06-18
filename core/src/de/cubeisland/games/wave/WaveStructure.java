@@ -12,7 +12,7 @@ public class WaveStructure {
     }
 
     public boolean hasWaveAfter(int waveNumber) {
-        return waveNumber < getWaveCount();
+        return waveNumber < getWaveCount() - 1;
     }
 
     public int getWaveCount() {
