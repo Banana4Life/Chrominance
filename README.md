@@ -9,6 +9,6 @@ Developers
 - Phillip Schichtel @[pschichtel](https://github.com/pschichtel)
 - Jonas Dann @[jonasdann](https://github.com/jonasdann)
 - Katharina Spinner @[Rahtainka](https://github.com/Rahtainka)
-- Malte Heinzelmann
+- Malte Heinzelmann @[HowUpDoHighKnee](https://github.com/HowUpDoHighKnee)
 - Marco Dörfler @[mdoerfler](https://github.com/mdoerfler)
 - Ralf Oberer
