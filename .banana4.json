@@ -1,5 +1,6 @@
 {
   "name": "Chrominance",
   "description": "Defend your color by shooting the enenmies .... with color!",
-  "authors": ["Jonas Dann", "Phillip Schichtel", "Katharina Spinner", "-Malte Heinzelmann", "-Marco Dörfler", "-Ralf Oberer"]
+  "authors": ["Jonas Dann", "Phillip Schichtel", "Katharina Spinner", "-Malte Heinzelmann", "-Marco Dörfler", "-Ralf Oberer"],
+  "soundtrack": "https://soundcloud.com/rahtainka/chrominance"
 }
