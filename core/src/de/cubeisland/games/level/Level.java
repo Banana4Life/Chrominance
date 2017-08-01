@@ -46,7 +46,7 @@ public class Level extends ComponentHolder<Level> implements Disposable {
         if (screen.getGame().isDebug()) {
             attach(GridRenderer.class);
         }
-        attach(PauseMenuOpener.class);
+        //attach(PauseMenuOpener.class);
         attach(PathRenderer.class);
         attach(WaveController.class);
         //attach();
